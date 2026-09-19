@@ -33,17 +33,68 @@ measured, it says so.
 ## Workflow
 
 1. `ansys_bridge_doctor` — confirm the environment before blaming your own call.
-2. `scdm_session_start` — start a hidden modeler. **Measured: 30.6 s** to reach
+2. `scdm_session_start` — start a hidden modeler. **Measured: 14–31 s** to reach
    `backend_type = SPACECLAIM`, `backend_version = 24.2.0`. Budget for it. Pass
    a version only when auto-detection picks the wrong install.
 3. `scdm_open_file` — opens `.scdoc` directly, not just the documented
    `.scdocx`/`.dsco`/`.pmdb`. **Measured: a 3.11 MB assembly opens in 0.9 s**
    and reports bodies, named selections, per-body face counts, and volumes.
-4. Operators — `scdm_list_bodies`, `scdm_collisions`, `scdm_boolean`,
+4. `scdm_inspect_geometry` — **run this before any meshing.** It is the tool
+   that turns "the mesh failed" into a named cause. See the section below.
+5. Operators — `scdm_list_bodies`, `scdm_collisions`, `scdm_boolean`,
    `scdm_share_topology`, `scdm_run_script`.
-5. `scdm_export` — `.scdocx`, `step`, `iges`, `parasolid_text`,
+6. `scdm_export` — `.scdocx`, `step`, `iges`, `parasolid_text`,
    `parasolid_bin`, `pmdb`. There is no native `.scdoc` export.
-6. `scdm_session_close`.
+7. `scdm_session_close`.
+
+## Diagnosing a failed mesh
+
+**When meshing fails, run `scdm_inspect_geometry` before changing anything.**
+Fluent Meshing failures such as `Found overlapping faces` at Describe Geometry /
+computing regions have a specific geometric cause, and this tool names it.
+
+Measured on the assembly that actually failed that way (`zhuangpeiti_fix_9_10_1.scdoc`,
+31 bodies, 738 faces), the report was:
+
+| Check | Result |
+|---|---|
+| `duplicate_faces` | 2 groups, 4 faces |
+| `short_edges` | 675 edges below 10 mm |
+| everything else | 0 |
+
+The duplicate groups are the diagnosis, and the tool gives them face by face:
+
+```
+stator 0:41501   area 0.09292831069318609   +   pip 0:15387   area 0.09292831069318609
+stator 0:41504   area 0.12176813125314039   +   pip 0:15396   area 0.12176813125314039
+```
+
+Two pairs of coincident faces, one on `stator` and one on `pip`, each pair with
+an identical area. **That is the overlapping-face failure, identified.** Do not
+re-mesh and hope; the duplicate faces are the thing to resolve.
+
+Short edges are the second signal. 459 of the 675 sit on `stator`, the other 216
+are 8 per winding, and their median length is 9 mm. Those become sliver cells,
+which is why mesh quality fails even after the duplicates are fixed.
+
+### Two results you must not trust
+
+- **`inexact_edges` reports 3348 groups and every one is empty.** The count means
+  nothing; the tool marks it `unreliable` and skips it by default. Pass it
+  explicitly if you want to see that for yourself.
+- **Some edge lengths cannot be read.** `Edge.length` raises
+  `ValueError: The norm of the 3D vector is not valid.` from inside PyAnsys on
+  162 of those 675 edges. The tool's `span` block separates `measured` from
+  `unreadable` for exactly this reason, so a range covering 513 of 675 is not
+  silently presented as covering all of them.
+
+### Thresholds
+
+`short_edges` and `small_faces` need a threshold the official methods do not
+supply, and **their own defaults find nothing at all** (0.0 m and `None`). On the
+reference assembly, 1 mm found nothing while 10 mm found 675 edges and 100 mm
+found 1314. So leave the threshold unset: the tool scans a ladder and reports
+every rung, which is how you find the scale this model's problems start at.
 
 ## The two silent-failure modes
 

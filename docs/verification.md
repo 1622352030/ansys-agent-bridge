@@ -83,6 +83,59 @@ Fix: a boolean is judged by **its target**. `assert_changed` takes `targets`;
 a target that survives with the same face count and volume is the no-op,
 whatever the body count says.
 
+## Geometric inspection
+
+Added after the coverage comparison showed eight `RepairTools.find_*` methods
+carry no version gate at all — available on 24R2 and the only official way to
+diagnose a meshing failure. All eight now sit behind one tool,
+`scdm_inspect_geometry`, bringing the server from 11 tools to 12. The 11-tool
+results above are left as recorded for that build.
+
+Measured over MCP stdio on `zhuangpeiti_fix_9_10_1.scdoc` (31 bodies, 738
+faces), the model whose Fluent Meshing run died at Describe Geometry /
+computing regions with **Found overlapping faces**:
+
+| Check | Result |
+|---|---|
+| `duplicate_faces` | 2 groups / 4 faces |
+| `short_edges` | 675 below 10 mm (threshold scanned) |
+| `small_faces`, `missing_faces`, `split_edges`, `stitch_faces`, `extra_edges` | 0 |
+
+The duplicate groups name the cause:
+
+```
+stator 0:41501   0.09292831069318609 m2   +   pip 0:15387   0.09292831069318609 m2
+stator 0:41504   0.12176813125314039 m2   +   pip 0:15396   0.12176813125314039 m2
+```
+
+Two pairs of coincident faces, one on `stator` and one on `pip` in each pair,
+with identical areas. The whole run takes 4.2 s and the source file's SHA-256 is
+unchanged.
+
+The 675 short edges break down as 459 on `stator` and 8 on each of the 27
+windings, median length 9 mm and minimum 1.05 mm.
+
+### Two results the tool refuses to present as clean
+
+- **`find_inexact_edges` returned 3348 groups with every `edges` list empty.**
+  `object_count` was 0, so the 3348 carries no information. The tool tags it
+  `unreliable` and excludes it from the default check set; asking for it
+  explicitly still runs it, so the claim is checkable.
+- **162 of those 675 edge lengths could not be read.**
+  `Edge.length` raises `ValueError: The norm of the 3D vector is not valid.`
+  from inside PyAnsys. The `span` block therefore reports `measured: 513`,
+  `objects: 675`, `unreadable: 162` rather than a range that looks like it
+  covers all 675.
+
+### Payload size
+
+The first version returned every problem group. That produced a 148 KB result,
+95 KB of it the single `short_edges` check — too much to hand a model for what
+is really a histogram. Groups are now capped at 20 with `groups_omitted` stating
+the remainder, while the counts, the per-body histogram and the numeric span stay
+uncapped, so nothing that changes a decision is dropped. The same report is now
+7.7 KB locally and 9.5 KB over the wire.
+
 ## Cross-checked against raw IronPython
 
 The same `.scdoc` was read and written through the wild

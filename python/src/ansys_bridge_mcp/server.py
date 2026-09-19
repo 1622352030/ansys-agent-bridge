@@ -232,6 +232,59 @@ def scdm_collisions(left: str | None = None, right: str | None = None, all_pairs
 
 
 # ---------------------------------------------------------------------------
+# Inspection (read-only)
+# ---------------------------------------------------------------------------
+
+
+@mcp.tool(annotations=READ_ONLY)
+def scdm_inspect_geometry(
+    checks: list[str] | None = None,
+    bodies: list[str] | None = None,
+    short_edge_length: float | None = None,
+    small_face_area: float | None = None,
+) -> dict[str, Any]:
+    """Diagnose the model: duplicates, short edges, small or missing faces, and more.
+
+    This is the tool to reach for when meshing fails. Run it before blaming the
+    mesher. Measured on `zhuangpeiti_fix_9_10_1.scdoc`, where a Fluent Meshing
+    run died at Describe Geometry / computing regions with "Found overlapping
+    faces", `duplicate_faces` returned two groups -- one face on `stator` and
+    one on `pip` in each, with identical areas:
+
+        0.09292831069318609 m2    stator 0:41501  +  pip 0:15387
+        0.12176813125314039 m2    stator 0:41504  +  pip 0:15396
+
+    That is the overlapping-face failure, named. The same run also found 675
+    edges shorter than 10 mm, 459 of them on `stator`.
+
+    `checks` selects from duplicate_faces, extra_edges, short_edges,
+    small_faces, missing_faces, split_edges, stitch_faces, inexact_edges.
+    Defaults to all of them except `inexact_edges`, which is reported as
+    unreliable: it returned 3348 entries with every `edges` list empty, so its
+    count means nothing. Pass it explicitly if you want to see that for yourself.
+
+    `short_edge_length` and `small_face_area` are thresholds the official
+    methods do not supply, and their own defaults found nothing. Leave them
+    unset and a ladder of thresholds is scanned, with every rung reported, so
+    you can see where this model's problems actually start.
+
+    Read-only: the source file's SHA-256 was unchanged after a full run.
+    """
+    try:
+        return {
+            "ok": True,
+            **_session.inspect_geometry(
+                checks=checks,
+                bodies=bodies,
+                short_edge_length=short_edge_length,
+                small_face_area=small_face_area,
+            ),
+        }
+    except Exception as exc:
+        return _err(exc)
+
+
+# ---------------------------------------------------------------------------
 # Mutating operators (guarded)
 # ---------------------------------------------------------------------------
 

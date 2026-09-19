@@ -12,7 +12,7 @@ raises `no_geometry_change` instead of reporting a success it cannot see.
 
 ## What it does
 
-Eleven MCP tools:
+Twelve MCP tools:
 
 | Tool | Read-only | What it does |
 |---|---|---|
@@ -23,6 +23,7 @@ Eleven MCP tools:
 | `scdm_open_file` | no | Opens `.scdoc`/`.scdocx`/`.dsco`/`.pmdb` and reports bodies, named selections, face counts, volumes. |
 | `scdm_list_bodies` | yes | Body names, face counts, volumes for the open design. |
 | `scdm_collisions` | yes | Pairwise collision state (`TOUCH`/`NONE`/…), all pairs or a chosen list. |
+| `scdm_inspect_geometry` | yes | The eight official geometry checks: duplicate faces, short edges, small or missing faces, split and stitch faces, extra and inexact edges. |
 | `scdm_boolean` | no | `unite`/`subtract`/`intersect`, guarded by a before/after geometry check. |
 | `scdm_share_topology` | no | Share topology, guarded by the same check. |
 | `scdm_run_script` | no | Runs a headless IronPython script against the live session. |
@@ -264,10 +265,12 @@ raise `GeometryRuntimeError`.
 
 Two consequences worth knowing before you plan work:
 
-- **The highest-value gap is geometric inspection.** Eight `RepairTools.find_*`
-  methods carry no version gate at all, so they work on 24R2 and are not
-  implemented yet. They are also the official way to diagnose the
-  `Found overlapping faces` failure that blocks Fluent Meshing.
+- **Geometric inspection is now the headline feature.** Eight `RepairTools.find_*`
+  methods carry no version gate at all, so they work on 24R2, and all eight are
+  behind `scdm_inspect_geometry`. On the assembly whose meshing failed, that tool
+  names the cause: two pairs of coincident faces, one on `stator` and one on
+  `pip` in each pair, with identical areas. Replacing "the mesh failed" with
+  "these two faces are stacked" is the whole point.
 - **An external flow enclosure cannot be built through this API.** The three
   `create_*_enclosure` methods need 26.1.0. For external-flow CFD, build the
   domain in the SpaceClaim UI or use Fluent Meshing's enclosure instead.

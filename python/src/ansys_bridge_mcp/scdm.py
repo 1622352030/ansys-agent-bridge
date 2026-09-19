@@ -39,6 +39,209 @@ _EXPORT_METHODS = {
     "pmdb": "export_to_pmdb",
 }
 
+# The eight `RepairTools.find_*` checks that carry NO version gate, so they run
+# on 24R2. The five `find_and_fix_*` repair methods and `find_bad_faces` /
+# `find_simplify` all require 25.2 or later and are deliberately absent: calling
+# them can only raise `GeometryRuntimeError`.
+GEOMETRY_CHECKS = {
+    "duplicate_faces": "find_duplicate_faces",
+    "extra_edges": "find_extra_edges",
+    "short_edges": "find_short_edges",
+    "small_faces": "find_small_faces",
+    "missing_faces": "find_missing_faces",
+    "split_edges": "find_split_edges",
+    "stitch_faces": "find_stitch_faces",
+    "inexact_edges": "find_inexact_edges",
+}
+
+# Checks whose RESULT is not trustworthy on 2024 R2, with the measurement that
+# disqualified them. Reported rather than silently dropped, because "0 problems"
+# and "this check does not work" must not look the same to a caller.
+UNRELIABLE_CHECKS = {
+    "inexact_edges": (
+        "returned 3348 entries on the reference assembly, every one of them with an "
+        "empty `edges` list, so the count carries no information"
+    ),
+}
+
+# Thresholds the official methods do not supply. Their own defaults (0.0 / None)
+# found nothing at all on the reference model, while 0.01 m found 675 short
+# edges, so a single default is not an answer and the caller cannot be expected
+# to guess the model's scale. Scanned instead.
+SHORT_EDGE_SCAN_M = (1e-4, 1e-3, 1e-2, 1e-1)
+SMALL_FACE_SCAN_M2 = (1e-9, 1e-7, 1e-5, 1e-3)
+
+
+def _object_ref(obj: Any) -> dict:
+    """Identify a Face, Edge or Body without letting one failed read kill the call.
+
+    Every optional read here is guarded because one of them was measured
+    failing: `Edge.length` raises `ValueError: The norm of the 3D vector is not
+    valid.` from inside PyAnsys on the reference assembly. A geometry report that
+    dies because one edge could not be measured is worse than one that says so.
+    """
+    ref: dict = {}
+    for attr, key, unwrap in (
+        ("id", "id", False),
+        ("area", "area_m2", True),
+        ("length", "length_m", True),
+        ("curve_type", "curve_type", False),
+        ("surface_type", "surface_type", False),
+    ):
+        try:
+            value = getattr(obj, attr, None)
+        except Exception:  # noqa: BLE001 - a broken read is data, not a failure
+            ref[f"{key}_error"] = "read failed"
+            continue
+        if value is None:
+            continue
+        if unwrap:
+            value = getattr(value, "magnitude", value)
+        try:
+            ref[key] = value if isinstance(value, (int, float, str)) else str(value)
+        except Exception:  # noqa: BLE001
+            continue
+    try:
+        body = getattr(obj, "body", None)
+        if body is not None:
+            ref["body"] = getattr(body, "name", None)
+    except Exception:  # noqa: BLE001
+        pass
+    return ref
+
+
+def _count_objects(items: list) -> int:
+    """How many real faces/edges/bodies the problem groups actually carry."""
+    total = 0
+    for item in items:
+        for attr in ("faces", "edges", "bodies"):
+            try:
+                values = getattr(item, attr, None)
+                if values:
+                    total += len(values)
+            except Exception:  # noqa: BLE001
+                continue
+    return total
+
+
+def _body_histogram(items: list) -> dict:
+    """How many problem objects sit on each body, worst first.
+
+    This is the useful shape for a large result. A check that reports 675 short
+    edges is not actionable as 675 rows, but "459 of them on stator, 8 on each
+    winding" says where to look.
+    """
+    counts: dict[str, int] = {}
+    for item in items:
+        for attr in ("faces", "edges", "bodies"):
+            try:
+                values = getattr(item, attr, None)
+            except Exception:  # noqa: BLE001
+                continue
+            if not values:
+                continue
+            for obj in values:
+                name = None
+                try:
+                    body = getattr(obj, "body", None)
+                    name = getattr(body, "name", None) if body is not None else None
+                except Exception:  # noqa: BLE001
+                    name = None
+                if name is None:
+                    try:  # StitchFaceProblemAreas carries Body objects directly
+                        name = getattr(obj, "name", None)
+                    except Exception:  # noqa: BLE001
+                        name = None
+                key = str(name) if name else "<unknown>"
+                counts[key] = counts.get(key, 0) + 1
+    return dict(sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
+
+
+def problem_summary(items: list, limit: int = 20) -> dict:
+    """Turn a list of official `ProblemAreas` into a report.
+
+    The shapes differ per check -- faces for duplicates and small faces, edges
+    for short and inexact edges, bodies for stitch faces -- so all three are
+    carried through and the empty ones simply do not appear.
+
+    ``groups`` is capped at ``limit`` rows. Measured: returning every group of
+    the 675 short edges found on the reference assembly produced a 148 KB
+    payload, 95 KB of it that one check, which is too much to hand a model for
+    what is really a histogram. The counts, the per-body histogram and the
+    numeric span are never capped, so nothing is lost that changes a decision.
+    """
+    rows = []
+    for item in items:
+        row: dict = {}
+        try:
+            row["id"] = getattr(item, "id", None)
+        except Exception:  # noqa: BLE001
+            pass
+        for attr in ("faces", "edges", "bodies"):
+            try:
+                values = getattr(item, attr, None)
+            except Exception:  # noqa: BLE001
+                continue
+            if not values:
+                continue
+            try:
+                row[attr] = [_object_ref(obj) for obj in values]
+            except Exception:  # noqa: BLE001
+                row[attr] = []
+        rows.append(row)
+
+    summary: dict = {
+        "group_count": len(items),
+        "object_count": _count_objects(items),
+        "by_body": _body_histogram(items),
+        "groups": rows[:limit],
+    }
+    if len(rows) > limit:
+        summary["groups_omitted"] = len(rows) - limit
+    return summary
+
+
+def _numeric_range(items: list, attr: str) -> dict | None:
+    """min/median/max of a numeric attribute, plus how many reads failed.
+
+    The failure count is not decoration. 675 short edges came back but only 513
+    lengths could be read: `Edge.length` raises
+    `ValueError: The norm of the 3D vector is not valid.` from inside PyAnsys on
+    this assembly. Reporting `measured` without `unreadable` would make the
+    span look like it covers all 675.
+    """
+    values = []
+    total = 0
+    unreadable = 0
+    for item in items:
+        try:
+            objects = getattr(item, "edges", None) or getattr(item, "faces", None) or []
+        except Exception:  # noqa: BLE001
+            continue
+        for obj in objects:
+            total += 1
+            try:
+                raw = getattr(obj, attr, None)
+            except Exception:  # noqa: BLE001
+                unreadable += 1
+                continue
+            raw = getattr(raw, "magnitude", raw)
+            if isinstance(raw, (int, float)):
+                values.append(float(raw))
+            else:
+                unreadable += 1
+    if not values:
+        return None
+    values.sort()
+    return {
+        f"{attr}_min": values[0],
+        f"{attr}_median": values[len(values) // 2],
+        f"{attr}_max": values[-1],
+        "measured": len(values),
+        "objects": total,
+        "unreadable": unreadable,
+    }
+
 
 class SessionError(RuntimeError):
     """Raised for session lifecycle problems, with the remedy in the message."""
@@ -286,6 +489,124 @@ class Session:
             counts[key] = counts.get(key, 0) + 1
         return {"pair_count": len(results), "counts": counts, "pairs": results}
 
+    # -- geometric inspection (read-only) ----------------------------------
+
+    def inspect_geometry(
+        self,
+        checks: list[str] | None = None,
+        bodies: list[str] | None = None,
+        short_edge_length: float | None = None,
+        small_face_area: float | None = None,
+    ) -> dict:
+        """Run the official geometry checks and report what is wrong with the model.
+
+        This is the diagnosis half of the tool set, and it exists for one
+        measured reason: a Fluent Meshing run on ``zhuangpeiti_fix_9_10_1.scdoc``
+        failed at Describe Geometry / computing regions with **Found overlapping
+        faces**. ``find_duplicate_faces`` names the culprits exactly -- two pairs
+        of coincident faces, one on ``stator`` and one on ``pip``, each pair with
+        an identical area:
+
+            stator 0:41501   area 0.09292831069318609
+            pip    0:15387   area 0.09292831069318609
+            stator 0:41504   area 0.12176813125314039
+            pip    0:15396   area 0.12176813125314039
+
+        Reading that is the difference between "the mesh failed" and "these two
+        faces are stacked on top of each other". Every check here is read-only;
+        the source file's SHA-256 was unchanged after a full run.
+
+        ``inexact_edges`` is accepted but reported as untrustworthy: it returned
+        3348 entries on that assembly, all of them with an empty ``edges`` list,
+        so its count means nothing. See :data:`UNRELIABLE_CHECKS`.
+
+        ``short_edges`` and ``small_faces`` need a threshold the official methods
+        do not supply. Their defaults found nothing while 0.01 m found 675 short
+        edges, so when no threshold is given a ladder is scanned and every rung
+        is reported -- the caller should not have to guess the model's scale.
+        """
+        design = self._require_design()
+        by_name = {b.name: b for b in design.bodies}
+        names = bodies or sorted(by_name)
+        missing = [n for n in names if n not in by_name]
+        if missing:
+            raise SessionError(f"bodies not found: {missing}")
+        targets = [by_name[n] for n in names]
+
+        wanted = checks or [c for c in GEOMETRY_CHECKS if c not in UNRELIABLE_CHECKS]
+        unknown = [c for c in wanted if c not in GEOMETRY_CHECKS]
+        if unknown:
+            raise SessionError(f"unknown checks {unknown}; choose from {sorted(GEOMETRY_CHECKS)}")
+
+        report: dict = {
+            "bodies_checked": len(targets),
+            "faces_checked": sum(len(b.faces) for b in targets),
+            "checks": {},
+        }
+
+        for name in wanted:
+            method = getattr(self.modeler.repair_tools, GEOMETRY_CHECKS[name])
+            try:
+                if name == "short_edges":
+                    report["checks"][name] = self._scan_threshold(
+                        method, targets, "length", short_edge_length, SHORT_EDGE_SCAN_M
+                    )
+                elif name == "small_faces":
+                    report["checks"][name] = self._scan_threshold(
+                        method, targets, "area", small_face_area, SMALL_FACE_SCAN_M2
+                    )
+                else:
+                    report["checks"][name] = problem_summary(method(targets))
+            except Exception as exc:  # noqa: BLE001 - one dead check must not hide the rest
+                report["checks"][name] = {"error": f"{type(exc).__name__}: {exc}"}
+            if name in UNRELIABLE_CHECKS:
+                report["checks"][name]["unreliable"] = UNRELIABLE_CHECKS[name]
+
+        found = {
+            name: data.get("object_count") or 0
+            for name, data in report["checks"].items()
+            if isinstance(data, dict) and "error" not in data
+        }
+        report["problems_found"] = found
+        report["clean"] = not any(found.values())
+        return report
+
+    def _scan_threshold(
+        self,
+        method: Any,
+        bodies: list,
+        kwarg: str,
+        explicit: float | None,
+        ladder: tuple,
+    ) -> dict:
+        """One check at an explicit threshold, or the whole ladder when none is given."""
+        attempts = [explicit] if explicit is not None else list(ladder)
+        scan: list[dict] = []
+        chosen: tuple | None = None
+        for value in attempts:
+            try:
+                items = method(bodies, **{kwarg: value})
+            except Exception as exc:  # noqa: BLE001
+                scan.append({"threshold": value, "error": f"{type(exc).__name__}: {exc}"})
+                continue
+            counted = _count_objects(items)
+            scan.append({"threshold": value, "group_count": len(items), "object_count": counted})
+            if counted and chosen is None:
+                chosen = (value, items)
+
+        result: dict = {
+            "scan": scan,
+            "threshold_used": chosen[0] if chosen else None,
+        }
+        if chosen is None:
+            result.update({"group_count": 0, "object_count": 0, "by_body": {}, "groups": []})
+            return result
+        result.update(problem_summary(chosen[1]))
+        span = _numeric_range(chosen[1], kwarg)
+        if span:
+            result["span"] = span
+        return result
+
     # -- mutating operators (guarded) --------------------------------------
 
     def boolean(self, operation: str, target: str, tools: list[str], keep_tools: bool = False) -> dict:
@@ -426,3 +747,4 @@ class Session:
                 "before/after comparison would describe the wrong model."
             )
         return design
+

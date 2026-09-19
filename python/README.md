@@ -25,7 +25,7 @@ configuration blocks.
 
 | File | Purpose |
 |---|---|
-| `src/ansys_bridge_mcp/server.py` | FastMCP server and the eleven tools. |
+| `src/ansys_bridge_mcp/server.py` | FastMCP server and the twelve tools. |
 | `src/ansys_bridge_mcp/scdm.py` | SpaceClaim session and operators. |
 | `src/ansys_bridge_mcp/guards.py` | Before/after geometry comparison, Ansys root detection, metadata-only version probes. |
 | `src/ansys_bridge_mcp/doctor.py` | `ansys-bridge-doctor` and the per-client config emitters. |

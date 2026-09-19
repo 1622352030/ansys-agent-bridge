@@ -10,7 +10,7 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 
 ## 功能
 
-共 11 个 MCP 工具：
+共 12 个 MCP 工具：
 
 | 工具 | 只读 | 作用 |
 |---|---|---|
@@ -21,6 +21,7 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 | `scdm_open_file` | 否 | 打开 `.scdoc`/`.scdocx`/`.dsco`/`.pmdb`，报告实体、命名选择、面数、体积。 |
 | `scdm_list_bodies` | 是 | 当前设计的实体名、面数、体积。 |
 | `scdm_collisions` | 是 | 两两碰撞状态（`TOUCH`/`NONE`/…），可全部配对或指定列表。 |
+| `scdm_inspect_geometry` | 是 | 官方八项几何体检：重复面、短边、小面、缺失面、待分割边、可缝合面、多余边、不精确边。 |
 | `scdm_boolean` | 否 | `unite`/`subtract`/`intersect`，带前后几何校验。 |
 | `scdm_share_topology` | 否 | Share Topology，同样带前后校验。 |
 | `scdm_run_script` | 否 | 对当前会话运行 headless IronPython 脚本。 |
@@ -231,18 +232,17 @@ python/                 MCP 服务器（uv/pip 可装，src 布局）
 
 规划工作前需要知道的两条：
 
-- **价值最高的缺漏是几何体检。** `RepairTools` 里有 8 个 `find_*` 方法完全没有版本门槛，24R2 可用，目前尚未实现。它们也正是诊断 `Found overlapping faces`（导致 Fluent Meshing 失败）的官方入口。
+- **几何体检现在是主打功能。** `RepairTools` 里有 8 个 `find_*` 方法完全没有版本门槛，24R2 可用，这 8 项现在都在 `scdm_inspect_geometry` 里。对着那个建网失败的装配体，它直接点名原因：两对完全重合的面，每对分别是 stator 和 pip 上的一个面，面积完全相同。把"建网失败"换成"这两张面叠在一起了"，就是它的全部意义。
 - **外流场计算域无法通过这个 API 生成。** 三个 `create_*_enclosure` 需要 26.1.0。做外部流场 CFD 时，计算域要在 SpaceClaim 界面建，或改用 Fluent Meshing 的 enclosure 功能。
 
 ## 开发
 
 ```sh
-node tools/verify-js-expr.mjs      # 不需要任何 profile：校验两个 !!js 表达式
+node tools/verify-patch.mjs        # 不需要任何 profile
 uv run --directory python pytest -q
 ```
 
-`verify-js-expr.mjs` 复现了加载器的 `with (ctx) { eval(expr) }` 作用域，所以表达式
-写坏了不必启动任何东西就能发现。
+`verify-patch.mjs` 把 patch 里任何 `!!js` 表达式放在一个**只有 `ctx` 的裸作用域**里求值——这正是 CLI 的构造方式——并拒绝返回 Promise，所以"只能在较新 harness 上启动"的 patch 会在这里失败，而不是在用户机器上。它还会校验 patch 启动的 console script 确实是 `pyproject.toml` 里声明的那个。
 
 ## 许可
 
