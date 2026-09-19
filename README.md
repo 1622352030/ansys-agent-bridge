@@ -12,7 +12,7 @@ raises `no_geometry_change` instead of reporting a success it cannot see.
 
 ## What it does
 
-Twelve MCP tools:
+Fifteen MCP tools:
 
 | Tool | Read-only | What it does |
 |---|---|---|
@@ -23,6 +23,9 @@ Twelve MCP tools:
 | `scdm_open_file` | no | Opens `.scdoc`/`.scdocx`/`.dsco`/`.pmdb` and reports bodies, named selections, face counts, volumes. |
 | `scdm_list_bodies` | yes | Body names, face counts, volumes for the open design. |
 | `scdm_collisions` | yes | Pairwise collision state (`TOUCH`/`NONE`/…), all pairs or a chosen list. |
+| `scdm_min_distance` | yes | Minimum distance between two bodies in metres — the continuous counterpart to collisions. |
+| `scdm_insert_file` | no | Merge another CAD file into the open design (`open_file` opens a document; this adds to one). |
+| `scdm_transform` | no | `rotate` / `scale` / `mirror`, verified by a before/after spatial fingerprint. |
 | `scdm_inspect_geometry` | yes | The eight official geometry checks: duplicate faces, short edges, small or missing faces, split and stitch faces, extra and inexact edges. |
 | `scdm_boolean` | no | `unite`/`subtract`/`intersect`, guarded by a before/after geometry check. |
 | `scdm_share_topology` | no | Share topology, guarded by the same check. |

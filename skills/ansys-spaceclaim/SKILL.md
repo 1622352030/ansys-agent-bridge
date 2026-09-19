@@ -41,11 +41,65 @@ measured, it says so.
    and reports bodies, named selections, per-body face counts, and volumes.
 4. `scdm_inspect_geometry` — **run this before any meshing.** It is the tool
    that turns "the mesh failed" into a named cause. See the section below.
-5. Operators — `scdm_list_bodies`, `scdm_collisions`, `scdm_boolean`,
-   `scdm_share_topology`, `scdm_run_script`.
+5. Operators — `scdm_list_bodies`, `scdm_collisions`, `scdm_min_distance`,
+   `scdm_boolean`, `scdm_share_topology`, `scdm_transform`, `scdm_insert_file`,
+   `scdm_run_script`.
 6. `scdm_export` — `.scdocx`, `step`, `iges`, `parasolid_text`,
    `parasolid_bin`, `pmdb`. There is no native `.scdoc` export.
 7. `scdm_session_close`.
+
+## Measuring a gap
+
+`scdm_min_distance` is the continuous counterpart to `scdm_collisions`. Collision
+state is discrete; this answers **how far apart**, which is what decides whether a
+gap is a leak or a mesh interface is reasonable.
+
+Measured on the reference assembly, and it agrees with the collision states:
+
+| Pair | Distance | Collision |
+|---|---|---|
+| `stator` ↔ `winding 1` | 0.0 m | `TOUCH` |
+| `stator` ↔ `pip` | 0.0 m | `TOUCH` |
+| `stator` ↔ `inlet` | 0.05036119537898199 m | `NONE` |
+| `stator` ↔ `outlet` | 0.050361195378982 m | `NONE` |
+| `winding 1` ↔ `winding 2` | 0.2072241239859292 m | `NONE` |
+
+`touching: true` in the result means exactly 0.0 m. A sub-millimetre but non-zero
+gap is **not** flagged as touching, and that is the case worth looking at: it is
+too small to mesh and too large to be a proper contact.
+
+## Transforming bodies
+
+`scdm_transform` does `rotate`, `scale` and `mirror`. All three are verified
+against a before/after spatial fingerprint, because the same rule as the booleans
+applies — do not trust the call, measure the result.
+
+**Read `verified` before reporting success.** It is false when no fingerprint
+could be read at all, which is not the same as geometry that did not move.
+
+`scale` is independently checkable, so use it as your sanity check: volume must
+change by the cube of the factor. Measured, `scale(1.5)` on the stator moved
+0.003314505208 m³ → 0.01118664023 m³, exactly 1.5³ = 3.375. `rotate` about z was
+verified by the fingerprint moving in x and y while z stayed put.
+
+Two traps in the parameters:
+
+- **`origin` defaults to the world origin**, which is rarely the point you want
+  for a part that is not centred there. Pass the point you actually mean.
+- **`axis` is a direction, not a plane.** For `mirror` it is the plane *normal*
+  through `origin`; `axis: "z"` mirrors about the z = 0 plane. The underlying
+  `Plane` constructor takes two direction vectors rather than a normal, and
+  handing it a normal silently mirrors about the wrong plane — the bridge derives
+  the two directions from the normal instead.
+
+## Merging another model
+
+`scdm_insert_file` adds a file's contents to the **open** design. That is not
+`scdm_open_file`, which opens a document. Measured: a 31-body design became 62,
+and the call returned a component named `定转子装配(1)`.
+
+Import options are left at their defaults on purpose — the default already
+imports named selections, which is what every other tool here selects by.
 
 ## Diagnosing a failed mesh
 

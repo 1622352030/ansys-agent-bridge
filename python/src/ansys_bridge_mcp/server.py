@@ -231,6 +231,86 @@ def scdm_collisions(left: str | None = None, right: str | None = None, all_pairs
         return _err(exc)
 
 
+@mcp.tool(annotations=READ_ONLY)
+def scdm_min_distance(left: str, right: str) -> dict[str, Any]:
+    """Minimum distance between two bodies, in metres — the continuous counterpart to collisions.
+
+    Collision state is discrete (`TOUCH` / `NONE`). This answers "how far apart",
+    which is the question that decides whether a gap is a leak or a mesh
+    interface is reasonable.
+
+    Measured on the reference assembly, and it agrees with the collision states:
+    `stator`↔`winding 1` and `stator`↔`pip` are 0.0 m (in contact), while
+    `stator`↔`inlet` and `stator`↔`outlet` are 0.05036119537898199 m and
+    `winding 1`↔`winding 2` are 0.2072241239859292 m.
+    """
+    try:
+        return {"ok": True, **_session.min_distance(left, right)}
+    except Exception as exc:
+        return _err(exc)
+
+
+@mcp.tool(annotations=STATE_CHANGE)
+def scdm_insert_file(path: str) -> dict[str, Any]:
+    """Merge another CAD file into the open design.
+
+    Not the same as `scdm_open_file`, which opens a document. This adds the
+    file's contents to the design already open — measured, a 31-body design
+    became 62 and the call returned a component named `定转子装配(1)`.
+
+    Import options stay at their defaults, and that is deliberate: the default
+    already imports named selections, which is what every other tool here
+    selects by.
+    """
+    try:
+        return {"ok": True, **_session.insert_file(path)}
+    except Exception as exc:
+        return _err(exc)
+
+
+@mcp.tool(annotations=STATE_CHANGE)
+def scdm_transform(
+    operation: str,
+    bodies: list[str],
+    scale_factor: float | None = None,
+    angle_deg: float | None = None,
+    axis: str | list[float] | None = None,
+    origin: list[float] | None = None,
+) -> dict[str, Any]:
+    """Rotate, scale or mirror bodies, then verify the geometry actually moved.
+
+    These change the model, so the same rule as the booleans applies: measure the
+    result rather than trusting the call. A spatial fingerprint is taken before
+    and after.
+
+    `operation` is `rotate`, `scale` or `mirror`. `axis` takes `"x"`, `"y"`,
+    `"z"` or a 3-vector; `origin` defaults to the world origin, which is rarely
+    the point you want for a part that is not centred there.
+
+    `scale` is independently checkable — volume should change by the cube of the
+    factor. Measured: `scale(1.5)` on the stator moved 0.003314505208 m³ to
+    0.01118664023 m³, exactly 1.5³. `rotate` about z was verified by the
+    fingerprint moving in x and y while z stayed where it was.
+
+    Read `verified` before reporting success. It is false when no fingerprint
+    could be read at all, which is not the same as geometry that did not move.
+    """
+    try:
+        return {
+            "ok": True,
+            **_session.transform(
+                operation,
+                bodies,
+                scale_factor=scale_factor,
+                angle_deg=angle_deg,
+                axis=axis,
+                origin=origin,
+            ),
+        }
+    except Exception as exc:
+        return _err(exc)
+
+
 # ---------------------------------------------------------------------------
 # Inspection (read-only)
 # ---------------------------------------------------------------------------

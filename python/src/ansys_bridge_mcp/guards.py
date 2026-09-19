@@ -33,15 +33,23 @@ __all__ = [
     "NoGeometryChange",
     "GeometrySnapshot",
     "snapshot_design",
+    "spatial_fingerprint",
     "assert_changed",
     "detect_ansys_roots",
     "detect_fluent_root",
     "package_version",
 ]
 
-# Relative tolerance for volume comparison. SpaceClaim reports volumes in m^3
-# with ~10 significant digits; a real boolean moves them far more than this.
-VOLUME_REL_TOL = 1e-6
+# Relative tolerance for volume comparison.
+#
+# 1e-4, not 1e-6, and the number comes from measurement rather than taste. The
+# same stator volume read 0.00331450520811706 in one session and
+# 0.0033145600685288304 in another -- a relative spread of 1.7e-5 from the
+# service alone. A tolerance of 1e-6 sits *below* that noise, so the guard meant
+# to catch a silent no-op could have passed one by accident. Real boolean changes
+# are around 1e-2 relative (unite moved the stator volume by 2.1e-2), so 1e-4
+# separates signal from noise by two orders of magnitude on either side.
+VOLUME_REL_TOL = 1e-4
 # Face counts are exact, but a boolean that only imprints may keep the body
 # count. Any change in topology is accepted as "something happened".
 FACE_DELTA_TOL = 0
@@ -175,6 +183,69 @@ def snapshot_design(design) -> GeometrySnapshot:
             snap.total_faces += faces
         snap.total_volume += vol
     return snap
+
+
+def spatial_fingerprint(obj: Any, max_vertices: int = 400) -> dict | None:
+    """Axis-aligned extent of the vertices reachable through an object's edges.
+
+    Why not the obvious API: measured on 24R2, `Face.bounding_box`,
+    `Face.get_bounding_box`, `Face.centroid`, `Edge.bounding_box` and
+    `Edge.centroid` all raise `GeometryRuntimeError` demanding 27.1. `Body`'s
+    equivalents do too. `Edge.start` / `Edge.end` are the only vertex access that
+    works, so the extent is assembled out of those.
+
+    Why a bound: every read is a round trip to the service, and this runs twice
+    per transform to prove the transform happened. A 738-face assembly has
+    thousands of edges.
+
+    Returns ``None`` when no vertex could be read — which is **not** the same as
+    a box that did not move. The caller must not read "nothing changed" out of
+    "could not tell", so the count of failed reads is reported alongside.
+    """
+    lo = [float("inf")] * 3
+    hi = [float("-inf")] * 3
+    read = 0
+    unreadable = 0
+
+    try:
+        faces = list(getattr(obj, "faces", None) or [])
+    except Exception:  # noqa: BLE001
+        return None
+
+    for face in faces:
+        if read >= max_vertices:
+            break
+        try:
+            edges = list(getattr(face, "edges", None) or [])
+        except Exception:  # noqa: BLE001
+            continue
+        for edge in edges:
+            if read >= max_vertices:
+                break
+            for attr in ("start", "end"):
+                try:
+                    point = getattr(edge, attr)
+                    xyz = (
+                        float(point.x.magnitude),
+                        float(point.y.magnitude),
+                        float(point.z.magnitude),
+                    )
+                except Exception:  # noqa: BLE001 - some edges raise, see _numeric_range
+                    unreadable += 1
+                    continue
+                read += 1
+                for axis, value in enumerate(xyz):
+                    lo[axis] = min(lo[axis], value)
+                    hi[axis] = max(hi[axis], value)
+
+    if read == 0:
+        return None
+    return {
+        "min": [round(v, 9) for v in lo],
+        "max": [round(v, 9) for v in hi],
+        "vertices_read": read,
+        "unreadable": unreadable,
+    }
 
 
 def assert_changed(

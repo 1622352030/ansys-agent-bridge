@@ -136,6 +136,52 @@ the remainder, while the counts, the per-body histogram and the numeric span sta
 uncapped, so nothing that changes a decision is dropped. The same report is now
 7.7 KB locally and 9.5 KB over the wire.
 
+## Measurement, transforms and merging
+
+The last three tool groups, all measured over MCP stdio. The server went from 12
+tools to 15.
+
+| Tool | Evidence |
+|---|---|
+| `scdm_min_distance` | 5 pairs, and every distance agrees with the collision state: `stator`↔`winding 1` and `stator`↔`pip` are 0.0 m (`TOUCH`), `stator`↔`inlet` and `stator`↔`outlet` are 0.05036119537898199 m, `winding 1`↔`winding 2` is 0.2072241239859292 m |
+| `scdm_insert_file` | 31 bodies → 62 in 0.6 s, component `定转子装配(1)`, `list_bodies` confirms the same count |
+| `scdm_transform` | `scale(1.5)`: volume 0.0033145600685288304 → 0.011186640230753733, ratio 3.375 = 1.5³ exactly. `rotate` z 90°: fingerprint x/y moved, z unchanged. `mirror`: verified |
+
+Five error paths were exercised and each reports a specific message: unknown
+operation, missing `scale_factor`, non-positive factor, unknown body, invalid
+axis. Source file SHA-256 unchanged after all of it.
+
+### The value in `Distance` is one level deeper than it looks
+
+`min_distance_between_objects` returns a `Gap` whose `distance` repr already
+reads `0.05036119537898199 meter`, but `Distance` has no `magnitude` — reading it
+raises `AttributeError`. The quantity is at `.value`. Same family of trap as
+`UnitVector3D.x` being a bare `float64` while `Point3D.x` carries a `Quantity`.
+
+### A normal is not a direction
+
+`Plane(origin, direction_x, direction_y)` does not take a normal. Measured:
+`Plane(Point3D([0,0,0]), UnitVector3D([0,0,1]))` produces a plane whose normal is
+`[-1, 0, 0]`, because the second argument is `direction_x` and the normal is the
+cross product of the two directions. Passing a normal there **silently mirrors
+about the wrong plane** — no error, wrong geometry. The bridge derives both
+directions from the normal and the construction is unit-tested against x, y, z,
+`[1,1,0]`, `[1,1,1]` and a negative normal.
+
+### A tolerance that sat below the measurement noise
+
+The guard that catches the silent `subtract` compared volumes with a relative
+tolerance of `1e-6`. Reading the same stator volume in two sessions gave
+`0.00331450520811706` and `0.0033145600685288304` — a spread of **1.7e-5**, which
+is larger than the tolerance meant to absorb it. The guard worked in the runs
+above by luck of the draw, not by design.
+
+Raised to `1e-4`, which is still two orders of magnitude below a real boolean
+change (`unite` moves the stator volume by 2.1e-2). Regression-checked against
+three cases: a real change passes, a no-op with identical volumes is caught, and
+a no-op carrying that 1.7e-5 service noise is now caught instead of slipping
+through.
+
 ## Cross-checked against raw IronPython
 
 The same `.scdoc` was read and written through the wild

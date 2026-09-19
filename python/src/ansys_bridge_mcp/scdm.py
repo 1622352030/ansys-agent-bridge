@@ -24,7 +24,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .guards import GeometrySnapshot, assert_changed, detect_ansys_roots, snapshot_design
+from .guards import (
+    GeometrySnapshot,
+    assert_changed,
+    detect_ansys_roots,
+    snapshot_design,
+    spatial_fingerprint,
+)
 
 __all__ = ["Session", "SessionError", "SCDOC_SUFFIXES", "preload"]
 
@@ -258,6 +264,91 @@ def _stderr(message: str) -> None:
     underscore only keeps it out of the `Session` API surface.
     """
     print(f"{time.strftime('%H:%M:%S')} {message}", file=sys.stderr, flush=True)
+
+
+def _distance_m(gap: Any) -> float | None:
+    """The number inside a ``Distance``, which is one level deeper than it looks.
+
+    Measured: ``min_distance_between_objects`` returns a ``Distance`` whose
+    ``repr`` already reads ``0.05036119537898199 meter``, but ``Distance`` has no
+    ``magnitude`` -- the quantity is at ``.value``. Reading ``.magnitude`` on the
+    ``Distance`` raises ``AttributeError``.
+    """
+    value = getattr(gap, "distance", None)
+    if value is None:
+        return None
+    for path in (
+        lambda: value.value.magnitude,
+        lambda: value.value,
+        lambda: value.magnitude,
+    ):
+        try:
+            return float(path())
+        except Exception:  # noqa: BLE001 - try the next shape
+            continue
+    return None
+
+
+def _body_volume(body: Any) -> float | None:
+    try:
+        return float(getattr(body.volume, "magnitude", body.volume))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _point(origin: list[float] | None):
+    from ansys.geometry.core.math.point import Point3D
+
+    return Point3D(list(origin) if origin else [0.0, 0.0, 0.0])
+
+
+def _unit_vector(axis: str | list[float]):
+    from ansys.geometry.core.math.vector import UnitVector3D
+
+    if isinstance(axis, str):
+        table = {"x": [1.0, 0.0, 0.0], "y": [0.0, 1.0, 0.0], "z": [0.0, 0.0, 1.0]}
+        key = axis.strip().lower()
+        if key not in table:
+            raise SessionError(f"axis must be x, y, z or a 3-vector, got {axis!r}")
+        return UnitVector3D(table[key])
+    if len(axis) != 3:
+        raise SessionError(f"axis vector needs 3 components, got {axis!r}")
+    return UnitVector3D(list(axis))
+
+
+def _plane_from_normal(origin: list[float] | None, normal: str | list[float]):
+    """A Plane through ``origin`` whose normal is ``normal``.
+
+    ``Plane(origin, direction_x, direction_y)`` does **not** take a normal.
+    Measured: ``Plane(Point3D([0,0,0]), UnitVector3D([0,0,1]))`` produces a plane
+    whose normal is ``[-1, 0, 0]``, because the second argument is direction_x and
+    the normal is the cross product of the two directions. Passing a normal there
+    silently mirrors about the wrong plane, so the two directions are derived
+    here instead:
+
+        direction_x = normalize(ref x n)
+        direction_y = normalize(n x direction_x)
+        direction_x x direction_y = n
+    """
+    from ansys.geometry.core.math.plane import Plane
+    from ansys.geometry.core.math.vector import UnitVector3D
+
+    n = _unit_vector(normal)
+    # Point3D.x carries a Quantity (has .magnitude); UnitVector3D.x is a bare
+    # numpy.float64. Measured, assuming otherwise raises AttributeError.
+    nx = float(getattr(n.x, "magnitude", n.x))
+    ny = float(getattr(n.y, "magnitude", n.y))
+    nz = float(getattr(n.z, "magnitude", n.z))
+    ref = (1.0, 0.0, 0.0) if abs(nx) < 0.9 else (0.0, 1.0, 0.0)
+
+    dx = (ref[1] * nz - ref[2] * ny, ref[2] * nx - ref[0] * nz, ref[0] * ny - ref[1] * nx)
+    norm = (dx[0] ** 2 + dx[1] ** 2 + dx[2] ** 2) ** 0.5
+    if norm == 0.0:
+        raise SessionError(f"cannot build a plane for normal {normal!r}")
+    dx = tuple(component / norm for component in dx)
+
+    dy = (ny * dx[2] - nz * dx[1], nz * dx[0] - nx * dx[2], nx * dx[1] - ny * dx[0])
+    return Plane(_point(origin), UnitVector3D(list(dx)), UnitVector3D(list(dy)))
 
 
 def _format_version(backend: Any) -> str | None:
@@ -713,6 +804,147 @@ class Session:
             "path": str(out_path),
             "exists": out_path.exists(),
             "bytes": out_path.stat().st_size if out_path.exists() else 0,
+        }
+
+    # -- measurement -------------------------------------------------------
+
+    def min_distance(self, left: str, right: str) -> dict:
+        """Minimum distance between two bodies, faces or edges, in metres.
+
+        The continuous counterpart to :meth:`collisions`. Collision state is
+        discrete (`TOUCH` / `NONE`); this answers "how far apart", which is what
+        you need to decide whether a mesh interface is reasonable or whether a
+        gap is a leak.
+
+        Measured on the reference assembly: `stator`↔`winding 1` and
+        `stator`↔`pip` are **0.0 m** (in contact, matching their `TOUCH` state),
+        `stator`↔`inlet` and `stator`↔`outlet` are 0.05036119537898199 m, and
+        `winding 1`↔`winding 2` are 0.2072241239859292 m.
+
+        The value comes back as a `Distance`, whose number lives one level down
+        in `.value.magnitude` -- reading `.magnitude` on the `Distance` itself
+        raises `AttributeError`.
+        """
+        design = self._require_design()
+        by_name = {b.name: b for b in design.bodies}
+        for name in (left, right):
+            if name not in by_name:
+                raise SessionError(f"body not found: {name}")
+        gap = self.modeler.measurement_tools.min_distance_between_objects(
+            by_name[left], by_name[right]
+        )
+        return {
+            "left": left,
+            "right": right,
+            "distance_m": _distance_m(gap),
+            "touching": _distance_m(gap) == 0.0,
+        }
+
+    # -- files -------------------------------------------------------------
+
+    def insert_file(self, path: str) -> dict:
+        """Merge another CAD file into the open design.
+
+        Not the same as :meth:`open_file`, which opens a document. This adds the
+        file's contents to the design already open -- measured, a 31-body design
+        became 62 bodies, and the call returned a `Component` named
+        `定转子装配(1)`.
+
+        Import options are left at their defaults, which is a deliberate choice:
+        the default `ImportOptions` already sets `import_named_selections=True`,
+        and named selections are what every other tool in this server selects by.
+        """
+        target = Path(path)
+        if not target.exists():
+            raise SessionError(f"file not found: {target}")
+        design = self._require_design()
+        before = len(list(design.bodies))
+        component = design.insert_file(str(target))
+        design = self._require_design()
+        return {
+            "inserted": str(target),
+            "component": getattr(component, "name", None),
+            "bodies_before": before,
+            "bodies_after": len(list(design.bodies)),
+        }
+
+    # -- transforms --------------------------------------------------------
+
+    def transform(
+        self,
+        operation: str,
+        bodies: list[str],
+        scale_factor: float | None = None,
+        angle_deg: float | None = None,
+        axis: str | list[float] | None = None,
+        origin: list[float] | None = None,
+    ) -> dict:
+        """Rotate, scale or mirror bodies, then verify the geometry moved.
+
+        These change the model, so the same rule as the booleans applies: never
+        trust the call, measure the result. A spatial fingerprint is taken before
+        and after, built from `Edge.start` / `Edge.end` because every
+        bounding-box and centroid API on 24R2 demands 27.1.
+
+        `scale` is easy to verify independently -- the volume should change by
+        the cube of the factor. Measured: `scale(1.5)` took the stator from
+        0.003314505208 m³ to 0.01118664023 m³, which is 3.375×, exactly 1.5³.
+        `rotate` was verified by the fingerprint moving in x and y while z stayed
+        put, which is what a rotation about z must do.
+
+        `axis` takes "x" / "y" / "z" or a 3-vector. `origin` defaults to the
+        world origin, which is rarely what you want for a part that is not
+        centred there -- pass the point you actually mean to rotate about.
+        """
+        design = self._require_design()
+        by_name = {b.name: b for b in design.bodies}
+        missing = [n for n in bodies if n not in by_name]
+        if missing:
+            raise SessionError(f"bodies not found: {missing}")
+        targets = [by_name[n] for n in bodies]
+
+        if operation == "scale":
+            if scale_factor is None:
+                raise SessionError("scale needs scale_factor")
+            if scale_factor <= 0:
+                raise SessionError("scale_factor must be positive")
+            action = lambda body: body.scale(scale_factor)  # noqa: E731
+        elif operation == "rotate":
+            if angle_deg is None:
+                raise SessionError("rotate needs angle_deg")
+            point = _point(origin)
+            direction = _unit_vector(axis or "z")
+            action = lambda body: body.rotate(point, direction, angle_deg)  # noqa: E731
+        elif operation == "mirror":
+            plane = _plane_from_normal(origin, axis or "z")
+            action = lambda body: body.mirror(plane)  # noqa: E731
+        else:
+            raise SessionError(
+                f"unknown operation {operation!r}; choose from rotate, scale, mirror"
+            )
+
+        before = {body.name: spatial_fingerprint(body) for body in targets}
+        volumes_before = {body.name: _body_volume(body) for body in targets}
+        for body in targets:
+            action(body)
+        after = {body.name: spatial_fingerprint(body) for body in targets}
+        volumes_after = {body.name: _body_volume(body) for body in targets}
+
+        moved = {
+            name: before[name] != after[name]
+            for name in before
+            if before[name] is not None and after[name] is not None
+        }
+        _stderr(f"transform {operation}: moved {sum(moved.values())}/{len(moved)} bodies")
+        return {
+            "operation": operation,
+            "bodies": bodies,
+            "verified": bool(moved) and all(moved.values()),
+            "moved": moved,
+            "fingerprint_before": before,
+            "fingerprint_after": after,
+            "volume_before_m3": volumes_before,
+            "volume_after_m3": volumes_after,
         }
 
     # -- helpers -----------------------------------------------------------

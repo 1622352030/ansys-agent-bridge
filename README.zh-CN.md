@@ -10,7 +10,7 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 
 ## 功能
 
-共 12 个 MCP 工具：
+共 15 个 MCP 工具：
 
 | 工具 | 只读 | 作用 |
 |---|---|---|
@@ -21,6 +21,9 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 | `scdm_open_file` | 否 | 打开 `.scdoc`/`.scdocx`/`.dsco`/`.pmdb`，报告实体、命名选择、面数、体积。 |
 | `scdm_list_bodies` | 是 | 当前设计的实体名、面数、体积。 |
 | `scdm_collisions` | 是 | 两两碰撞状态（`TOUCH`/`NONE`/…），可全部配对或指定列表。 |
+| `scdm_min_distance` | 是 | 两实体最小间距（米），碰撞状态的连续量版本。 |
+| `scdm_insert_file` | 否 | 把另一个 CAD 文件并入当前设计（`open_file` 是打开文档，这个是加进已打开的）。 |
+| `scdm_transform` | 否 | `rotate`／`scale`／`mirror`，用变换前后的空间指纹验证是否真生效。 |
 | `scdm_inspect_geometry` | 是 | 官方八项几何体检：重复面、短边、小面、缺失面、待分割边、可缝合面、多余边、不精确边。 |
 | `scdm_boolean` | 否 | `unite`/`subtract`/`intersect`，带前后几何校验。 |
 | `scdm_share_topology` | 否 | Share Topology，同样带前后校验。 |

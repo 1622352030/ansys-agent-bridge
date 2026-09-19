@@ -24,9 +24,9 @@
 | 几何体检 | `RepairTools` | 8 | `scdm_inspect_geometry` | 已实现 |
 | 导出 | `Design` | 6 | `scdm_export` | 已实现 |
 | 脚本逃生通道 | `Modeler.run_script_file` | 1 | `scdm_run_script` | 已实现 |
-| 最小间距测量 | `MeasurementTools` | 1 | 无 | **未实现** |
-| 变换 | `MasterBody` | 4 | 无 | **未实现** |
-| 合并外部模型 | `Design.insert_file` | 1 | 无 | **未实现** |
+| 最小间距测量 | `MeasurementTools` | 1 | `scdm_min_distance` | 已实现 |
+| 变换 | `MasterBody` | 4 | `scdm_transform` | 已实现 3 项，`map` 未实现 |
+| 合并外部模型 | `Design.insert_file` | 1 | `scdm_insert_file` | 已实现 |
 | 草图建模 | `Component` | 4 | 无 | **未实现** |
 | 边与面的几何属性 | `Edge` `Face` | 2 | 无 | **未实现** |
 | 几何修复 | `RepairTools` | 0 | 无 | 不可用，需 25.2.0 |
@@ -61,18 +61,15 @@
 
 | # | 方法 | 类 | 门槛 | 用途 | 优先级 |
 |---|---|---|---|---|---|
-| 1 | `min_distance_between_objects` | MeasurementTools | 24.2.0 | 两实体最小间距，判断接触或留隙 | 高 |
-| 2 | `Design.insert_file` | Design | 24.2.0 | 把外部 CAD 并入当前设计 | 中 |
-| 3 | `MasterBody.rotate` | MasterBody | 24.2.0 | 旋转 | 中 |
-| 4 | `MasterBody.scale` | MasterBody | 24.2.0 | 缩放 | 中 |
-| 5 | `MasterBody.mirror` | MasterBody | 24.2.0 | 镜像 | 中 |
-| 6 | `MasterBody.map` | MasterBody | 24.2.0 | 映射变换 | 中 |
-| 7 | `Component.sweep_sketch` | Component | 24.2.0 | 草图扫掠建模 | 低 |
-| 8 | `Component.sweep_chain` | Component | 24.2.0 | 链式扫掠建模 | 低 |
-| 9 | `Component.revolve_sketch` | Component | 24.2.0 | 草图旋转建模 | 低 |
-| 10 | `Component.create_body_from_loft_profile` | Component | 24.2.0 | 放样建模 | 低 |
-| 11 | `Edge.shape` | Edge | 24.2.0 | 读边的几何定义 | 低 |
-| 12 | `Face.shape` | Face | 24.2.0 | 读面的几何定义 | 低 |
+| 1 | `MasterBody.map` | MasterBody | 24.2.0 | 按坐标系映射变换，需构造 Frame，参数复杂 | 低 |
+| 2 | `Component.sweep_sketch` | Component | 24.2.0 | 草图扫掠建模 | 低 |
+| 3 | `Component.sweep_chain` | Component | 24.2.0 | 链式扫掠建模 | 低 |
+| 4 | `Component.revolve_sketch` | Component | 24.2.0 | 草图旋转建模 | 低 |
+| 5 | `Component.create_body_from_loft_profile` | Component | 24.2.0 | 放样建模 | 低 |
+| 6 | `Edge.shape` | Edge | 24.2.0 | 读边的几何定义 | 低 |
+| 7 | `Face.shape` | Face | 24.2.0 | 读面的几何定义 | 低 |
+
+剩余 7 项全部是低优先级。草图建模 4 项要求先有草图对象，属于从零建模能力，与当前"改造既有模型"的工作方式不符。`Edge.shape` 与 `Face.shape` 在部分边上会从 PyAnsys 内部抛 `ValueError`，是否值得包装取决于是否需要单条边的曲线定义。
 
 ## 表4 当前版本不可用的能力
 
@@ -94,10 +91,10 @@
 
 ## 结论
 
-已实现 12 个工具，覆盖环境探测、会话、文件读写、查询、布尔、几何体检、导出、逃生通道八个域。`PrepareTools` 十四个方法里唯一在 24R2 可用的共享拓扑已经做了，`RepairTools` 十八个里可用的八个体检方法也已全部做了。
+已实现 15 个工具，覆盖环境探测、会话、文件读写、查询、测量、布尔、几何体检、变换、导出、逃生通道十个域。`PrepareTools` 十四个方法里唯一在 24R2 可用的共享拓扑已经做了，`RepairTools` 十八个里可用的八个体检方法也已全部做了，`MeasurementTools` 唯一的方法与 `MasterBody` 的三个变换方法同样已做。
 
-剩余缺漏集中在表3，共 12 个方法，其中最小间距测量优先级最高。它们都是低频或建模类能力，对当前电机油冷 CHT 工作流不是必需。
+剩余缺漏集中在表3，共 7 项，全部为低优先级。
 
 表4 的能力全部受版本限制，在当前 24R2 环境下无法实现，实现它们只会得到运行时报错。其中外流场计算域一项对电机外部流场 CFD 标定有直接影响，需要改在 SpaceClaim 界面手工建域或使用 Fluent Meshing 的 enclosure 功能。
 
-两处结果可靠性需要注意。`find_inexact_edges` 返回的 3348 组不含任何边，其计数不可用。`Edge.length` 在部分边上会从 PyAnsys 内部抛 `ValueError: The norm of the 3D vector is not valid.`，参考模型 675 条短边里有 162 条读不出长度，因此数值范围一栏同时标注了可读与不可读的数量。
+三处结果可靠性需要注意。`find_inexact_edges` 返回的 3348 组不含任何边，其计数不可用。`Edge.length` 与 `Edge.start` 在部分边上会从 PyAnsys 内部抛 `ValueError: The norm of the 3D vector is not valid.`，参考模型 675 条短边里有 162 条读不出长度。体积读数在不同会话间存在约 1.7e-5 的相对差异，因此几何守卫的体积容差设为 1e-4 而非 1e-6——真实布尔运算的体积变化量在 1e-2 量级，两侧各留两个数量级余量。
