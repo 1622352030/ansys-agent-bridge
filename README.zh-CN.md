@@ -217,9 +217,22 @@ _handle_message (mcp\server\lowlevel\server.py)
 package.json            DSH bundle 清单（`dsh.bundle.patch`）+ npm 入口
 cordis.patch.yml        bundle 的 patch 层
 skills/ansys-spaceclaim/SKILL.md   实测操作要点与陷阱
-tools/verify-js-expr.mjs           离线校验 patch 里的 `!!js` 表达式
+docs/feature-coverage.md           实现功能与官方手册的逐项对照表
+docs/verification.md               验证记录，以及这一轮抓出的 bug
+tools/verify-patch.mjs             离线校验 cordis.patch.yml
 python/                 MCP 服务器（uv/pip 可装，src 布局）
 ```
+
+## 实现了什么、没实现什么
+
+[`docs/feature-coverage.md`](docs/feature-coverage.md) 是与官方 API 的逐项对照表：每个能力域、是否实现、以及未实现的原因。它不是"服务器能做什么"的清单，而是读者用来找"它没做什么"的清单。
+
+最要紧的一条结论是：**官方客户端声明的方法远多于这个版本能跑的**。286 个带 `@min_backend_version` 门槛的公开方法里，**只有 15 个能在 24R2 上调用**，另外 271 个需要 25.1 到 27.1，其中包括 `GeometryCommands` 全部 44 个建模方法。所以对照表先按版本过滤——这一步才分得清"真缺漏"和"调了只会抛 `GeometryRuntimeError` 的方法"。
+
+规划工作前需要知道的两条：
+
+- **价值最高的缺漏是几何体检。** `RepairTools` 里有 8 个 `find_*` 方法完全没有版本门槛，24R2 可用，目前尚未实现。它们也正是诊断 `Found overlapping faces`（导致 Fluent Meshing 失败）的官方入口。
+- **外流场计算域无法通过这个 API 生成。** 三个 `create_*_enclosure` 需要 26.1.0。做外部流场 CFD 时，计算域要在 SpaceClaim 界面建，或改用 Fluent Meshing 的 enclosure 功能。
 
 ## 开发
 

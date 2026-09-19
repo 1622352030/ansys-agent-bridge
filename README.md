@@ -242,9 +242,36 @@ the 60 s default.
 package.json            DSH bundle manifest (`dsh.bundle.patch`) + npm entry
 cordis.patch.yml        the bundle's patch layers
 skills/ansys-spaceclaim/SKILL.md   measured operating notes and traps
+docs/feature-coverage.md           implementation vs. official manual, item by item
+docs/verification.md               what was verified, and the bugs the run found
 tools/verify-patch.mjs             offline check of cordis.patch.yml
 python/                 the MCP server (uv/pip-installable, src layout)
 ```
+
+## What is and is not implemented
+
+[`docs/feature-coverage.md`](docs/feature-coverage.md) is the item-by-item
+comparison against the official API: every capability domain, whether it is
+implemented, and — for the gaps — why. It is not a list of what the server does;
+it is the list a reader needs to find what it does not do.
+
+The headline is that **the official client declares far more than this release
+can run**. Of 286 public methods carrying a `@min_backend_version` gate, only
+**15 are callable on 24R2**; the other 271 need 25.1 through 27.1. That includes
+all 44 `GeometryCommands` modelling methods. The comparison therefore filters by
+version first, which is what separates a real gap from a method that would only
+raise `GeometryRuntimeError`.
+
+Two consequences worth knowing before you plan work:
+
+- **The highest-value gap is geometric inspection.** Eight `RepairTools.find_*`
+  methods carry no version gate at all, so they work on 24R2 and are not
+  implemented yet. They are also the official way to diagnose the
+  `Found overlapping faces` failure that blocks Fluent Meshing.
+- **An external flow enclosure cannot be built through this API.** The three
+  `create_*_enclosure` methods need 26.1.0. For external-flow CFD, build the
+  domain in the SpaceClaim UI or use Fluent Meshing's enclosure instead.
+
 
 ## Development
 
