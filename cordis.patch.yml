@@ -1,0 +1,52 @@
+# dsh bundle patch for ansys-agent-bridge.
+#
+# One `insert`: an MCP client layer that registers the bridge's tools under the
+# `ansys` namespace. There is no absolute path anywhere in this file, so the same
+# patch works on any machine and in any install location.
+#
+# ── Why there is no `!!js` here ──────────────────────────────────────────────
+#
+# This patch used `!!js` twice, and both were removed after they broke the
+# harness CLI (0.1.1-rc.1, which is what `npm i -g @deepseek-ai/dsh` gives you).
+# The Desktop app (0.1.5-rc.2) accepts more than the CLI does, so a patch can
+# boot on one and fail on the other:
+#
+#   * `createRequire(...)` — the CLI evaluates `!!js` with
+#     `new Function('ctx', 'expr', 'with (ctx) { return eval(expr) }')` from a
+#     module that does NOT expose `createRequire`. Result:
+#     `ReferenceError: createRequire is not defined`, which is a profile that
+#     will not boot.
+#   * an async IIFE — the CLI's `interpolate` is synchronous and does not await
+#     the returned promise. Result: `expected string but got [object Promise]`.
+#
+# `command: uv` needs neither: the MCP client resolves it through PATH. Set
+# ANSYS_BRIDGE_UV, or override this row with a `--patch` overlay, when `uv` is
+# not on the PATH the harness itself was launched with.
+
+- insert:
+    - id: mcp-ansys
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: ansys
+        transport: stdio
+        command: uv
+        args:
+          # `uv tool run` (alias `uvx`) is the subcommand that takes `--from`.
+          # `uv run` does NOT: measured against uv 0.11.29 it rejects `--from`
+          # with "unexpected argument", and the MCP client then reports only
+          # "Connection closed" with no hint of the cause. `--quiet` keeps uv's
+          # own progress off stderr; a real failure still prints.
+          - 'tool'
+          - 'run'
+          - '--quiet'
+          - '--from'
+          - 'git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python'
+          - 'ansys-bridge-mcp'
+        env:
+          PYTHONIOENCODING: 'utf-8'
+          ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'
+        # The bridge's own default is 60 s. A hidden SpaceClaim start measured
+        # 14-31 s, and an export of a large assembly runs longer still, so the
+        # short default would cut real calls in half.
+        toolCallTimeoutMs: 900000
+        failOnStartupError: false

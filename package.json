@@ -1,0 +1,51 @@
+{
+  "name": "ansys-agent-bridge",
+  "version": "0.1.0",
+  "private": false,
+  "description": "DSH plugin bundle and MCP client layer for the Ansys Agent Bridge (SpaceClaim geometry + Fluent handoff).",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "dsh-plugin",
+    "mcp",
+    "ansys",
+    "spaceclaim",
+    "fluent",
+    "pyansys",
+    "cfd",
+    "cad"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1622352030/ansys-agent-bridge.git"
+  },
+  "homepage": "https://github.com/1622352030/ansys-agent-bridge#readme",
+  "bugs": {
+    "url": "https://github.com/1622352030/ansys-agent-bridge/issues"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "skills/",
+    "screenshots.json",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "exports": {
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./skills/*": "./skills/*",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "doctor": "uv run --directory python ansys-bridge-doctor",
+    "test": "uv run --directory python pytest -q"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

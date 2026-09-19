@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ansys-agent-bridge"
+version = "0.1.0"
+description = "MCP server that drives Ansys SpaceClaim (and bridges to Fluent) through the official PyAnsys stack, with guards for the operations that silently no-op."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "1622352030" }]
+keywords = ["ansys", "spaceclaim", "scdm", "fluent", "mcp", "pyansys", "cad", "cfd"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "mcp>=1.28.1,<2",
+  # Both Ansys clients are core, and that is deliberate. `uv tool run --from`
+  # builds an ISOLATED environment: the target machine's own site-packages are
+  # not visible to it. Measured - the host had ansys-fluent-core 0.42.1
+  # installed, and the tool environment still reported it missing. Optional
+  # extras would therefore have been invisible exactly where the client config
+  # launches the server, so anything the SpaceClaim or Fluent side may import
+  # belongs here. The package still imports, installs, and answers `doctor` on
+  # a machine with no ANSYS at all - only launching one needs the runtime.
+  "ansys-geometry-core>=0.17,<0.18",
+  "ansys-fluent-core>=0.42,<0.43",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<10",
+]
+
+[project.scripts]
+ansys-bridge-mcp = "ansys_bridge_mcp.server:main"
+ansys-bridge-doctor = "ansys_bridge_mcp.doctor:main"
+
+[project.urls]
+Homepage = "https://github.com/1622352030/ansys-agent-bridge"
+Issues = "https://github.com/1622352030/ansys-agent-bridge/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ansys_bridge_mcp"]
