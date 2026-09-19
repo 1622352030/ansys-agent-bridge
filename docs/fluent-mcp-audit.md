@@ -6,7 +6,9 @@
 
 审计目的：判断"直接采用官方包"这条路线的能力边界，供选型决策。
 
-证据分两级。**实测**指在本机真跑过并给出观察结果；**静态确认**指源码里可查，并给出文件与行号或原话。凡标"已实测"的小节，其结论都来自本机一次真实会话。
+判定标准：**只把"能力不可达"记为缺陷**。一项设置如果默认值不合意但可以覆盖，那是默认值，不是缺陷。初稿曾把三个默认值列为缺陷，那是我用错了标准，已改并单列一节说明。
+
+证据分两级。**实测**指在本机真跑过并给出观察结果；**静态确认**指源码里可查，并给出文件与行号或原话。
 
 ## 表1 Fluent 功能域与工具覆盖
 
@@ -33,7 +35,7 @@
 
 ## 表2 缺陷清单
 
-表2按性质分类列出 16 项缺陷，标注影响与证据。
+表2按性质分类列出 13 项缺陷，标注影响与证据。
 
 ### 一、功能缺口（6 项）
 
@@ -56,54 +58,7 @@
 
 也就是说，这四个工程关联工具不是"尚未实现"，而是**被有意划出开源范围**，归入可选的高层 agent 层。同一排除名单里还包括壁面粗糙度查询、发射率查询、多孔介质计算。
 
-### 二、默认值对无头批处理有害（3 项，已实测）
-
-| # | 缺陷 | 影响 | 证据 |
-|---|---|---|---|
-| 7 | `processor_count` 默认 1 | 不显式传即单核运行 | **实测**，见下方日志 |
-| 8 | `ui_mode` 默认 `"gui"` | 无头场景应传 `no_gui` | 静态确认，同下 |
-| 9 | `precision` 默认 `double` | 双精度内存占用约为单精度两倍 | **实测**，同下 |
-
-第 7 至 9 项的证据分两层。源码层（`solve/backends/pyfluent.py` 第 492 至 496 行与第 912 至 913 行）：
-
-```
-FLUENT_LAUNCH_DEFAULTS: dict[str, Any] = {
-    "precision": ...,
-    "processor_count": 1,
-    "dimension": ...,
-    "ui_mode": "gui",
-}
-```
-
-实测层：调用 `connect()` 不传任何参数，该包自己的日志打出实际启动参数。
-
-```
-session connected mode=launch precision=double processor_count=1 dimension=3
-                  solver_mode=None gpu=None journals=None case=None
-```
-
-`processor_count=1`、`precision=double` 两项由此从源码推断变为本机实测。连接耗时 23.1 秒。
-
-本机 32 逻辑核。按既有记录，单核导致每轮 Fluent Meshing 耗时 4 至 5 分钟。这三项都必须在 `connect` 时通过 `connect_kwargs` 显式覆盖。
-
-### 三、返回值不含实际启动参数（1 项，已实测）
-
-| # | 缺陷 | 影响 | 证据 |
-|---|---|---|---|
-| 10 | `connect` 与 `session_status` 不返回启动参数 | 无法从工具返回确认跑在几个核、什么精度上 | **实测**，见下 |
-
-实测返回：
-
-```
-connect        -> {"status":"ok","backend_kind":"pyfluent","endpoint":null,
-                   "candidates":[],"message":"PyFluent connected (launch).",...}
-session_status -> {"leaf":"solve","connected":true,"backend":"Solve (PyFluent)",
-                   "backend_kind":"pyfluent","endpoint":null,"capabilities":[],...}
-```
-
-`processor_count`、`precision`、`dimension`、`ui_mode` 全部不在返回值里，只出现在服务端日志。也就是说，agent 调用 `connect` 后**无法自行验证**它要求的核数与精度是否被采纳，只能相信输入参数。对以"不信任返回值、测量实际结果"为原则的工作方式，这是个反向的例子。
-
-### 四、代码执行沙箱的实际约束（4 项，已实测）
+### 二、代码执行沙箱的实际约束（4 项，已实测）
 
 `run_code` 是唯一的执行通道，但它是受限的 Python 子集，不是通用解释器。八项限制全部实测确认：
 
@@ -120,27 +75,68 @@ session_status -> {"leaf":"solve","connected":true,"backend":"Solve (PyFluent)",
 
 | # | 约束 | 影响 | 证据 |
 |---|---|---|---|
-| 11 | 禁止 `open` | 不能自行读写文件，导出须走 Fluent 自身 API | 实测，`common/validation.py` 第 109 行 |
-| 12 | 禁止 `subprocess` 与 `os.system` | 不能调用外部程序 | 实测，第 92 至 100 行 |
-| 13 | import 白名单仅 math、json、itertools、functools、collections、dataclasses、typing 与 ansys 系列 | **不能 import numpy、pandas、matplotlib** | 实测，第 121 至 134 行 |
-| 14 | 禁止反射写入，`setattr` 与 `__setitem__` 被拦 | 必须用直接赋值或 `.set_state()` | 实测，`solve/backends/pyfluent.py` 第 2758 行 |
+| 7 | 禁止 `open` | 不能自行读写文件，导出须走 Fluent 自身 API | 实测，`common/validation.py` 第 109 行 |
+| 8 | 禁止 `subprocess` 与 `os.system` | 不能调用外部程序 | 实测，第 92 至 100 行 |
+| 9 | import 白名单仅 math、json、itertools、functools、collections、dataclasses、typing 与 ansys 系列 | **不能 import numpy、pandas、matplotlib** | 实测，第 121 至 134 行 |
+| 10 | 禁止反射写入，`setattr` 与 `__setitem__` 被拦 | 必须用直接赋值或 `.set_state()` | 实测，`solve/backends/pyfluent.py` 第 2758 行 |
 
-第 13 项对后处理影响最直接：读回流场数据做数值分析、拟合换热系数曲线这类工作需要 numpy，而它是被挡住的。数据必须先由 Fluent 自身导出，再在 MCP 之外处理。第 11 项意味着连写一个中间结果文件都不行。
+第 9 项对后处理影响最直接：读回流场数据做数值分析、拟合换热系数曲线这类工作需要 numpy，而它是被挡住的。数据必须先由 Fluent 自身导出，再在 MCP 之外处理。第 7 项意味着连写一个中间结果文件都不行。
 
-### 五、判定类能力缺失（2 项）
+### 三、判定类能力缺失（2 项）
 
 | # | 缺陷 | 影响 | 证据 |
 |---|---|---|---|
-| 15 | `mesh_quality` 只返回指标不做判定 | 网格是否合格须自行判断 | 静态确认，`solve/lib/mesh_tools.py` 全文 |
-| 16 | 无收敛判据工具 | `solver_status` 只给迭代数与残差，不判断是否收敛 | 静态确认，`common/base.py` 第 1210 至 1240 行 |
+| 11 | `mesh_quality` 只返回指标不做判定 | 网格是否合格须自行判断 | 静态确认，`solve/lib/mesh_tools.py` 全文 |
+| 12 | 无收敛判据工具 | `solver_status` 只给迭代数与残差，不判断是否收敛 | 静态确认，`common/base.py` 第 1210 至 1240 行 |
 
-第 15 项的返回结构是 `{cell_count, face_count, node_count, quality: {min_orthogonal_quality, max_ortho_skew, max_aspect_ratio}, check?}`，即给数字不给定论。
+第 11 项的返回结构是 `{cell_count, face_count, node_count, quality: {min_orthogonal_quality, max_ortho_skew, max_aspect_ratio}, check?}`，即给数字不给定论。
 
-第 16 项：按既有记录，CHT 稳态收敛应看进出口质量流量差小于 0.1% 与出口温度稳定，而不是看残差绝对值。官方包不提供这类判据。
+第 12 项：按既有记录，CHT 稳态收敛应看进出口质量流量差小于 0.1% 与出口温度稳定，而不是看残差绝对值。官方包不提供这类判据。
 
-### 六、它对"路径写错"的防护良好
+### 四、返回值无法验证配置（1 项，已实测）
 
-需要说明的是，上面 16 项缺陷里**不包括**"静默写错路径"。该包对这一类问题有专门设计，见下一节。
+| # | 缺陷 | 影响 | 证据 |
+|---|---|---|---|
+| 13 | `connect` 与 `session_status` 不返回实际启动参数 | 无法从工具返回确认覆盖是否生效 | 实测，见下 |
+
+实测返回：
+
+```
+connect        -> {"status":"ok","backend_kind":"pyfluent","endpoint":null,
+                   "candidates":[],"message":"PyFluent connected (launch).",...}
+session_status -> {"leaf":"solve","connected":true,"backend":"Solve (PyFluent)",
+                   "backend_kind":"pyfluent","endpoint":null,"capabilities":[],...}
+```
+
+`processor_count`、`precision`、`dimension`、`ui_mode` 全部不在返回值里，只出现在服务端日志。本次审计确认 `processor_count` 覆盖生效，靠的正是读服务端日志，而不是读工具返回。也就是说调用者无法自行验证配置是否被采纳。
+
+## 已核实不构成缺陷的事项
+
+### 默认参数可以覆盖（实测）
+
+初稿把 `processor_count` 默认 1、`ui_mode` 默认 `"gui"`、`precision` 默认 `double` 列为缺陷，理由是"不适合无头批处理"。这个标准是错的：默认值只是起点，能改就不是缺陷。
+
+实测覆盖：调用 `connect(connect_kwargs={"processor_count": 24, "ui_mode": "no_gui", "precision": "double", "dimension": 3, "mode": "solver"})`，该包自己的日志打出：
+
+```
+session connected mode=launch precision=double processor_count=24 dimension=3 solver_mode=solver
+```
+
+对比不传参数时的：
+
+```
+session connected mode=launch precision=double processor_count=1 dimension=3 solver_mode=None
+```
+
+`processor_count` 由 1 变为 24，`solver_mode` 由 `None` 变为 `solver`，`precision` 按传入值生效。结论：**三个默认值都能覆盖，不构成缺陷**。连接耗时 15.7 秒（24 核）与 23.1 秒（默认 1 核）。
+
+注意 `precision` 与 `dimension` 也属于可覆盖参数，双精度是常用配置，不需要改动。
+
+### 一次未复现的 stdout 异常（待观察）
+
+在一次会话的最后，客户端报 `Failed to parse JSONRPC message from server`，原因是服务端往 stdout 写入了一个回车字符（`input_value='\r'`）。stdout 是 JSON-RPC 通道，任何非 JSON 字节都会破坏协议。
+
+复测未复现：用最小流程（`connect` → `session_status` → `disconnect` → 再次 `session_status`）完整跑通，无解析错误。因此**记为单次观察，不作为已确认缺陷**。若后续再现，需要抓取服务端 stdout 的原始字节流定位来源。
 
 ## 该包做得好的地方
 
@@ -158,7 +154,7 @@ session_status -> {"leaf":"solve","connected":true,"backend":"Solve (PyFluent)",
 
 | 工作环节 | 官方包支持情况 |
 |---|---|
-| 连接求解器 | 可，但必须覆盖 `processor_count` 与 `ui_mode` |
+| 连接求解器 | 可，连接前用 `connect_kwargs` 指定核数、界面模式、精度 |
 | 网格质量检查 | 可读指标，合格判定要自己做 |
 | 设置材料与边界条件 | 靠 `run_code` 写设置树，写前可用探测工具确认路径 |
 | 设置体积热源 | 靠 `run_code`，顺序陷阱（energy 先于 sources.enable 先于 terms.energy）无守卫 |
@@ -170,8 +166,8 @@ session_status -> {"leaf":"solve","connected":true,"backend":"Solve (PyFluent)",
 
 ## 结论
 
-官方包的强项是**探索与执行**：帮 agent 找到正确的设置路径、用代码去写、读完再报告。它对"路径写错"和"已知崩溃签名"有防护。
+官方包的强项是**探索与执行**：帮 agent 找到正确的设置路径、用代码去写、读完再报告。它对"路径写错"和"已知崩溃签名"有防护。默认参数不构成障碍，核数、精度、求解模式都可在连接时指定。
 
-它的边界在**判定与工程计算**：不判断网格是否合格、不判断是否收敛、不算换热系数、不做后处理数值分析，也不生网格。这些恰好是 CHT 工作里最容易出错、也最需要固化成工具的部分。
+它的边界在**判定与工程计算**：不判断网格是否合格、不判断是否收敛、不算换热系数、不做后处理数值分析，也不生网格。这五类恰好是 CHT 工作里最容易出错、也最需要固化成工具的部分。
 
-因此选择该路线时，需要补的不是"通用 Fluent 工具"，而是这四类**判定型与工程计算型**能力。
+因此选择该路线时，需要补的不是"通用 Fluent 工具"，而是这五类**判定型与工程计算型**能力。
