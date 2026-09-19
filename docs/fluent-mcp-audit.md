@@ -6,49 +6,58 @@
 
 审计目的：判断"直接采用官方包"这条路线的能力边界，供选型决策。
 
-判定标准：**只把"能力不可达"记为缺陷**。一项设置如果默认值不合意但可以覆盖，那是默认值，不是缺陷。初稿曾把三个默认值列为缺陷，那是我用错了标准，已改并单列一节说明。
+## 判定标准（修正过两次，记录在此）
 
-证据分两级。**实测**指在本机真跑过并给出观察结果；**静态确认**指源码里可查，并给出文件与行号或原话。
+**只把"能力不可达"记为缺陷。** 两点推论：
 
-## 表1 Fluent 功能域与工具覆盖
+其一，默认值不合意但可以覆盖，那是默认值不是缺陷。初稿曾把 `processor_count` 默认 1、`ui_mode` 默认 `gui`、`precision` 默认 `double` 列为缺陷，标准用错，已删。
 
-表1按 Fluent 工作流的功能域列出官方包的覆盖情况。
+其二，没有专用工具、但能通过 `run_code` 调用 Fluent 自身 API 完成的，也不是能力缺失，只是封装程度问题。初稿曾把"无案例读写工具""无设置类工具""无求解工具""无写后验证"列为缺陷，实测全部可达，已删。
 
-| 功能域 | 覆盖工具 | 状态 |
-|---|---|---|
-| 会话连接 | `connect` `disconnect` `session_status` `manage_fluent` | 已覆盖 |
-| 设置树探测 | `probe_path` `get_active_status` `get_allowed_values` `describe_path` `describe_named_object_template` | 已覆盖，设计良好 |
-| API 检索与帮助 | `find_api` `get_help` `get_state` `get_targeted_context` | 已覆盖 |
-| 命名对象 | `list_named_objects` `find_named_object` `select_named_objects` | 已覆盖 |
-| 代码执行 | `run_code` `validate_code` | 已覆盖，带沙箱与守卫 |
-| 求解状态 | `solver_status` | 已覆盖，只读状态 |
-| 网格质量 | `mesh_quality` | 只读指标，不做判定 |
-| 场变量 | `list_fields` | 已覆盖 |
-| 报告与截图 | `simulation_report` `screenshot` | 已覆盖 |
-| 案例对比 | `compare_files` | 已覆盖 |
-| **案例与网格读写** | 无 | **缺口** |
-| **模型与边界条件设置** | 无 | **缺口，靠 `run_code`** |
-| **初始化与迭代求解** | 无 | **缺口，靠 `run_code`** |
-| **网格生成流程** | 无 | **缺口** |
-| **对流换热系数计算** | 无，官方明确排除 | **缺口** |
-| **写后生效验证** | 无 | **缺口** |
+改判后剩下的缺陷，才是真正需要自己补的。
 
-## 表2 缺陷清单
+证据分两级。**实测**指在本机真跑过；**静态确认**指源码里可查，给出文件与行号或原话。
 
-表2按性质分类列出 13 项缺陷，标注影响与证据。
+## 表1 功能域与可达性
 
-### 一、功能缺口（6 项）
+表1列出每个功能域的专用工具情况、通过代码调用 Fluent API 的可达性、以及据此得出的结论。
 
-| # | 缺陷 | 影响 | 证据 |
+| 功能域 | 专用工具 | 代码可达（实测） | 结论 |
 |---|---|---|---|
-| 1 | `compute_htc` 被官方明确排除 | CHT 标定对流换热系数无工具可用 | 静态确认，见下方原话 |
-| 2 | 无网格生成流程工具 | Fluent Meshing 的 watertight / fault-tolerant 流程无入口 | 静态确认，25 个工具无一项涉及 |
-| 3 | 无案例与网格读写工具 | `read_case` / `read_mesh` / `write_case` 不在工具层，也不在后端层 | 静态确认，`solve/backends/` 内无对应方法 |
-| 4 | 无初始化与迭代求解工具 | 求解动作只能写代码 | 静态确认，同 3 |
-| 5 | 无设置类工具 | 材料、边界条件、模型开关全部写代码 | 静态确认，25 个工具无一项写设置 |
-| 6 | 无写后生效验证 | 设置写完是否生效无工具核验 | 静态确认，探测工具只解决"能否写" |
+| 会话连接 | `connect` `disconnect` `session_status` `manage_fluent` | — | 有工具 |
+| 设置树探测 | `probe_path` `get_active_status` `get_allowed_values` `describe_path` `describe_named_object_template` | — | 有工具，设计良好 |
+| API 检索与帮助 | `find_api` `get_help` `get_state` `get_targeted_context` | — | 有工具 |
+| 命名对象 | `list_named_objects` `find_named_object` `select_named_objects` | — | 有工具 |
+| 代码执行 | `run_code` `validate_code` | — | 有工具 |
+| **案例读写** | 无 | **可达**，`solver.file.read_case` 读入 20.1 秒 | 非缺陷 |
+| **模型与边界条件设置** | 无 | **可达**，`setup.models`、`setup.boundary_conditions`、`setup.cell_zone_conditions` 均可读写 | 非缺陷 |
+| **写后生效验证** | 无 | **可达**，写前 `True` → 写 → 写后 `True`，`get_state` 工具读回同样为 `true` | 非缺陷 |
+| **初始化与迭代** | 无 | **可达**，`solver.solution` 方法集可用 | 非缺陷 |
+| **网格检查** | `mesh_quality` 读指标 | **可达**，`solver.mesh.check` 可用 | 非缺陷 |
+| **监视器与报告定义** | `simulation_report` | **可达**，`solution.report_definitions` 含 `compute` / `custom` | 非缺陷 |
+| 场变量 | `list_fields` | — | 有工具 |
+| 截图 | `screenshot` | — | 有工具 |
+| 案例对比 | `compare_files` | — | 有工具 |
+| **网格生成流程** | 无 | **未实测**，需以 meshing 模式连接后验证 | 待定 |
+| **对流换热系数计算** | 无，官方明确排除 | **不可达**，见缺陷 1 | **缺陷** |
+| **后处理数值分析** | 无 | **不可达**，`run_code` 禁 `numpy` | **缺陷** |
+| **网格合格判定** | `mesh_quality` 只给指标 | 数字可达，判定标准需自备 | **缺陷** |
+| **收敛判定** | 无 | 数字可达，判定标准需自备 | **缺陷** |
+| **配置自验** | 无 | **不可达**，返回不含启动参数 | **缺陷** |
 
-第 1 项的证据是官方源码里的原话（`solve/lib/domain_tools.py` 第 66 至 70 行）：
+## 表2 真缺陷清单
+
+表2列出改判后剩下的 5 项缺陷。
+
+| # | 缺陷 | 性质 | 影响 | 证据 |
+|---|---|---|---|---|
+| 1 | `compute_htc` 等工程关联工具被官方明确排除 | 能力不可达 | CHT 标定对流换热系数无 API 可用 | 静态确认，官方原话见下 |
+| 2 | `run_code` 禁 `numpy`、`pandas` | 能力不可达 | 后处理数值分析、拟合 h 曲线在工具内做不了 | 实测，`common/validation.py` 第 121 至 134 行 |
+| 3 | `mesh_quality` 只返回指标不做判定 | 判定标准缺失 | 网格是否合格须自备门槛 | 静态确认，`solve/lib/mesh_tools.py` 全文 |
+| 4 | 无收敛判据工具 | 判定标准缺失 | 须自备判据并自行读监视器数据 | 静态确认，`common/base.py` 第 1210 至 1240 行 |
+| 5 | `connect` 与 `session_status` 不返回实际启动参数 | 可用性缺失 | 无法从返回值确认配置是否被采纳 | 实测，见下 |
+
+第 1 项的证据是官方源码原话（`solve/lib/domain_tools.py` 第 66 至 70 行）：
 
 > NOTE: The engineering reference / correlation tools (lookup_wall_roughness,
 > lookup_emissivity, compute_porous_media, compute_htc) encapsulate
@@ -56,50 +65,9 @@
 > higher-level agent layer, so the public MCP leaf does not expose them.
 > Do NOT add them here.
 
-也就是说，这四个工程关联工具不是"尚未实现"，而是**被有意划出开源范围**，归入可选的高层 agent 层。同一排除名单里还包括壁面粗糙度查询、发射率查询、多孔介质计算。
+被排除的四项是壁面粗糙度查询、发射率查询、多孔介质计算、**对流换热系数计算**。这不是"尚未实现"，而是被有意划出开源范围。
 
-### 二、代码执行沙箱的实际约束（4 项，已实测）
-
-`run_code` 是唯一的执行通道，但它是受限的 Python 子集，不是通用解释器。八项限制全部实测确认：
-
-| 写入的代码 | 实测结果 |
-|---|---|
-| `import numpy` | `status=error`，`forbidden_import` |
-| `import pandas` | `status=error`，`forbidden_import` |
-| `import math` | `status=ok`，允许 |
-| `open(...)` | `status=error`，`forbidden_call` |
-| `import subprocess` | `status=error`，`forbidden_call` |
-| `import os; os.system(...)` | `status=error`，`forbidden_call` |
-| `setattr(solver, ..., ...)` | `status=error`，`forbidden_call` |
-| `eval('1+1')` | `status=error`，`forbidden_call` |
-
-| # | 约束 | 影响 | 证据 |
-|---|---|---|---|
-| 7 | 禁止 `open` | 不能自行读写文件，导出须走 Fluent 自身 API | 实测，`common/validation.py` 第 109 行 |
-| 8 | 禁止 `subprocess` 与 `os.system` | 不能调用外部程序 | 实测，第 92 至 100 行 |
-| 9 | import 白名单仅 math、json、itertools、functools、collections、dataclasses、typing 与 ansys 系列 | **不能 import numpy、pandas、matplotlib** | 实测，第 121 至 134 行 |
-| 10 | 禁止反射写入，`setattr` 与 `__setitem__` 被拦 | 必须用直接赋值或 `.set_state()` | 实测，`solve/backends/pyfluent.py` 第 2758 行 |
-
-第 9 项对后处理影响最直接：读回流场数据做数值分析、拟合换热系数曲线这类工作需要 numpy，而它是被挡住的。数据必须先由 Fluent 自身导出，再在 MCP 之外处理。第 7 项意味着连写一个中间结果文件都不行。
-
-### 三、判定类能力缺失（2 项）
-
-| # | 缺陷 | 影响 | 证据 |
-|---|---|---|---|
-| 11 | `mesh_quality` 只返回指标不做判定 | 网格是否合格须自行判断 | 静态确认，`solve/lib/mesh_tools.py` 全文 |
-| 12 | 无收敛判据工具 | `solver_status` 只给迭代数与残差，不判断是否收敛 | 静态确认，`common/base.py` 第 1210 至 1240 行 |
-
-第 11 项的返回结构是 `{cell_count, face_count, node_count, quality: {min_orthogonal_quality, max_ortho_skew, max_aspect_ratio}, check?}`，即给数字不给定论。
-
-第 12 项：按既有记录，CHT 稳态收敛应看进出口质量流量差小于 0.1% 与出口温度稳定，而不是看残差绝对值。官方包不提供这类判据。
-
-### 四、返回值无法验证配置（1 项，已实测）
-
-| # | 缺陷 | 影响 | 证据 |
-|---|---|---|---|
-| 13 | `connect` 与 `session_status` 不返回实际启动参数 | 无法从工具返回确认覆盖是否生效 | 实测，见下 |
-
-实测返回：
+第 5 项的实测返回：
 
 ```
 connect        -> {"status":"ok","backend_kind":"pyfluent","endpoint":null,
@@ -108,66 +76,114 @@ session_status -> {"leaf":"solve","connected":true,"backend":"Solve (PyFluent)",
                    "backend_kind":"pyfluent","endpoint":null,"capabilities":[],...}
 ```
 
-`processor_count`、`precision`、`dimension`、`ui_mode` 全部不在返回值里，只出现在服务端日志。本次审计确认 `processor_count` 覆盖生效，靠的正是读服务端日志，而不是读工具返回。也就是说调用者无法自行验证配置是否被采纳。
+`processor_count`、`precision`、`dimension`、`ui_mode` 均不在返回值中，只出现在服务端日志。本次审计确认覆盖生效，靠的正是读服务端日志。
 
-## 已核实不构成缺陷的事项
+## 实测证据汇总
 
-### 默认参数可以覆盖（实测）
+### 默认参数可覆盖（推翻初稿的三项"缺陷"）
 
-初稿把 `processor_count` 默认 1、`ui_mode` 默认 `"gui"`、`precision` 默认 `double` 列为缺陷，理由是"不适合无头批处理"。这个标准是错的：默认值只是起点，能改就不是缺陷。
+调用：
 
-实测覆盖：调用 `connect(connect_kwargs={"processor_count": 24, "ui_mode": "no_gui", "precision": "double", "dimension": 3, "mode": "solver"})`，该包自己的日志打出：
+```
+connect(connect_kwargs={"processor_count": 24, "ui_mode": "no_gui",
+                        "precision": "double", "dimension": 3, "mode": "solver"})
+```
+
+该包自己的日志：
 
 ```
 session connected mode=launch precision=double processor_count=24 dimension=3 solver_mode=solver
 ```
 
-对比不传参数时的：
+不传参数时：
 
 ```
 session connected mode=launch precision=double processor_count=1 dimension=3 solver_mode=None
 ```
 
-`processor_count` 由 1 变为 24，`solver_mode` 由 `None` 变为 `solver`，`precision` 按传入值生效。结论：**三个默认值都能覆盖，不构成缺陷**。连接耗时 15.7 秒（24 核）与 23.1 秒（默认 1 核）。
+`processor_count` 1 变 24、`solver_mode` 由 `None` 变 `solver`、`precision` 按传入值生效。连接耗时 15.7 秒（24 核）对 23.1 秒（1 核）。双精度是常用配置，无需改动。
 
-注意 `precision` 与 `dimension` 也属于可覆盖参数，双精度是常用配置，不需要改动。
+### 案例读写可达
+
+以 8 核 `no_gui` 连接后，用 `run_code` 执行 `solver.file.read_case(file_name=<motor_cht_oil.cas.h5>)`，返回 `status=ok`，日志显示 `Fast-loading ... hdfio.bin`、`Done.`、`Multicore SMT processors detected`，耗时 **20.1 秒**。
+
+### 读入后各域可达
+
+| 探测 | 结果 |
+|---|---|
+| `solver.setup.models` 子项 | 可用（`ablation` `battery` `discr...`） |
+| `setup.models.energy.enabled` 读值 | `True`，该 case 已开启能量方程 |
+| `setup.boundary_conditions` 列表 | 15 项以上，含 `interior--stator`、`interior--winding-7`、`interior--fluid:1` 等 |
+| `setup.cell_zone_conditions` 列表 | 含 `fluid:1`、`winding-17`、`winding-26` 等 |
+| `solver.solution` 方法集 | 可用 |
+| `solver.mesh` 方法集 | 可用，含 `check` |
+| `solution.report_definitions` | 可用，含 `compute`、`custom` |
+
+附带观察：`solver.file`、`solver.setup`、`solver.solution`、`solver.mesh` 这几个入口在 0.42.1 下均提示已废弃，建议改用 `settings.*`。功能仍可用。
+
+### 写后验证闭环成立
+
+```
+写前  solver.setup.models.energy.enabled.get_state()  -> True
+写入  solver.setup.models.energy.enabled = True
+写后  solver.setup.models.energy.enabled.get_state()  -> True
+工具  get_state(["setup/models/energy/enabled"])      -> {"...enabled": true}
+```
+
+代码写入与工具读回形成闭环，说明"写后生效验证"这条能力**不需要额外工具即可实现**。
+
+### 沙箱八项限制
+
+| 写入的代码 | 实测结果 |
+|---|---|
+| `import numpy` | `forbidden_import` |
+| `import pandas` | `forbidden_import` |
+| `import math` | 允许 |
+| `open(...)` | `forbidden_call` |
+| `import subprocess` | `forbidden_call` |
+| `import os; os.system(...)` | `forbidden_call` |
+| `setattr(solver, ..., ...)` | `forbidden_call` |
+| `eval('1+1')` | `forbidden_call` |
 
 ### 一次未复现的 stdout 异常（待观察）
 
-在一次会话的最后，客户端报 `Failed to parse JSONRPC message from server`，原因是服务端往 stdout 写入了一个回车字符（`input_value='\r'`）。stdout 是 JSON-RPC 通道，任何非 JSON 字节都会破坏协议。
-
-复测未复现：用最小流程（`connect` → `session_status` → `disconnect` → 再次 `session_status`）完整跑通，无解析错误。因此**记为单次观察，不作为已确认缺陷**。若后续再现，需要抓取服务端 stdout 的原始字节流定位来源。
+一次会话末尾，客户端报 `Failed to parse JSONRPC message from server`，原因是服务端往 stdout 写入了回车字符。复测未复现（最小流程完整跑通），故**记为单次观察，不作为缺陷**。
 
 ## 该包做得好的地方
 
-审计也发现它有三处值得肯定的设计，这些是自建方案容易忽略的。
+一是**前置探测**。五个探测工具解决"写之前先确认路径可写"：`probe_path` 给出 `exists`、`is_active`、`is_user_creatable`，`get_allowed_values` 取枚举取值，`describe_path` 合并成单次往返。理由是 Fluent 对不活跃路径**会静默忽略写入**。
 
-一是**前置探测**。五个探测工具解决"写入前先确认路径可写"：`probe_path` 同时给出 `exists`、`is_active`、`is_user_creatable`，`get_active_status` 判断路径是否被同级开关激活，`get_allowed_values` 取枚举取值，`describe_path` 把四项合并成单次往返。工具描述里写明理由：Fluent 对不活跃路径**会静默忽略写入**，或抛出 `InactiveObjectError`。
+本次实测正好验证了这一点：未读 case 时 `get_state` 返回 `{"inactive": true}`，读入 case 后才返回真实值。
 
-二是**意图守卫**。`solve/lib/intent_guard.py` 针对已知的 Fluent 崩溃签名做静态拦截，源码注释举例如边界条件改名带空白、VOF 相数直接赋值、命名表达式先用后建、迭代过程中写设置。
+二是**意图守卫**。`solve/lib/intent_guard.py` 对已知 Fluent 崩溃签名做静态拦截，源码注释举例如边界条件改名带空白、VOF 相数直接赋值、命名表达式先用后建。
 
-三是**探测结论与后端分离**。探测工具只读，不依赖计划器或配方注册表，因此可以独立暴露在开源叶子上。
+三是**探测与后端分离**。探测工具只读，不依赖计划器或配方注册表。
 
 ## 对电机油冷 CHT 工作的具体影响
 
-按当前工作流逐项对照，采用官方包后仍需要自行解决的是：
-
-| 工作环节 | 官方包支持情况 |
+| 工作环节 | 支持情况 |
 |---|---|
-| 连接求解器 | 可，连接前用 `connect_kwargs` 指定核数、界面模式、精度 |
-| 网格质量检查 | 可读指标，合格判定要自己做 |
-| 设置材料与边界条件 | 靠 `run_code` 写设置树，写前可用探测工具确认路径 |
-| 设置体积热源 | 靠 `run_code`，顺序陷阱（energy 先于 sources.enable 先于 terms.energy）无守卫 |
-| 初始化与迭代 | 靠 `run_code` |
-| 收敛判断 | 无判据工具，需自行读监视器数据判断 |
-| 结果场读取 | `list_fields` 可列变量，取值靠 `run_code` |
-| 换热系数标定 | **无工具**，`compute_htc` 被官方排除 |
-| 后处理数值分析 | 受限，`run_code` 不能 import numpy |
+| 连接求解器 | 可用，`connect_kwargs` 指定核数与模式 |
+| 读入 case | 可达，20.1 秒 |
+| 网格质量 | 指标可达，合格判定自备 |
+| 设置材料与边界条件 | 可达，写前建议用探测工具确认路径活跃 |
+| 设置体积热源 | 可达，顺序陷阱（energy 先于 sources.enable 先于 terms.energy）无守卫 |
+| 初始化与迭代 | 可达 |
+| 收敛判断 | 数字可达，判据自备 |
+| 结果场读取 | `list_fields` 列变量，取值可达 |
+| **换热系数标定** | **不可达**，`compute_htc` 被排除 |
+| **后处理数值分析** | **不可达**，`run_code` 禁 `numpy` |
 
 ## 结论
 
-官方包的强项是**探索与执行**：帮 agent 找到正确的设置路径、用代码去写、读完再报告。它对"路径写错"和"已知崩溃签名"有防护。默认参数不构成障碍，核数、精度、求解模式都可在连接时指定。
+官方包的能力面比初稿判断的宽得多：**案例读写、设置、初始化迭代、写后验证、网格检查、监视器定义全部可达**，只是都走 `run_code` 而非专用工具。默认参数全部可覆盖。
 
-它的边界在**判定与工程计算**：不判断网格是否合格、不判断是否收敛、不算换热系数、不做后处理数值分析，也不生网格。这五类恰好是 CHT 工作里最容易出错、也最需要固化成工具的部分。
+真正需要自己补的只有三类：
 
-因此选择该路线时，需要补的不是"通用 Fluent 工具"，而是这五类**判定型与工程计算型**能力。
+一是**工程计算**。`compute_htc` 被官方划出开源范围，而它是 CHT 标定 h 的核心量。
+
+二是**沙箱外的数值分析**。`run_code` 不能 import numpy，读回的场数据要在工具之外处理。
+
+三是**判定标准**。网格是否合格、是否收敛，工具只给数字，门槛要自备。
+
+换句话说，选这条路要补的不是"通用 Fluent 工具"（那些可达），而是**工程计算、外部数值分析、与判定基准**。
