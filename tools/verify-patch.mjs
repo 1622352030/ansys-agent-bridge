@@ -62,7 +62,7 @@ assert.match(patch, /command:\s*uv\s*$/m, 'the MCP command should be the bare `u
 
 // The Python entry point the row launches must exist in this repo, so a typo in
 // the console-script name is caught here rather than at connect time.
-const pyproject = readFileSync(join(repoRoot, 'python', 'pyproject.toml'), 'utf8')
+const pyproject = readFileSync(join(repoRoot, 'spaceclaim', 'python', 'pyproject.toml'), 'utf8')
 const script = /--from[\s\S]*?'ansys-bridge-mcp'/.exec(patch)
 assert.ok(script, 'the patch should launch ansys-bridge-mcp')
 assert.match(

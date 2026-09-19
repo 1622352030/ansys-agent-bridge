@@ -25,7 +25,7 @@
   },
   "files": [
     "cordis.patch.yml",
-    "skills/",
+    "spaceclaim/skills/",
     "screenshots.json",
     "README.md",
     "README.zh-CN.md",
@@ -33,7 +33,7 @@
   ],
   "exports": {
     "./cordis.patch.yml": "./cordis.patch.yml",
-    "./skills/*": "./skills/*",
+    "./spaceclaim/skills/*": "./spaceclaim/skills/*",
     "./package.json": "./package.json"
   },
   "engines": {

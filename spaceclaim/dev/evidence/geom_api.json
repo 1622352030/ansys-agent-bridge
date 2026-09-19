@@ -1,0 +1,1242 @@
+{
+ "designer.Design": {
+  "count": 81,
+  "methods": [
+   {
+    "name": "add_beam_circular_profile",
+    "signature": "(self, name: str, radius: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance, center: numpy.ndarray | collections.abc.Sequence[int | float | numpy.integer | numpy.floating] | ansys.geometry.core.math.point.Point3D = Point3D([0., 0., 0.]), direction_x: numpy.ndarray | collections.abc.Sequence[int | float | numpy.integer | numpy.floating] | ansys.geometry.core.math.vector.UnitVector3D | ansys.geometry.core.math.vector.Vector3D = UnitVector3D([1., 0., 0.]), direction_y: numpy.ndarray | collections.abc.Sequence[int | float | numpy.integer | numpy.floating] | ansys.geometry.core.math.vector.UnitVector3D | ansys.geometry.core.math.vector.Vector3D = UnitVector3D([0., 1., 0.])) -> ansys.geometry.core.designer.beam.BeamCircularProfile",
+    "summary": "Add a new beam circular profile under the design for creating beams."
+   },
+   {
+    "name": "add_component",
+    "signature": "(self, name: str, template: Optional[ForwardRef('Component')] = None, instance_name: str = None) -> 'Component'",
+    "summary": "Add a new component under this component within the design assembly."
+   },
+   {
+    "name": "add_design_point",
+    "signature": "(self, name: str, point: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.designpoint.DesignPoint",
+    "summary": "Create a single design point."
+   },
+   {
+    "name": "add_design_points",
+    "signature": "(self, name: str, points: list[ansys.geometry.core.math.point.Point3D]) -> list[ansys.geometry.core.designer.designpoint.DesignPoint]",
+    "summary": "Create a list of design points."
+   },
+   {
+    "name": "add_material",
+    "signature": "(self, material: ansys.geometry.core.materials.material.Material) -> None",
+    "summary": "Add a material to the design."
+   },
+   {
+    "name": "add_midsurface_offset",
+    "signature": "(self, offset_type: ansys.geometry.core.designer.body.MidSurfaceOffsetType, bodies: list[ansys.geometry.core.designer.body.Body]) -> None",
+    "summary": "Add a mid-surface offset type to a list of bodies."
+   },
+   {
+    "name": "add_midsurface_thickness",
+    "signature": "(self, thickness: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, bodies: list[ansys.geometry.core.designer.body.Body]) -> None",
+    "summary": "Add a mid-surface thickness to a list of bodies."
+   },
+   {
+    "name": "close",
+    "signature": "(self) -> None",
+    "summary": "Close the design."
+   },
+   {
+    "name": "copy_faces",
+    "signature": "(self, name: str, faces: list[ansys.geometry.core.designer.face.Face]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body from the faces provided."
+   },
+   {
+    "name": "create_beam",
+    "signature": "(self, start: ansys.geometry.core.math.point.Point3D, end: ansys.geometry.core.math.point.Point3D, profile: ansys.geometry.core.designer.beam.BeamProfile) -> ansys.geometry.core.designer.beam.Beam",
+    "summary": "Create a beam under the component."
+   },
+   {
+    "name": "create_beams",
+    "signature": "(self, segments: list[tuple[ansys.geometry.core.math.point.Point3D, ansys.geometry.core.math.point.Point3D]], profile: ansys.geometry.core.designer.beam.BeamProfile) -> list[ansys.geometry.core.designer.beam.Beam]",
+    "summary": "Create beams under the component."
+   },
+   {
+    "name": "create_block",
+    "signature": "(self, name: str, start: ansys.geometry.core.math.point.Point3D, end: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a block body defined by the start and end points."
+   },
+   {
+    "name": "create_body_from_loft_profile",
+    "signature": "(self, name: str, profiles: list[list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]], periodic: bool = False, ruled: bool = False) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a lofted body from a collection of trimmed curves."
+   },
+   {
+    "name": "create_body_from_loft_profiles_with_guides",
+    "signature": "(self, name: str, profiles: list[list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]], guides: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a lofted body from a collection of trimmed curves with guide curves."
+   },
+   {
+    "name": "create_body_from_surface",
+    "signature": "(self, name: str, trimmed_surface: ansys.geometry.core.shapes.surfaces.trimmed_surface.TrimmedSurface) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body from a trimmed surface."
+   },
+   {
+    "name": "create_coordinate_system",
+    "signature": "(self, name: str, frame: ansys.geometry.core.math.frame.Frame) -> ansys.geometry.core.designer.coordinate_system.CoordinateSystem",
+    "summary": "Create a coordinate system."
+   },
+   {
+    "name": "create_datum_line",
+    "signature": "(self, name: str, line: ansys.geometry.core.shapes.curves.line.Line) -> ansys.geometry.core.designer.datumline.DatumLine",
+    "summary": "Create a datum line on this component."
+   },
+   {
+    "name": "create_datum_plane",
+    "signature": "(self, name: str, plane: ansys.geometry.core.math.plane.Plane) -> ansys.geometry.core.designer.datumplane.DatumPlane",
+    "summary": "Create a datum plane on this component."
+   },
+   {
+    "name": "create_datum_point",
+    "signature": "(self, name: str, point: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.datumpoint.DatumPoint",
+    "summary": "Create a datum point on this component."
+   },
+   {
+    "name": "create_named_selection",
+    "signature": "(self, name: str, bodies: list[ansys.geometry.core.designer.body.Body] | None = None, faces: list[ansys.geometry.core.designer.face.Face] | None = None, edges: list[ansys.geometry.core.designer.edge.Edge] | None = None, beams: list[ansys.geometry.core.designer.beam.Beam] | None = None, design_points: list[ansys.geometry.core.designer.designpoint.DesignPoint] | None = None, components: list[ansys.geometry.core.designer.component.Component] | None = None, vertices: list[ansys.geometry.core.designer.vertex.Vertex] | None = None, design_curves: list[ansys.geometry.core.designer.designcurve.DesignCurve] | None = None, datum_planes: list[ansys.geometry.core.designer.datumplane.DatumPlane] | None = None, coordinate_systems: list[ansys.geometry.core.designer.coordinate_system.CoordinateSystem] | None = None, datum_points: list[ansys.geometry.core.designer.datumpoint.DatumPoint] | None = None) -> ansys.geometry.core.designer.selection.NamedSelection",
+    "summary": "Create a named selection on the active Geometry server instance."
+   },
+   {
+    "name": "create_sphere",
+    "signature": "(self, name: str, center: ansys.geometry.core.math.point.Point3D, radius: ansys.geometry.core.misc.measurements.Distance) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a sphere body defined by the center point and the radius."
+   },
+   {
+    "name": "create_surface",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body with a sketch profile."
+   },
+   {
+    "name": "create_surface_from_face",
+    "signature": "(self, name: str, face: ansys.geometry.core.designer.face.Face) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body based on a face."
+   },
+   {
+    "name": "create_surface_from_trimmed_curves",
+    "signature": "(self, name: str, trimmed_curves: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body from a list of trimmed curves all lying on the same plane."
+   },
+   {
+    "name": "delete_beam",
+    "signature": "(self, beam: ansys.geometry.core.designer.beam.Beam | str) -> None",
+    "summary": "Delete an existing beam belonging to this component's scope."
+   },
+   {
+    "name": "delete_beam_profile",
+    "signature": "(self, beam_profile: ansys.geometry.core.designer.beam.BeamProfile | str) -> None",
+    "summary": "Remove a beam profile on the active geometry server instance."
+   },
+   {
+    "name": "delete_body",
+    "signature": "(self, body: ansys.geometry.core.designer.body.Body | str) -> None",
+    "summary": "Delete a body belonging to this component (or its children)."
+   },
+   {
+    "name": "delete_component",
+    "signature": "(self, component: Union[ForwardRef('Component'), str]) -> None",
+    "summary": "Delete a component (itself or its children)."
+   },
+   {
+    "name": "delete_coordinate_system",
+    "signature": "(self, coordinate_system: ansys.geometry.core.designer.coordinate_system.CoordinateSystem | str) -> None",
+    "summary": "Delete a coordinate system from this component."
+   },
+   {
+    "name": "delete_datum_line",
+    "signature": "(self, datum_line: ansys.geometry.core.designer.datumline.DatumLine | str) -> None",
+    "summary": "Delete a datum line from this component."
+   },
+   {
+    "name": "delete_datum_plane",
+    "signature": "(self, plane: ansys.geometry.core.designer.datumplane.DatumPlane | str) -> None",
+    "summary": "Delete a datum plane from this component."
+   },
+   {
+    "name": "delete_datum_point",
+    "signature": "(self, datum_point: ansys.geometry.core.designer.datumpoint.DatumPoint | str) -> None",
+    "summary": "Delete a datum point from this component."
+   },
+   {
+    "name": "delete_design_curve",
+    "signature": "(self, design_curve: ansys.geometry.core.designer.designcurve.DesignCurve | str) -> None",
+    "summary": "Delete an existing design curve belonging to this component's scope."
+   },
+   {
+    "name": "delete_named_selection",
+    "signature": "(self, named_selection: ansys.geometry.core.designer.selection.NamedSelection | str) -> None",
+    "summary": "Delete a named selection on the active Geometry server instance."
+   },
+   {
+    "name": "download",
+    "signature": "(self, file_location: pathlib._local.Path | str, format: ansys.geometry.core.designer.design.DesignFileFormat = <DesignFileFormat.SCDOCX: 'SCDOCX'>, write_body_facets: bool = False, fmd_options: ansys.geometry.core.misc.options.FMDExportOptions | None = None, pmdb_options: ansys.geometry.core.misc.options.PMDBExportOptions | None = None) -> None",
+    "summary": "Export and download the design from the server."
+   },
+   {
+    "name": "export_to_disco",
+    "signature": "(self, location: pathlib._local.Path | str | None = None, write_body_facets: bool = False) -> pathlib._local.Path",
+    "summary": "Export the design to a DISCO file."
+   },
+   {
+    "name": "export_to_fmd",
+    "signature": "(self, location: pathlib._local.Path | str | None = None, options: ansys.geometry.core.misc.options.FMDExportOptions | None = None) -> pathlib._local.Path",
+    "summary": "Export the design to an FMD file."
+   },
+   {
+    "name": "export_to_html",
+    "signature": "(self, location: pathlib._local.Path | str | None = None, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, show_mesh_lines: bool = True, line_color: str = '#ffffff', line_opacity: float = 0.9) -> pathlib._local.Path",
+    "summary": "Export the design directly to a self-contained HTML viewer."
+   },
+   {
+    "name": "export_to_iges",
+    "signature": "(self, location: pathlib._local.Path | str = None) -> pathlib._local.Path",
+    "summary": "Export the design to an IGES file."
+   },
+   {
+    "name": "export_to_parasolid_bin",
+    "signature": "(self, location: pathlib._local.Path | str | None = None) -> pathlib._local.Path",
+    "summary": "Export the design to a Parasolid binary file."
+   },
+   {
+    "name": "export_to_parasolid_text",
+    "signature": "(self, location: pathlib._local.Path | str | None = None) -> pathlib._local.Path",
+    "summary": "Export the design to a Parasolid text file."
+   },
+   {
+    "name": "export_to_pmdb",
+    "signature": "(self, location: pathlib._local.Path | str | None = None, options: ansys.geometry.core.misc.options.PMDBExportOptions | None = None) -> pathlib._local.Path",
+    "summary": "Export the design to a PMDB file."
+   },
+   {
+    "name": "export_to_scdocx",
+    "signature": "(self, location: pathlib._local.Path | str | None = None, write_body_facets: bool = False) -> pathlib._local.Path",
+    "summary": "Export the design to an scdocx file."
+   },
+   {
+    "name": "export_to_step",
+    "signature": "(self, location: pathlib._local.Path | str | None = None) -> pathlib._local.Path",
+    "summary": "Export the design to a STEP file."
+   },
+   {
+    "name": "export_to_stride",
+    "signature": "(self, location: pathlib._local.Path | str | None = None) -> pathlib._local.Path",
+    "summary": "Export the design to a stride file."
+   },
+   {
+    "name": "export_to_usd",
+    "signature": "(self, location: pathlib._local.Path | str | None = None, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, file_format: str = 'usda') -> pathlib._local.Path",
+    "summary": "Export the design tessellation to a USD file."
+   },
+   {
+    "name": "extrude_face",
+    "signature": "(self, name: str, face: ansys.geometry.core.designer.face.Face, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating, direction: ansys.geometry.core.designer.component.ExtrusionDirection | str = <ExtrusionDirection.POSITIVE: '+'>) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Extrude the face profile by a given distance to create a solid body."
+   },
+   {
+    "name": "extrude_sketch",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating, direction: ansys.geometry.core.designer.component.ExtrusionDirection | str = <ExtrusionDirection.POSITIVE: '+'>, cut: bool = False) -> ansys.geometry.core.designer.body.Body | None",
+    "summary": "Create a solid body by extruding the sketch profile a distance."
+   },
+   {
+    "name": "get_all_bodies",
+    "signature": "(self) -> list[ansys.geometry.core.designer.body.Body]",
+    "summary": "Get all bodies in the component hierarchy."
+   },
+   {
+    "name": "get_all_parameters",
+    "signature": "(self) -> list[ansys.geometry.core.parameters.parameter.Parameter]",
+    "summary": "Get parameters for the design."
+   },
+   {
+    "name": "get_named_selections",
+    "signature": "(self) -> list['NamedSelection']",
+    "summary": "Get the named selections of the component."
+   },
+   {
+    "name": "get_raw_tessellation",
+    "signature": "(self, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, reset_cache: bool = False, include_faces: bool = True, include_edges: bool = False) -> dict",
+    "summary": "Tessellate the entire design and return the geometry as triangles."
+   },
+   {
+    "name": "get_world_transform",
+    "signature": "(self) -> ansys.geometry.core.math.matrix.Matrix44",
+    "summary": "Get the full transformation matrix of the component in world space."
+   },
+   {
+    "name": "import_named_selections",
+    "signature": "(self) -> None",
+    "summary": "Import named selections of a component."
+   },
+   {
+    "name": "insert_file",
+    "signature": "(self, file_location: pathlib._local.Path | str, import_options: ansys.geometry.core.misc.options.ImportOptions = ImportOptions(cleanup_bodies=False, import_coordinate_systems=False, import_curves=False, import_hidden_components_and_geometry=False, import_names=False, import_planes=False, import_points=False, import_named_selections=True, import_as_lightweight=False, import_using_spaceclaim_colors=False), import_options_definitions: ansys.geometry.core.misc.options.ImportOptionsDefinitions = ImportOptionsDefinitions(import_named_selections_keys=None)) -> ansys.geometry.core.designer.component.Component",
+    "summary": "Insert a file into the design."
+   },
+   {
+    "name": "make_independent",
+    "signature": "(self, others: list['Component'] = None) -> None",
+    "summary": "Make a component independent if it is an instance."
+   },
+   {
+    "name": "modify_placement",
+    "signature": "(self, translation: ansys.geometry.core.math.vector.Vector3D | None = None, rotation_origin: ansys.geometry.core.math.point.Point3D | None = None, rotation_direction: ansys.geometry.core.math.vector.UnitVector3D | None = None, rotation_angle: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Angle | int | float | numpy.integer | numpy.floating = 0)",
+    "summary": "Apply a translation and/or rotation to the placement matrix."
+   },
+   {
+    "name": "move_bodies_to_component",
+    "signature": "(self, bodies: list[ansys.geometry.core.designer.body.Body]) -> None",
+    "summary": "Move bodies to this component, changing the design hierarchy."
+   },
+   {
+    "name": "plot",
+    "signature": "(self, merge_component: bool = True, merge_bodies: bool = True, screenshot: str | None = None, use_trame: bool | None = None, use_service_colors: bool | None = None, allow_picking: bool | None = None, **plotting_options: dict | None) -> None | list[typing.Any]",
+    "summary": "Plot the component."
+   },
+   {
+    "name": "remove_material",
+    "signature": "(self, material: ansys.geometry.core.materials.material.Material | list[ansys.geometry.core.materials.material.Material]) -> None",
+    "summary": "Remove a material from the design."
+   },
+   {
+    "name": "reset_placement",
+    "signature": "(self)",
+    "summary": "Reset a component's placement matrix to an identity matrix."
+   },
+   {
+    "name": "revolve_sketch",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch, axis: ansys.geometry.core.math.vector.Vector3D, angle: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Angle | int | float | numpy.integer | numpy.floating, rotation_origin: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a solid body by revolving a sketch profile around an axis."
+   },
+   {
+    "name": "save",
+    "signature": "(self, file_location: pathlib._local.Path | str, write_body_facets: bool = False) -> None",
+    "summary": "Save a design to disk on the active Geometry server instance."
+   },
+   {
+    "name": "search_beam",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.beam.Beam | None",
+    "summary": "Search beams in the component's scope."
+   },
+   {
+    "name": "search_body",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.body.Body | None",
+    "summary": "Search bodies in the component's scope."
+   },
+   {
+    "name": "search_component",
+    "signature": "(self, id: str) -> Optional[ForwardRef('Component')]",
+    "summary": "Search this component and nested components recursively for a component by id."
+   },
+   {
+    "name": "search_component_by_name",
+    "signature": "(self, name: str) -> list['Component']",
+    "summary": "Search this component and nested components recursively for a component by name."
+   },
+   {
+    "name": "search_coordinate_system",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.coordinate_system.CoordinateSystem | None",
+    "summary": "Search coordinate systems in the component's scope."
+   },
+   {
+    "name": "search_datum_line",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.datumline.DatumLine | None",
+    "summary": "Search datum lines in the component's scope."
+   },
+   {
+    "name": "search_datum_point",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.datumpoint.DatumPoint | None",
+    "summary": "Search datum points in the component's scope."
+   },
+   {
+    "name": "search_design_curve",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.designcurve.DesignCurve | None",
+    "summary": "Search design curves in the component's scope."
+   },
+   {
+    "name": "search_plane",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.datumplane.DatumPlane | None",
+    "summary": "Search planes in the component's scope."
+   },
+   {
+    "name": "set_name",
+    "signature": "(self, name: str) -> None",
+    "summary": "Set the name of the component."
+   },
+   {
+    "name": "set_parameter",
+    "signature": "(self, dimension: ansys.geometry.core.parameters.parameter.Parameter) -> ansys.geometry.core.parameters.parameter.ParameterUpdateStatus",
+    "summary": "Set or update a parameter of the design."
+   },
+   {
+    "name": "set_shared_topology",
+    "signature": "(self, share_type: ansys.geometry.core.designer.component.SharedTopologyType) -> None",
+    "summary": "Set the shared topology to apply to the component."
+   },
+   {
+    "name": "sweep_chain",
+    "signature": "(self, name: str, path: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve], chain: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a body by sweeping a chain of curves along a path."
+   },
+   {
+    "name": "sweep_sketch",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch, path: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a body by sweeping a planar profile along a path."
+   },
+   {
+    "name": "sweep_with_guide",
+    "signature": "(self, sweep_data: list[ansys.geometry.core.designer.component.SweepWithGuideData]) -> list[ansys.geometry.core.designer.body.Body]",
+    "summary": "Create a body by sweeping a sketch along a path with a guide curve."
+   },
+   {
+    "name": "tessellate",
+    "signature": "(self, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, _recursive_call: bool = False) -> Union[ForwardRef('PolyData'), list['MultiBlock']]",
+    "summary": "Tessellate the component."
+   },
+   {
+    "name": "translate_bodies",
+    "signature": "(self, bodies: list[ansys.geometry.core.designer.body.Body], direction: ansys.geometry.core.math.vector.UnitVector3D, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating) -> None",
+    "summary": "Translate the bodies in a specified direction by a distance."
+   },
+   {
+    "name": "tree_print",
+    "signature": "(self, consider_comps: bool = True, consider_bodies: bool = True, consider_beams: bool = True, depth: int | None = None, indent: int = 4, sort_keys: bool = False, return_list: bool = False, skip_loc_header: bool = False) -> None | list[str]",
+    "summary": "Print the component in tree format."
+   }
+  ]
+ },
+ "designer.Body": {
+  "count": 33,
+  "methods": [
+   {
+    "name": "add_midsurface_offset",
+    "signature": "(self, offset: 'MidSurfaceOffsetType') -> None",
+    "summary": "Add a mid-surface offset to a surface body."
+   },
+   {
+    "name": "add_midsurface_thickness",
+    "signature": "(self, thickness: pint.registry.Quantity) -> None",
+    "summary": "Add a mid-surface thickness to a surface body."
+   },
+   {
+    "name": "assign_material",
+    "signature": "(self, material: ansys.geometry.core.materials.material.Material) -> None",
+    "summary": "Assign a material against the active design."
+   },
+   {
+    "name": "combine_merge",
+    "signature": "(self, other: Union[ForwardRef('Body'), list['Body']]) -> None",
+    "summary": "Combine this body with another body or bodies, merging them into a single body."
+   },
+   {
+    "name": "copy",
+    "signature": "(self, parent: 'Component', name: str = None) -> 'Body'",
+    "summary": "Create a copy of the body under the specified parent."
+   },
+   {
+    "name": "detach_faces",
+    "signature": "(self) -> list['Body']",
+    "summary": "Detach all the faces from the body."
+   },
+   {
+    "name": "get_assigned_material",
+    "signature": "(self) -> ansys.geometry.core.materials.material.Material",
+    "summary": "Get the assigned material of the body."
+   },
+   {
+    "name": "get_bounding_box",
+    "signature": "(self, tight: bool = False) -> ansys.geometry.core.math.bbox.BoundingBox",
+    "summary": "Get the bounding box of the body."
+   },
+   {
+    "name": "get_collision",
+    "signature": "(self, body: 'Body') -> ansys.geometry.core.designer.body.CollisionType",
+    "summary": "Get the collision state between bodies."
+   },
+   {
+    "name": "get_named_selections",
+    "signature": "(self) -> list['NamedSelection']",
+    "summary": "Get the named selections associated with the body."
+   },
+   {
+    "name": "get_raw_tessellation",
+    "signature": "(self, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, reset_cache: bool = False, include_faces: bool = True, include_edges: bool = False) -> dict",
+    "summary": "Tessellate the body and return the raw tessellation data."
+   },
+   {
+    "name": "get_vtk_tessellation",
+    "signature": "(self, merge: bool = False, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, reset_cache: bool = False, include_faces: bool = True, include_edges: bool = False, _raw_tessellation: dict | None = None) -> Union[ForwardRef('vtkPolyData'), ForwardRef('vtkMultiBlockDataSet')]",
+    "summary": "Build VTK objects from raw tessellation data."
+   },
+   {
+    "name": "imprint_curves",
+    "signature": "(self, faces: list[ansys.geometry.core.designer.face.Face], sketch: ansys.geometry.core.sketch.sketch.Sketch = None, trimmed_curves: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve] = None) -> tuple[list[ansys.geometry.core.designer.edge.Edge], list[ansys.geometry.core.designer.face.Face]]",
+    "summary": "Imprint all specified geometries onto specified faces of the body."
+   },
+   {
+    "name": "imprint_projected_curves",
+    "signature": "(self, direction: ansys.geometry.core.math.vector.UnitVector3D, sketch: ansys.geometry.core.sketch.sketch.Sketch, closest_face: bool, only_one_curve: bool = False) -> list[ansys.geometry.core.designer.face.Face]",
+    "summary": "Project and imprint specified geometries onto the body."
+   },
+   {
+    "name": "intersect",
+    "signature": "(self, other: Union[ForwardRef('Body'), collections.abc.Iterable['Body']], keep_other: bool = False) -> None",
+    "summary": "Intersect two (or more) bodies."
+   },
+   {
+    "name": "map",
+    "signature": "(self, frame: ansys.geometry.core.math.frame.Frame) -> None",
+    "summary": "Map the geometry body to the new specified frame."
+   },
+   {
+    "name": "mirror",
+    "signature": "(self, plane: ansys.geometry.core.math.plane.Plane) -> None",
+    "summary": "Mirror the geometry body across the specified plane."
+   },
+   {
+    "name": "plot",
+    "signature": "(self, merge: bool = True, screenshot: str | None = None, use_trame: bool | None = None, use_service_colors: bool | None = None, **plotting_options: dict | None) -> None",
+    "summary": "Plot the body."
+   },
+   {
+    "name": "project_curves",
+    "signature": "(self, direction: ansys.geometry.core.math.vector.UnitVector3D, sketch: ansys.geometry.core.sketch.sketch.Sketch, closest_face: bool, only_one_curve: bool = False) -> list[ansys.geometry.core.designer.face.Face]",
+    "summary": "Project all specified geometries onto the body."
+   },
+   {
+    "name": "remove_assigned_material",
+    "signature": "(self)",
+    "summary": "Remove the material assigned to the body."
+   },
+   {
+    "name": "remove_faces",
+    "signature": "(self, selection: ansys.geometry.core.designer.face.Face | collections.abc.Iterable[ansys.geometry.core.designer.face.Face], offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+    "summary": "Shell by removing a given set of faces."
+   },
+   {
+    "name": "reset_tessellation_cache",
+    "signature": "(func: ~_F) -> ~_F",
+    "summary": "Decorate ``Body`` methods that require a tessellation cache update."
+   },
+   {
+    "name": "rotate",
+    "signature": "(self, axis_origin: ansys.geometry.core.math.point.Point3D, axis_direction: ansys.geometry.core.math.vector.UnitVector3D, angle: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Angle | int | float | numpy.integer | numpy.floating) -> None",
+    "summary": "Rotate the geometry body around the specified axis by a given angle."
+   },
+   {
+    "name": "scale",
+    "signature": "(self, value: int | float | numpy.integer | numpy.floating) -> None",
+    "summary": "Scale the geometry body by the given value."
+   },
+   {
+    "name": "set_color",
+    "signature": "(self, color: str | tuple[int | float, int | float, int | float] | tuple[int | float, int | float, int | float, int | float]) -> None",
+    "summary": "Set the color of the body."
+   },
+   {
+    "name": "set_fill_style",
+    "signature": "(self, fill_style: ansys.geometry.core.designer.body.FillStyle) -> None",
+    "summary": "Set the fill style of the body."
+   },
+   {
+    "name": "set_name",
+    "signature": "(self, name: str) -> None",
+    "summary": "Set the name of the body."
+   },
+   {
+    "name": "set_suppressed",
+    "signature": "(self, suppressed: bool) -> None",
+    "summary": "Set the body suppression state."
+   },
+   {
+    "name": "shell_body",
+    "signature": "(self, offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+    "summary": "Shell the body to the thickness specified."
+   },
+   {
+    "name": "subtract",
+    "signature": "(self, other: Union[ForwardRef('Body'), collections.abc.Iterable['Body']], keep_other: bool = False) -> None",
+    "summary": "Subtract two (or more) bodies."
+   },
+   {
+    "name": "tessellate",
+    "signature": "(self, merge: bool = False, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, reset_cache: bool = False, include_faces: bool = True, include_edges: bool = False) -> Union[ForwardRef('PolyData'), ForwardRef('MultiBlock')]",
+    "summary": "Tessellate the body and return the geometry as triangles."
+   },
+   {
+    "name": "translate",
+    "signature": "(self, direction: ansys.geometry.core.math.vector.UnitVector3D, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating) -> None",
+    "summary": "Translate the body in a specified direction and distance."
+   },
+   {
+    "name": "unite",
+    "signature": "(self, other: Union[ForwardRef('Body'), collections.abc.Iterable['Body']], keep_other: bool = False) -> None",
+    "summary": "Unite two (or more) bodies."
+   }
+  ]
+ },
+ "designer.Component": {
+  "count": 55,
+  "methods": [
+   {
+    "name": "add_component",
+    "signature": "(self, name: str, template: Optional[ForwardRef('Component')] = None, instance_name: str = None) -> 'Component'",
+    "summary": "Add a new component under this component within the design assembly."
+   },
+   {
+    "name": "add_design_point",
+    "signature": "(self, name: str, point: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.designpoint.DesignPoint",
+    "summary": "Create a single design point."
+   },
+   {
+    "name": "add_design_points",
+    "signature": "(self, name: str, points: list[ansys.geometry.core.math.point.Point3D]) -> list[ansys.geometry.core.designer.designpoint.DesignPoint]",
+    "summary": "Create a list of design points."
+   },
+   {
+    "name": "copy_faces",
+    "signature": "(self, name: str, faces: list[ansys.geometry.core.designer.face.Face]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body from the faces provided."
+   },
+   {
+    "name": "create_beam",
+    "signature": "(self, start: ansys.geometry.core.math.point.Point3D, end: ansys.geometry.core.math.point.Point3D, profile: ansys.geometry.core.designer.beam.BeamProfile) -> ansys.geometry.core.designer.beam.Beam",
+    "summary": "Create a beam under the component."
+   },
+   {
+    "name": "create_beams",
+    "signature": "(self, segments: list[tuple[ansys.geometry.core.math.point.Point3D, ansys.geometry.core.math.point.Point3D]], profile: ansys.geometry.core.designer.beam.BeamProfile) -> list[ansys.geometry.core.designer.beam.Beam]",
+    "summary": "Create beams under the component."
+   },
+   {
+    "name": "create_block",
+    "signature": "(self, name: str, start: ansys.geometry.core.math.point.Point3D, end: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a block body defined by the start and end points."
+   },
+   {
+    "name": "create_body_from_loft_profile",
+    "signature": "(self, name: str, profiles: list[list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]], periodic: bool = False, ruled: bool = False) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a lofted body from a collection of trimmed curves."
+   },
+   {
+    "name": "create_body_from_loft_profiles_with_guides",
+    "signature": "(self, name: str, profiles: list[list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]], guides: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a lofted body from a collection of trimmed curves with guide curves."
+   },
+   {
+    "name": "create_body_from_surface",
+    "signature": "(self, name: str, trimmed_surface: ansys.geometry.core.shapes.surfaces.trimmed_surface.TrimmedSurface) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body from a trimmed surface."
+   },
+   {
+    "name": "create_coordinate_system",
+    "signature": "(self, name: str, frame: ansys.geometry.core.math.frame.Frame) -> ansys.geometry.core.designer.coordinate_system.CoordinateSystem",
+    "summary": "Create a coordinate system."
+   },
+   {
+    "name": "create_datum_line",
+    "signature": "(self, name: str, line: ansys.geometry.core.shapes.curves.line.Line) -> ansys.geometry.core.designer.datumline.DatumLine",
+    "summary": "Create a datum line on this component."
+   },
+   {
+    "name": "create_datum_plane",
+    "signature": "(self, name: str, plane: ansys.geometry.core.math.plane.Plane) -> ansys.geometry.core.designer.datumplane.DatumPlane",
+    "summary": "Create a datum plane on this component."
+   },
+   {
+    "name": "create_datum_point",
+    "signature": "(self, name: str, point: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.datumpoint.DatumPoint",
+    "summary": "Create a datum point on this component."
+   },
+   {
+    "name": "create_sphere",
+    "signature": "(self, name: str, center: ansys.geometry.core.math.point.Point3D, radius: ansys.geometry.core.misc.measurements.Distance) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a sphere body defined by the center point and the radius."
+   },
+   {
+    "name": "create_surface",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body with a sketch profile."
+   },
+   {
+    "name": "create_surface_from_face",
+    "signature": "(self, name: str, face: ansys.geometry.core.designer.face.Face) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body based on a face."
+   },
+   {
+    "name": "create_surface_from_trimmed_curves",
+    "signature": "(self, name: str, trimmed_curves: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a surface body from a list of trimmed curves all lying on the same plane."
+   },
+   {
+    "name": "delete_beam",
+    "signature": "(self, beam: ansys.geometry.core.designer.beam.Beam | str) -> None",
+    "summary": "Delete an existing beam belonging to this component's scope."
+   },
+   {
+    "name": "delete_body",
+    "signature": "(self, body: ansys.geometry.core.designer.body.Body | str) -> None",
+    "summary": "Delete a body belonging to this component (or its children)."
+   },
+   {
+    "name": "delete_component",
+    "signature": "(self, component: Union[ForwardRef('Component'), str]) -> None",
+    "summary": "Delete a component (itself or its children)."
+   },
+   {
+    "name": "delete_coordinate_system",
+    "signature": "(self, coordinate_system: ansys.geometry.core.designer.coordinate_system.CoordinateSystem | str) -> None",
+    "summary": "Delete a coordinate system from this component."
+   },
+   {
+    "name": "delete_datum_line",
+    "signature": "(self, datum_line: ansys.geometry.core.designer.datumline.DatumLine | str) -> None",
+    "summary": "Delete a datum line from this component."
+   },
+   {
+    "name": "delete_datum_plane",
+    "signature": "(self, plane: ansys.geometry.core.designer.datumplane.DatumPlane | str) -> None",
+    "summary": "Delete a datum plane from this component."
+   },
+   {
+    "name": "delete_datum_point",
+    "signature": "(self, datum_point: ansys.geometry.core.designer.datumpoint.DatumPoint | str) -> None",
+    "summary": "Delete a datum point from this component."
+   },
+   {
+    "name": "delete_design_curve",
+    "signature": "(self, design_curve: ansys.geometry.core.designer.designcurve.DesignCurve | str) -> None",
+    "summary": "Delete an existing design curve belonging to this component's scope."
+   },
+   {
+    "name": "extrude_face",
+    "signature": "(self, name: str, face: ansys.geometry.core.designer.face.Face, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating, direction: ansys.geometry.core.designer.component.ExtrusionDirection | str = <ExtrusionDirection.POSITIVE: '+'>) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Extrude the face profile by a given distance to create a solid body."
+   },
+   {
+    "name": "extrude_sketch",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating, direction: ansys.geometry.core.designer.component.ExtrusionDirection | str = <ExtrusionDirection.POSITIVE: '+'>, cut: bool = False) -> ansys.geometry.core.designer.body.Body | None",
+    "summary": "Create a solid body by extruding the sketch profile a distance."
+   },
+   {
+    "name": "get_all_bodies",
+    "signature": "(self) -> list[ansys.geometry.core.designer.body.Body]",
+    "summary": "Get all bodies in the component hierarchy."
+   },
+   {
+    "name": "get_named_selections",
+    "signature": "(self) -> list['NamedSelection']",
+    "summary": "Get the named selections of the component."
+   },
+   {
+    "name": "get_world_transform",
+    "signature": "(self) -> ansys.geometry.core.math.matrix.Matrix44",
+    "summary": "Get the full transformation matrix of the component in world space."
+   },
+   {
+    "name": "import_named_selections",
+    "signature": "(self) -> None",
+    "summary": "Import named selections of a component."
+   },
+   {
+    "name": "make_independent",
+    "signature": "(self, others: list['Component'] = None) -> None",
+    "summary": "Make a component independent if it is an instance."
+   },
+   {
+    "name": "modify_placement",
+    "signature": "(self, translation: ansys.geometry.core.math.vector.Vector3D | None = None, rotation_origin: ansys.geometry.core.math.point.Point3D | None = None, rotation_direction: ansys.geometry.core.math.vector.UnitVector3D | None = None, rotation_angle: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Angle | int | float | numpy.integer | numpy.floating = 0)",
+    "summary": "Apply a translation and/or rotation to the placement matrix."
+   },
+   {
+    "name": "move_bodies_to_component",
+    "signature": "(self, bodies: list[ansys.geometry.core.designer.body.Body]) -> None",
+    "summary": "Move bodies to this component, changing the design hierarchy."
+   },
+   {
+    "name": "plot",
+    "signature": "(self, merge_component: bool = True, merge_bodies: bool = True, screenshot: str | None = None, use_trame: bool | None = None, use_service_colors: bool | None = None, allow_picking: bool | None = None, **plotting_options: dict | None) -> None | list[typing.Any]",
+    "summary": "Plot the component."
+   },
+   {
+    "name": "reset_placement",
+    "signature": "(self)",
+    "summary": "Reset a component's placement matrix to an identity matrix."
+   },
+   {
+    "name": "revolve_sketch",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch, axis: ansys.geometry.core.math.vector.Vector3D, angle: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Angle | int | float | numpy.integer | numpy.floating, rotation_origin: ansys.geometry.core.math.point.Point3D) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a solid body by revolving a sketch profile around an axis."
+   },
+   {
+    "name": "search_beam",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.beam.Beam | None",
+    "summary": "Search beams in the component's scope."
+   },
+   {
+    "name": "search_body",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.body.Body | None",
+    "summary": "Search bodies in the component's scope."
+   },
+   {
+    "name": "search_component",
+    "signature": "(self, id: str) -> Optional[ForwardRef('Component')]",
+    "summary": "Search this component and nested components recursively for a component by id."
+   },
+   {
+    "name": "search_component_by_name",
+    "signature": "(self, name: str) -> list['Component']",
+    "summary": "Search this component and nested components recursively for a component by name."
+   },
+   {
+    "name": "search_coordinate_system",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.coordinate_system.CoordinateSystem | None",
+    "summary": "Search coordinate systems in the component's scope."
+   },
+   {
+    "name": "search_datum_line",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.datumline.DatumLine | None",
+    "summary": "Search datum lines in the component's scope."
+   },
+   {
+    "name": "search_datum_point",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.datumpoint.DatumPoint | None",
+    "summary": "Search datum points in the component's scope."
+   },
+   {
+    "name": "search_design_curve",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.designcurve.DesignCurve | None",
+    "summary": "Search design curves in the component's scope."
+   },
+   {
+    "name": "search_plane",
+    "signature": "(self, id: str) -> ansys.geometry.core.designer.datumplane.DatumPlane | None",
+    "summary": "Search planes in the component's scope."
+   },
+   {
+    "name": "set_name",
+    "signature": "(self, name: str) -> None",
+    "summary": "Set the name of the component."
+   },
+   {
+    "name": "set_shared_topology",
+    "signature": "(self, share_type: ansys.geometry.core.designer.component.SharedTopologyType) -> None",
+    "summary": "Set the shared topology to apply to the component."
+   },
+   {
+    "name": "sweep_chain",
+    "signature": "(self, name: str, path: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve], chain: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a body by sweeping a chain of curves along a path."
+   },
+   {
+    "name": "sweep_sketch",
+    "signature": "(self, name: str, sketch: ansys.geometry.core.sketch.sketch.Sketch, path: list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]) -> ansys.geometry.core.designer.body.Body",
+    "summary": "Create a body by sweeping a planar profile along a path."
+   },
+   {
+    "name": "sweep_with_guide",
+    "signature": "(self, sweep_data: list[ansys.geometry.core.designer.component.SweepWithGuideData]) -> list[ansys.geometry.core.designer.body.Body]",
+    "summary": "Create a body by sweeping a sketch along a path with a guide curve."
+   },
+   {
+    "name": "tessellate",
+    "signature": "(self, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None, _recursive_call: bool = False) -> Union[ForwardRef('PolyData'), list['MultiBlock']]",
+    "summary": "Tessellate the component."
+   },
+   {
+    "name": "translate_bodies",
+    "signature": "(self, bodies: list[ansys.geometry.core.designer.body.Body], direction: ansys.geometry.core.math.vector.UnitVector3D, distance: pint.registry.Quantity | ansys.geometry.core.misc.measurements.Distance | int | float | numpy.integer | numpy.floating) -> None",
+    "summary": "Translate the bodies in a specified direction by a distance."
+   },
+   {
+    "name": "tree_print",
+    "signature": "(self, consider_comps: bool = True, consider_bodies: bool = True, consider_beams: bool = True, depth: int | None = None, indent: int = 4, sort_keys: bool = False, return_list: bool = False, skip_loc_header: bool = False) -> None | list[str]",
+    "summary": "Print the component in tree format."
+   }
+  ]
+ },
+ "designer.Edge": {
+  "count": 2,
+  "methods": [
+   {
+    "name": "get_bounding_box",
+    "signature": "(self, tight: bool = False) -> ansys.geometry.core.math.bbox.BoundingBox",
+    "summary": "Get the tight bounding box for the face."
+   },
+   {
+    "name": "get_named_selections",
+    "signature": "(self) -> list['NamedSelection']",
+    "summary": "Get named selections associated with the edge."
+   }
+  ]
+ },
+ "designer.Face": {
+  "count": 11,
+  "methods": [
+   {
+    "name": "create_isoparametric_curves",
+    "signature": "(self, use_u_param: bool, parameter: float) -> list[ansys.geometry.core.shapes.curves.trimmed_curve.TrimmedCurve]",
+    "summary": "Create isoparametic curves at the given proportional parameter."
+   },
+   {
+    "name": "detach",
+    "signature": "(self) -> Optional[ForwardRef('Body')]",
+    "summary": "Detach the face from its body."
+   },
+   {
+    "name": "get_bounding_box",
+    "signature": "(self, tight: bool = False) -> ansys.geometry.core.math.bbox.BoundingBox",
+    "summary": "Get the tight bounding box for the face."
+   },
+   {
+    "name": "get_named_selections",
+    "signature": "(self) -> list['NamedSelection']",
+    "summary": "Get named selections associated with the edge."
+   },
+   {
+    "name": "normal",
+    "signature": "(self, u: float = 0.5, v: float = 0.5) -> ansys.geometry.core.math.vector.UnitVector3D",
+    "summary": "Get the normal direction to the face at certain UV coordinates."
+   },
+   {
+    "name": "plot",
+    "signature": "(self, screenshot: str | None = None, use_trame: bool | None = None, use_service_colors: bool | None = None, **plotting_options: dict | None) -> None",
+    "summary": "Plot the face."
+   },
+   {
+    "name": "point",
+    "signature": "(self, u: float = 0.5, v: float = 0.5) -> ansys.geometry.core.math.point.Point3D",
+    "summary": "Get a point of the face evaluated at certain UV coordinates."
+   },
+   {
+    "name": "set_color",
+    "signature": "(self, color: str | tuple[int | float, int | float, int | float] | tuple[int | float, int | float, int | float, int | float]) -> None",
+    "summary": "Set the color of the face."
+   },
+   {
+    "name": "set_opacity",
+    "signature": "(self, opacity: int | float) -> None",
+    "summary": "Set the opacity of the face."
+   },
+   {
+    "name": "setup_offset_relationship",
+    "signature": "(self, other_face: 'Face', set_baselines: bool = False, process_adjacent_faces: bool = False) -> bool",
+    "summary": "Create an offset relationship between two faces."
+   },
+   {
+    "name": "tessellate",
+    "signature": "(self, tess_options: ansys.geometry.core.misc.options.TessellationOptions | None = None) -> 'pv.PolyData'",
+    "summary": "Tessellate the face and return the geometry as triangles."
+   }
+  ]
+ },
+ "tools.RepairTools": {
+  "count": 18,
+  "methods": [
+   {
+    "name": "find_and_fix_extra_edges",
+    "signature": "(self, bodies: list['Body'], comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Find and fix the extra edge problem areas."
+   },
+   {
+    "name": "find_and_fix_short_edges",
+    "signature": "(self, bodies: list['Body'], length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Find and fix the short edge problem areas."
+   },
+   {
+    "name": "find_and_fix_simplify",
+    "signature": "(self, bodies: list['Body'], comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Find and simplify the provided geometry."
+   },
+   {
+    "name": "find_and_fix_split_edges",
+    "signature": "(self, bodies: list['Body'], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Find and fix the split edge problem areas."
+   },
+   {
+    "name": "find_and_fix_stitch_faces",
+    "signature": "(self, bodies: list['Body'], max_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, allow_multiple_bodies: bool = False, maintain_components: bool = True, check_for_coincidence: bool = False, comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Find and fix the stitch face problem areas."
+   },
+   {
+    "name": "find_bad_faces",
+    "signature": "(self, bodies: list['Body']) -> list['Face']",
+    "summary": "Find bad faces in the given list of bodies."
+   },
+   {
+    "name": "find_duplicate_faces",
+    "signature": "(self, bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.DuplicateFaceProblemAreas]",
+    "summary": "Find the duplicate face problem areas."
+   },
+   {
+    "name": "find_extra_edges",
+    "signature": "(self, bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.ExtraEdgeProblemAreas]",
+    "summary": "Find the extra edges in the given list of bodies."
+   },
+   {
+    "name": "find_inexact_edges",
+    "signature": "(self, bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.InexactEdgeProblemAreas]",
+    "summary": "Find inexact edges in the given list of bodies."
+   },
+   {
+    "name": "find_interferences",
+    "signature": "(self, bodies: list['Body'], cut_smaller_body: bool = False) -> list[ansys.geometry.core.tools.problem_areas.InterferenceProblemAreas]",
+    "summary": "Find the interference problem areas."
+   },
+   {
+    "name": "find_missing_faces",
+    "signature": "(self, bodies: list['Body'], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list[ansys.geometry.core.tools.problem_areas.MissingFaceProblemAreas]",
+    "summary": "Find the missing faces."
+   },
+   {
+    "name": "find_short_edges",
+    "signature": "(self, bodies: list['Body'], length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0) -> list[ansys.geometry.core.tools.problem_areas.ShortEdgeProblemAreas]",
+    "summary": "Find the short edge problem areas."
+   },
+   {
+    "name": "find_simplify",
+    "signature": "(self, bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.UnsimplifiedFaceProblemAreas]",
+    "summary": "Detect faces in a body that can be simplified."
+   },
+   {
+    "name": "find_small_faces",
+    "signature": "(self, bodies: list['Body'], area: ansys.geometry.core.misc.measurements.Area | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, width: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list[ansys.geometry.core.tools.problem_areas.SmallFaceProblemAreas]",
+    "summary": "Find the small face problem areas."
+   },
+   {
+    "name": "find_split_edges",
+    "signature": "(self, bodies: list['Body'], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = None, length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = None) -> list[ansys.geometry.core.tools.problem_areas.SplitEdgeProblemAreas]",
+    "summary": "Find split edges in the given list of bodies."
+   },
+   {
+    "name": "find_stitch_faces",
+    "signature": "(self, bodies: list['Body'], max_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list[ansys.geometry.core.tools.problem_areas.StitchFaceProblemAreas]",
+    "summary": "Return the list of stitch face problem areas."
+   },
+   {
+    "name": "inspect_geometry",
+    "signature": "(self, bodies: list['Body'] = None) -> list[ansys.geometry.core.tools.check_geometry.InspectResult]",
+    "summary": "Return a list of geometry issues organized by body."
+   },
+   {
+    "name": "repair_geometry",
+    "signature": "(self, bodies: list['Body'] = None) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Attempt to repair the geometry for the given bodies."
+   }
+  ]
+ },
+ "tools.PrepareTools": {
+  "count": 14,
+  "methods": [
+   {
+    "name": "create_box_enclosure",
+    "signature": "(self, bodies: list['Body'], x_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, x_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, y_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, y_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, z_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, z_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, enclosure_options: ansys.geometry.core.tools.prepare_tools.EnclosureOptions) -> list['Body']",
+    "summary": "Create box enclosure around the given bodies."
+   },
+   {
+    "name": "create_cylinder_enclosure",
+    "signature": "(self, bodies: list['Body'], axial_distance_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, axial_distance_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, radial_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, enclosure_options: ansys.geometry.core.tools.prepare_tools.EnclosureOptions) -> list['Body']",
+    "summary": "Create cylinder enclosure around the given bodies."
+   },
+   {
+    "name": "create_sphere_enclosure",
+    "signature": "(self, bodies: list['Body'], radial_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, enclosure_options: ansys.geometry.core.tools.prepare_tools.EnclosureOptions) -> list['Body']",
+    "summary": "Create sphere enclosure around the given bodies."
+   },
+   {
+    "name": "detect_helixes",
+    "signature": "(self, bodies: list['Body'], min_radius: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, max_radius: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 100.0, fit_radius_error: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.01) -> dict['TrimmedCurve', list['Edge']]",
+    "summary": "Detect helixes in the given bodies."
+   },
+   {
+    "name": "detect_leaks",
+    "signature": "(self, inside_faces: list['Face']) -> list['Body']",
+    "summary": "Detect and cap leaks in the geometry based on the provided inside faces."
+   },
+   {
+    "name": "detect_sweepable_bodies",
+    "signature": "(self, bodies: list['Body'], get_source_target_faces: bool = False) -> list[tuple[bool, list['Face']]]",
+    "summary": "Check if bodies are sweepable."
+   },
+   {
+    "name": "enhanced_share_topology",
+    "signature": "(self, bodies: list['Body'], tol: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, preserve_instances: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+    "summary": "Share topology between the chosen bodies."
+   },
+   {
+    "name": "extract_volume_from_edge_loops",
+    "signature": "(self, sealing_edges: list['Edge'], inside_faces: list['Face'] | None = None, options: ansys.geometry.core.misc.options.VolumeExtractOptions | None = None) -> list['Body']",
+    "summary": "Extract a volume from input edge loops."
+   },
+   {
+    "name": "extract_volume_from_faces",
+    "signature": "(self, sealing_faces: list['Face'], inside_faces: list['Face'], options: ansys.geometry.core.misc.options.VolumeExtractOptions | None = None) -> list['Body']",
+    "summary": "Extract a volume from input faces."
+   },
+   {
+    "name": "find_and_remove_logos",
+    "signature": "(self, bodies: list['Body'] | None = None, min_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, max_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> bool",
+    "summary": "Detect and remove logos in geometry."
+   },
+   {
+    "name": "find_logos",
+    "signature": "(self, bodies: list['Body'] | None = None, min_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, max_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> ansys.geometry.core.tools.problem_areas.LogoProblemArea | None",
+    "summary": "Detect logos in geometry."
+   },
+   {
+    "name": "find_mappable_faces",
+    "signature": "(self, faces: list['Face']) -> list[tuple['Face', bool]]",
+    "summary": "Find which faces are mappable."
+   },
+   {
+    "name": "remove_rounds",
+    "signature": "(self, faces: list['Face'], auto_shrink: bool = False) -> bool",
+    "summary": "Remove rounds from geometry."
+   },
+   {
+    "name": "share_topology",
+    "signature": "(self, bodies: list['Body'], tol: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, preserve_instances: bool = False) -> bool",
+    "summary": "Share topology between the chosen bodies."
+   }
+  ]
+ },
+ "tools.GeometryCommands": {
+  "error": "ModuleNotFoundError: No module named 'ansys.geometry.core.tools.geometry_commands'"
+ },
+ "tools.MeasurementTools": {
+  "count": 1,
+  "methods": [
+   {
+    "name": "min_distance_between_objects",
+    "signature": "(self, object1: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')], object2: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')]) -> ansys.geometry.core.tools.measurement_tools.Gap",
+    "summary": "Find the gap between two bodies."
+   }
+  ]
+ },
+ "tools.UnsupportedCommands": {
+  "count": 10,
+  "methods": [
+   {
+    "name": "convert_to_heavyweight",
+    "signature": "(self, bodies: list['Body']) -> bool",
+    "summary": "Convert lightweight bodies to heavyweight."
+   },
+   {
+    "name": "get_body_occurrences_from_import_id",
+    "signature": "(self, import_id: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType) -> list['Body']",
+    "summary": "Get all body occurrences whose master has the given import id."
+   },
+   {
+    "name": "get_edge_occurrences_from_import_id",
+    "signature": "(self, import_id: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType) -> list['Edge']",
+    "summary": "Get all edge occurrences whose master has the given import id."
+   },
+   {
+    "name": "get_face_occurrences_from_import_id",
+    "signature": "(self, import_id: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType) -> list['Face']",
+    "summary": "Get all face occurrences whose master has the given import id."
+   },
+   {
+    "name": "load_addin",
+    "signature": "(self, manifest_path: pathlib._local.Path | str) -> None",
+    "summary": "Load an add-in to the current design."
+   },
+   {
+    "name": "run_addin_method",
+    "signature": "(self, addin_name: str, method_name: str, arguments: list | None = None) -> dict",
+    "summary": "Run a method on a previously loaded add-in."
+   },
+   {
+    "name": "set_export_id",
+    "signature": "(self, moniker: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType, value: str) -> None",
+    "summary": "Set the persistent id for the moniker."
+   },
+   {
+    "name": "set_multiple_export_ids",
+    "signature": "(self, export_data: list[ansys.geometry.core.tools.unsupported.ExportIdData]) -> None",
+    "summary": "Set multiple persistent ids for the monikers."
+   },
+   {
+    "name": "start_tracking",
+    "signature": "(self) -> None",
+    "summary": "Start a tracking segment for the current design."
+   },
+   {
+    "name": "stop_tracking",
+    "signature": "(self) -> dict",
+    "summary": "Stop the current tracking segment for the current design and return the tracked changes."
+   }
+  ]
+ },
+ "tools.PartManagement": {
+  "error": "ModuleNotFoundError: No module named 'ansys.geometry.core.tools.part_management'"
+ },
+ "tools.ComponentTransfer": {
+  "error": "ModuleNotFoundError: No module named 'ansys.geometry.core.tools.component_transfer'"
+ },
+ "tools.DesignCurves": {
+  "error": "ModuleNotFoundError: No module named 'ansys.geometry.core.tools.design_curves'"
+ },
+ "tools.NamedSelection": {
+  "error": "ModuleNotFoundError: No module named 'ansys.geometry.core.tools.named_selection'"
+ },
+ "Modeler": {
+  "count": 10,
+  "methods": [
+   {
+    "name": "close",
+    "signature": "(self, close_design: bool = True) -> None",
+    "summary": "Access the client's close method."
+   },
+   {
+    "name": "create_design",
+    "signature": "(self, name: str) -> 'Design'",
+    "summary": "Initialize a new design with the connected client."
+   },
+   {
+    "name": "create_selection_builder",
+    "signature": "(self) -> ansys.geometry.core.selection_builder.selection_builder.SelectionBuilder",
+    "summary": "Create a selection builder."
+   },
+   {
+    "name": "exit",
+    "signature": "(self, close_design: bool = True) -> None",
+    "summary": "Access the client's close method."
+   },
+   {
+    "name": "get_active_design",
+    "signature": "(self, sync_with_backend: bool = True) -> 'Design'",
+    "summary": "Get the active design on the modeler object."
+   },
+   {
+    "name": "get_service_logs",
+    "signature": "(self, all_logs: bool = False, dump_to_file: bool = False, logs_folder: str | pathlib._local.Path | None = None) -> str | dict[str, str] | pathlib._local.Path",
+    "summary": "Get the service logs."
+   },
+   {
+    "name": "open_file",
+    "signature": "(self, file_path: str | pathlib._local.Path, upload_to_server: bool = True, import_options: ansys.geometry.core.misc.options.ImportOptions = ImportOptions(cleanup_bodies=False, import_coordinate_systems=False, import_curves=False, import_hidden_components_and_geometry=False, import_names=False, import_planes=False, import_points=False, import_named_selections=True, import_as_lightweight=False, import_using_spaceclaim_colors=False), import_options_definitions: ansys.geometry.core.misc.options.ImportOptionsDefinitions = ImportOptionsDefinitions(import_named_selections_keys=None)) -> 'Design'",
+    "summary": "Open a file."
+   },
+   {
+    "name": "read_existing_design",
+    "signature": "(self) -> 'Design'",
+    "summary": "Read the existing design on the service with the connected client."
+   },
+   {
+    "name": "run_discovery_script_file",
+    "signature": "(self, file_path: str | pathlib._local.Path, script_args: dict[str, str] | None = None, import_design: bool = False, api_version: int | str | ansys.geometry.core.connection.backend.ApiVersions | None = None) -> tuple[dict[str, str], typing.Optional[ForwardRef('Design')]]",
+    "summary": "Run a script file."
+   },
+   {
+    "name": "run_script_file",
+    "signature": "(self, file_path: str | pathlib._local.Path, script_args: dict[str, str] | None = None, import_design: bool = False, api_version: int | str | ansys.geometry.core.connection.backend.ApiVersions | None = None) -> tuple[dict[str, str], typing.Optional[ForwardRef('Design')]]",
+    "summary": "Run a Discovery script file."
+   }
+  ]
+ }
+}

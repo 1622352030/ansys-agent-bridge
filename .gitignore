@@ -20,3 +20,15 @@ desktop.ini
 # Local scratch
 *.log
 tmp/
+
+# Development-time test artefacts. Kept inside the repository so nothing lands
+# in a user's model directory, but not worth versioning: the transcripts and
+# export dumps are regenerated on every run, and the test models are copies.
+spaceclaim/dev/scratch/
+spaceclaim/dev/models/
+spaceclaim/dev/logs/
+fluent/dev/scratch/
+fluent/dev/logs/
+fluent/dev/evidence/
+*.trn
+cleanup-fluent-*.bat

@@ -58,7 +58,7 @@ raw IronPython result.
 
 Full measured record, including the raw-IronPython traps (`Body[](n)` is a
 parse-time error that kills a script silently; `Document.Load` breaks every
-later `SaveAs`), is in [`skills/ansys-spaceclaim/SKILL.md`](skills/ansys-spaceclaim/SKILL.md).
+later `SaveAs`), is in [`spaceclaim/skills/ansys-spaceclaim/SKILL.md`](spaceclaim/skills/ansys-spaceclaim/SKILL.md).
 
 ## Install
 
@@ -109,7 +109,7 @@ tried and both broke it; `command: uv` needs neither. Override that one line if
 
 ### The bundled skill
 
-The same `!!js` restriction is why `skills/ansys-spaceclaim/` is **not** wired up
+The same `!!js` restriction is why `spaceclaim/skills/ansys-spaceclaim/` is **not** wired up
 by the patch. Registering it needs a path resolved at load time, which needs one
 of the two constructs above. Add it explicitly instead, in your profile's own
 `cordis.patch.yml` (next to the bundle's) — this runs inside the host, where
@@ -117,7 +117,7 @@ of the two constructs above. Add it explicitly instead, in your profile's own
 
 ```sh
 mkdir -p "$DSH_HOME/skills"                      # or %APPDATA%\dsh-desktop\harness\skills
-cp -r <repo>/skills/ansys-spaceclaim "$DSH_HOME/skills/"
+cp -r <repo>/spaceclaim/skills/ansys-spaceclaim "$DSH_HOME/skills/"
 ```
 
 `$DSH_HOME/skills` is one of the host's default skill roots, so nothing else is
@@ -130,7 +130,7 @@ The server is a plain stdio MCP server, so it is not tied to DSH. Generate the
 block for your client:
 
 ```sh
-uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python" \
+uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python" \
     ansys-bridge-doctor --config claude    # also: cursor, vscode, dsh
 ```
 
@@ -148,7 +148,7 @@ For a client whose schema you would rather write by hand, the command is:
       "command": "uv",
       "args": [
         "tool", "run", "--quiet",
-        "--from", "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python",
+        "--from", "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python",
         "ansys-bridge-mcp"
       ]
     }
@@ -163,7 +163,7 @@ only `Connection closed`.
 ## Check the environment first
 
 ```sh
-uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python" \
+uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python" \
     ansys-bridge-doctor
 ```
 
@@ -242,19 +242,39 @@ the 60 s default.
 
 ## Layout
 
+The repository is split by product domain, strictly. SpaceClaim material and
+Fluent material never share a directory, down to the test scripts:
+
 ```
 package.json            DSH bundle manifest (`dsh.bundle.patch`) + npm entry
-cordis.patch.yml        the bundle's patch layers
-skills/ansys-spaceclaim/SKILL.md   measured operating notes and traps
-docs/feature-coverage.md           implementation vs. official manual, item by item
-docs/verification.md               what was verified, and the bugs the run found
+cordis.patch.yml        the bundle's patch layer
+screenshots.json
 tools/verify-patch.mjs             offline check of cordis.patch.yml
-python/                 the MCP server (uv/pip-installable, src layout)
+
+spaceclaim/
+  python/               the MCP server (uv/pip-installable, src layout)
+  skills/ansys-spaceclaim/SKILL.md measured operating notes and traps
+  docs/feature-coverage.md         implementation vs. the official API
+  docs/verification.md             what was verified, and the bugs found
+  dev/tests|logs|evidence|models|scratch
+
+fluent/
+  docs/mcp-audit.md                audit of the official ansys-fluent-mcp
+  dev/tests|logs|evidence|scratch
+  (no code yet -- the Fluent side currently uses the official package)
 ```
+
+`dev/` holds development-time material and stays inside the repository on
+purpose, so nothing is ever written into a user's model directory. Transcripts,
+export dumps and the copied test models are gitignored; the test scripts and the
+API inventories are kept.
+
+The root keeps only what must be at the root: npm reads `package.json` there, and
+`dsh.bundle.patch` resolves `./cordis.patch.yml` relative to it.
 
 ## What is and is not implemented
 
-[`docs/feature-coverage.md`](docs/feature-coverage.md) is the item-by-item
+[`spaceclaim/docs/feature-coverage.md`](spaceclaim/docs/feature-coverage.md) is the item-by-item
 comparison against the official API: every capability domain, whether it is
 implemented, and — for the gaps — why. It is not a list of what the server does;
 it is the list a reader needs to find what it does not do.

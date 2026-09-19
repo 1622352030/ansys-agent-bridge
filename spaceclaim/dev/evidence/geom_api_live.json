@@ -1,0 +1,519 @@
+{
+ "Modeler": {
+  "type": "ansys.geometry.core.modeler.Modeler",
+  "members": [
+   {
+    "name": "close",
+    "signature": "(close_design: bool = True) -> None",
+    "summary": "Access the client's close method."
+   },
+   {
+    "name": "create_design",
+    "signature": "(name: str) -> 'Design'",
+    "summary": "Initialize a new design with the connected client."
+   },
+   {
+    "name": "create_selection_builder",
+    "signature": "() -> ansys.geometry.core.selection_builder.selection_builder.SelectionBuilder",
+    "summary": "Create a selection builder."
+   },
+   {
+    "name": "exit",
+    "signature": "(close_design: bool = True) -> None",
+    "summary": "Access the client's close method."
+   },
+   {
+    "name": "get_active_design",
+    "signature": "(sync_with_backend: bool = True) -> 'Design'",
+    "summary": "Get the active design on the modeler object."
+   },
+   {
+    "name": "get_service_logs",
+    "signature": "(all_logs: bool = False, dump_to_file: bool = False, logs_folder: str | pathlib._local.Path | None = None) -> str | dict[str, str] | pathlib._local.Path",
+    "summary": "Get the service logs."
+   },
+   {
+    "name": "open_file",
+    "signature": "(file_path: str | pathlib._local.Path, upload_to_server: bool = True, import_options: ansys.geometry.core.misc.options.ImportOptions = ImportOptions(cleanup_bodies=False, import_coordinate_systems=False, import_curves=False, import_hidden_components_and_geometry=False, import_names=False, import_planes=False, import_points=False, import_named_selections=True, import_as_lightweight=False, import_using_spaceclaim_colors=False), import_options_definitions: ansys.geometry.core.misc.options.ImportOptionsDefinitions = ImportOptionsDefinitions(import_named_selections_keys=None)) -> 'Design'",
+    "summary": "Open a file."
+   },
+   {
+    "name": "read_existing_design",
+    "signature": "() -> 'Design'",
+    "summary": "Read the existing design on the service with the connected client."
+   },
+   {
+    "name": "run_discovery_script_file",
+    "signature": "(file_path: str | pathlib._local.Path, script_args: dict[str, str] | None = None, import_design: bool = False, api_version: int | str | ansys.geometry.core.connection.backend.ApiVersions | None = None) -> tuple[dict[str, str], typing.Optional[ForwardRef('Design')]]",
+    "summary": "Run a script file."
+   },
+   {
+    "name": "run_script_file",
+    "signature": "(file_path: str | pathlib._local.Path, script_args: dict[str, str] | None = None, import_design: bool = False, api_version: int | str | ansys.geometry.core.connection.backend.ApiVersions | None = None) -> tuple[dict[str, str], typing.Optional[ForwardRef('Design')]]",
+    "summary": "Run a Discovery script file."
+   }
+  ]
+ },
+ "toolsets": {
+  "geometry_commands": {
+   "type": "ansys.geometry.core.designer.geometry_commands.GeometryCommands",
+   "methods": [
+    {
+     "name": "chamfer",
+     "signature": "(selection: Union[ForwardRef('Edge'), list['Edge'], ForwardRef('Face'), list['Face']], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+     "summary": "Create a chamfer on an edge or adjust the chamfer of a face."
+    },
+    {
+     "name": "create_align_condition",
+     "signature": "(parent_component: 'Component', geometry_a: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')], geometry_b: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')]) -> ansys.geometry.core.designer.mating_conditions.AlignCondition",
+     "summary": "Create an align condition between two geometry objects."
+    },
+    {
+     "name": "create_circular_pattern",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], circular_axis: Union[ForwardRef('Edge'), ansys.geometry.core.shapes.curves.line.Line], circular_count: int, circular_angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, two_dimensional: bool = False, linear_count: int = None, linear_pitch: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = None, radial_direction: ansys.geometry.core.math.vector.UnitVector3D = None) -> bool",
+     "summary": "Create a circular pattern. The pattern can be one or two dimensions."
+    },
+    {
+     "name": "create_fill_pattern",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], linear_direction: Union[ForwardRef('Edge'), ForwardRef('Face')], fill_pattern_type: ansys.geometry.core.designer.geometry_commands.FillPatternType, margin: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, x_spacing: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, y_spacing: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, row_x_offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0, row_y_offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0, column_x_offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0, column_y_offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0) -> bool",
+     "summary": "Create a fill pattern."
+    },
+    {
+     "name": "create_linear_pattern",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], linear_direction: Union[ForwardRef('Edge'), ForwardRef('Face')], count_x: int, pitch_x: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, two_dimensional: bool = False, count_y: int = None, pitch_y: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = None) -> bool",
+     "summary": "Create a linear pattern. The pattern can be one or two dimensions."
+    },
+    {
+     "name": "create_orient_condition",
+     "signature": "(parent_component: 'Component', geometry_a: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')], geometry_b: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')]) -> ansys.geometry.core.designer.mating_conditions.OrientCondition",
+     "summary": "Create an orient condition between two geometry objects."
+    },
+    {
+     "name": "create_tangent_condition",
+     "signature": "(parent_component: 'Component', geometry_a: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')], geometry_b: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')]) -> ansys.geometry.core.designer.mating_conditions.TangentCondition",
+     "summary": "Create a tangent condition between two geometry objects."
+    },
+    {
+     "name": "detach_faces",
+     "signature": "(selection: Union[ForwardRef('Body'), list['Body'], ForwardRef('Face'), list['Face']]) -> list['Body']",
+     "summary": "Detach faces on all the bodies/faces from a list."
+    },
+    {
+     "name": "draft_faces",
+     "signature": "(faces: list['Face'], reference_faces: list['Face'], draft_side: ansys.geometry.core.designer.geometry_commands.DraftSide, angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType) -> list['Face']",
+     "summary": "Draft the specified faces in the specified direction by the specified angle."
+    },
+    {
+     "name": "extrude_edges",
+     "signature": "(edges: Union[ForwardRef('Edge'), list['Edge']], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, from_face: 'Face' = None, from_point: ansys.geometry.core.math.point.Point3D = None, direction: ansys.geometry.core.math.vector.UnitVector3D = None, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>, pull_symmetric: bool = False, copy: bool = False, natural_extension: bool = False) -> list['Body']",
+     "summary": "Extrude a selection of edges. Provide either a face or a direction and point."
+    },
+    {
+     "name": "extrude_edges_up_to",
+     "signature": "(edges: Union[ForwardRef('Edge'), list['Edge']], up_to_selection: Union[ForwardRef('Face'), ForwardRef('Edge'), ForwardRef('Body')], seed_point: ansys.geometry.core.math.point.Point3D, direction: ansys.geometry.core.math.vector.UnitVector3D, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>) -> list['Body']",
+     "summary": "Extrude a selection of edges up to another object."
+    },
+    {
+     "name": "extrude_faces",
+     "signature": "(faces: Union[ForwardRef('Face'), list['Face']], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, direction: ansys.geometry.core.math.vector.UnitVector3D = None, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>, offset_mode: ansys.geometry.core.designer.geometry_commands.OffsetMode = <OffsetMode.MOVE_FACES_TOGETHER: 1>, pull_symmetric: bool = False, copy: bool = False, force_do_as_extrude: bool = False) -> list['Body']",
+     "summary": "Extrude a selection of faces."
+    },
+    {
+     "name": "extrude_faces_up_to",
+     "signature": "(faces: Union[ForwardRef('Face'), list['Face']], up_to_selection: Union[ForwardRef('Face'), ForwardRef('Edge'), ForwardRef('Body')], seed_point: ansys.geometry.core.math.point.Point3D, direction: ansys.geometry.core.math.vector.UnitVector3D, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>, offset_mode: ansys.geometry.core.designer.geometry_commands.OffsetMode = <OffsetMode.MOVE_FACES_TOGETHER: 1>, pull_symmetric: bool = False, copy: bool = False, force_do_as_extrude: bool = False) -> list['Body']",
+     "summary": "Extrude a selection of faces up to another object."
+    },
+    {
+     "name": "fill",
+     "signature": "(faces: Union[ForwardRef('Face'), list['Face']]) -> bool",
+     "summary": "Fill the specified faces."
+    },
+    {
+     "name": "fill_edge_loops",
+     "signature": "(loops: Union[ForwardRef('FaceLoop'), list['FaceLoop']]) -> list['Body']",
+     "summary": "Fill the surfaces bounded by the given edge loops."
+    },
+    {
+     "name": "fillet",
+     "signature": "(selection: Union[ForwardRef('Edge'), list['Edge'], ForwardRef('Face'), list['Face']], radius: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+     "summary": "Create a fillet on an edge or adjust the fillet of a face."
+    },
+    {
+     "name": "full_fillet",
+     "signature": "(faces: list['Face']) -> bool",
+     "summary": "Create a full fillet betweens a collection of faces."
+    },
+    {
+     "name": "get_round_info",
+     "signature": "(face: 'Face') -> tuple[bool, int | float | numpy.integer | numpy.floating]",
+     "summary": "Get info on the rounding of a face."
+    },
+    {
+     "name": "intersect_curve_and_surface",
+     "signature": "(curve: ansys.geometry.core.shapes.curves.curve.Curve, surface: ansys.geometry.core.shapes.surfaces.surface.Surface) -> list[ansys.geometry.core.math.point.Point3D]",
+     "summary": "Find the intersection points of a curve and a surface."
+    },
+    {
+     "name": "modify_circular_pattern",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], circular_count: int = 0, linear_count: int = 0, step_angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, step_linear: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0) -> bool",
+     "summary": "Modify a circular pattern. Leave an argument at 0 for it to remain unchanged."
+    },
+    {
+     "name": "modify_linear_pattern",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], count_x: int = 0, pitch_x: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, count_y: int = 0, pitch_y: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, new_seed_index: int = 0, old_seed_index: int = 0) -> bool",
+     "summary": "Modify a linear pattern. Leave an argument at 0 for it to remain unchanged."
+    },
+    {
+     "name": "move_imprint_edges",
+     "signature": "(edges: list['Edge'], direction: ansys.geometry.core.math.vector.UnitVector3D, distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+     "summary": "Move the imprint edges in the specified direction by the specified distance."
+    },
+    {
+     "name": "move_rotate",
+     "signature": "(selection: ansys.geometry.core.designer.selection.NamedSelection, axis: ansys.geometry.core.shapes.curves.line.Line, angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> dict[str, typing.Union[bool, int, float, numpy.integer, numpy.floating]]",
+     "summary": "Rotate a selection by an angle about a given axis."
+    },
+    {
+     "name": "move_translate",
+     "signature": "(selection: Union[ansys.geometry.core.designer.selection.NamedSelection, ForwardRef('Face'), list['Face'], ForwardRef('Edge'), list['Edge'], ForwardRef('Body'), list['Body'], ansys.geometry.core.designer.component.Component, list[ansys.geometry.core.designer.component.Component]], direction: ansys.geometry.core.math.vector.UnitVector3D, distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+     "summary": "Move a selection by a distance in a direction."
+    },
+    {
+     "name": "offset_edges",
+     "signature": "(edges: list['Edge'], offset: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> bool",
+     "summary": "Offset the specified edges with the specified distance."
+    },
+    {
+     "name": "offset_faces",
+     "signature": "(faces: list['Face'], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, direction: ansys.geometry.core.math.vector.UnitVector3D, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType) -> None",
+     "summary": "Offset the specified faces by the specified distance in the specified direction."
+    },
+    {
+     "name": "offset_faces_set_radius",
+     "signature": "(faces: Union[ForwardRef('Face'), list['Face']], radius: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, copy: bool = False, offset_mode: ansys.geometry.core.designer.geometry_commands.OffsetMode = <OffsetMode.IGNORE_RELATIONSHIPS: 0>, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.FORCE_INDEPENDENT: 5>) -> bool",
+     "summary": "Offset faces with a radius."
+    },
+    {
+     "name": "project_to_solid",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face'], ForwardRef('Edge'), list['Edge']], target_faces: Union[ForwardRef('Face'), list['Face']]) -> bool",
+     "summary": "Project faces onto a target body to create new faces on the body."
+    },
+    {
+     "name": "rename_object",
+     "signature": "(selection: Union[list['Body'], list['Component']], name: str) -> bool",
+     "summary": "Rename an object."
+    },
+    {
+     "name": "replace_face",
+     "signature": "(target_selection: Union[ForwardRef('Face'), list['Face']], replacement_selection: Union[ForwardRef('Face'), list['Face']]) -> bool",
+     "summary": "Replace a face with another face."
+    },
+    {
+     "name": "revolve_edges",
+     "signature": "(edges: Union[ForwardRef('Edge'), list['Edge']], axis: ansys.geometry.core.shapes.curves.line.Line, angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, symmetric: bool) -> None",
+     "summary": "Revolve edges around an axis."
+    },
+    {
+     "name": "revolve_faces",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], axis: Union[ForwardRef('Edge'), ansys.geometry.core.shapes.curves.line.Line], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>) -> list['Body']",
+     "summary": "Revolve face around an axis."
+    },
+    {
+     "name": "revolve_faces_by_helix",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], axis: ansys.geometry.core.shapes.curves.line.Line, direction: ansys.geometry.core.math.vector.UnitVector3D, height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, pitch: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, taper_angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, right_handed: bool, both_sides: bool, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>) -> list['Body']",
+     "summary": "Revolve face around an axis in a helix shape."
+    },
+    {
+     "name": "revolve_faces_up_to",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']], up_to: Union[ForwardRef('Face'), ForwardRef('Edge'), ForwardRef('Body')], axis: ansys.geometry.core.shapes.curves.line.Line, direction: ansys.geometry.core.math.vector.UnitVector3D, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType = <ExtrudeType.ADD: 1>) -> list['Body']",
+     "summary": "Revolve face around an axis up to a certain object."
+    },
+    {
+     "name": "revolve_points",
+     "signature": "(selection: Union[ForwardRef('DesignPoint'), list['DesignPoint']], axis: Union[ForwardRef('Edge'), ansys.geometry.core.shapes.curves.line.Line], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> list['DesignCurve']",
+     "summary": "Revolve design points around an axis to create curves."
+    },
+    {
+     "name": "revolve_points_by_helix",
+     "signature": "(selection: Union[ForwardRef('DesignPoint'), list['DesignPoint']], axis: ansys.geometry.core.shapes.curves.line.Line, height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, pitch: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, taper_angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, right_handed: bool, pull_symmetric: bool) -> list['DesignCurve']",
+     "summary": "Revolve design points around an axis in a helix shape to create curves."
+    },
+    {
+     "name": "split_body",
+     "signature": "(bodies: list['Body'], plane: ansys.geometry.core.math.plane.Plane, slicers: Union[ForwardRef('Edge'), list['Edge'], ForwardRef('Face'), list['Face']], faces: list['Face'], extendfaces: bool) -> bool",
+     "summary": "Split bodies with a plane, slicers, or faces."
+    },
+    {
+     "name": "split_edge",
+     "signature": "(edge: 'Edge', split_type: ansys.geometry.core.designer.geometry_commands.SplitEdgeType, proportion: float | None = None, point: ansys.geometry.core.math.point.Point3D | None = None, length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, reference: ansys.geometry.core.designer.geometry_commands.SplitEdgeReference = <SplitEdgeReference.START: 0>) -> bool",
+     "summary": "Split an edge by a proportion, a point, or a length."
+    },
+    {
+     "name": "split_face",
+     "signature": "(face: 'Face', split_type: ansys.geometry.core.designer.geometry_commands.SplitFaceType, split_parameter: Optional[ansys.geometry.core.math.point.Point3D] = None, split_start: Optional[ansys.geometry.core.math.point.Point3D] = None, split_end: Optional[ansys.geometry.core.math.point.Point3D] = None, face_cutter: Optional[ForwardRef('Face')] = None, split_curves: Optional[list['TrimmedCurve']] = None, parameter_type: ansys.geometry.core.designer.geometry_commands.SplitFaceParameterType = <SplitFaceParameterType.UV: 0>) -> bool",
+     "summary": "Split faces by points, curves, or other faces."
+    },
+    {
+     "name": "sweep_edges",
+     "signature": "(edges: Union[ForwardRef('Edge'), list['Edge']], trajectories: Union[ForwardRef('Edge'), ForwardRef('DesignCurve'), list[Union[ForwardRef('Edge'), ForwardRef('DesignCurve')]]], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list['Body']",
+     "summary": "Sweep edges along trajectory curves."
+    },
+    {
+     "name": "sweep_faces",
+     "signature": "(faces: Union[ForwardRef('Face'), list['Face']], trajectories: Union[ForwardRef('Edge'), ForwardRef('DesignCurve'), list[Union[ForwardRef('Edge'), ForwardRef('DesignCurve')]]], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list['Body']",
+     "summary": "Sweep faces along trajectory curves."
+    },
+    {
+     "name": "sweep_points",
+     "signature": "(selection: Union[ForwardRef('DesignPoint'), list['DesignPoint']], trajectories: Union[ForwardRef('Edge'), ForwardRef('DesignCurve'), ForwardRef('TrimmedCurve'), list[Union[ForwardRef('Edge'), ForwardRef('DesignCurve')]], list['TrimmedCurve']], distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating) -> list['DesignCurve']",
+     "summary": "Sweep design points along a trajectory to create curves."
+    },
+    {
+     "name": "thicken_faces",
+     "signature": "(faces: list['Face'], direction: ansys.geometry.core.math.vector.UnitVector3D, thickness: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, extrude_type: ansys.geometry.core.designer.geometry_commands.ExtrudeType, pull_symmetric: bool, select_direction: bool) -> bool",
+     "summary": "Thicken the specified faces by the specified thickness in the specified direction."
+    },
+    {
+     "name": "update_fill_pattern",
+     "signature": "(selection: Union[ForwardRef('Face'), list['Face']]) -> bool",
+     "summary": "Update a fill pattern."
+    }
+   ]
+  },
+  "measurement_tools": {
+   "type": "ansys.geometry.core.tools.measurement_tools.MeasurementTools",
+   "methods": [
+    {
+     "name": "min_distance_between_objects",
+     "signature": "(object1: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')], object2: Union[ForwardRef('Body'), ForwardRef('Face'), ForwardRef('Edge')]) -> ansys.geometry.core.tools.measurement_tools.Gap",
+     "summary": "Find the gap between two bodies."
+    }
+   ]
+  },
+  "prepare_tools": {
+   "type": "ansys.geometry.core.tools.prepare_tools.PrepareTools",
+   "methods": [
+    {
+     "name": "create_box_enclosure",
+     "signature": "(bodies: list['Body'], x_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, x_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, y_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, y_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, z_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, z_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, enclosure_options: ansys.geometry.core.tools.prepare_tools.EnclosureOptions) -> list['Body']",
+     "summary": "Create box enclosure around the given bodies."
+    },
+    {
+     "name": "create_cylinder_enclosure",
+     "signature": "(bodies: list['Body'], axial_distance_low: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, axial_distance_high: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, radial_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, enclosure_options: ansys.geometry.core.tools.prepare_tools.EnclosureOptions) -> list['Body']",
+     "summary": "Create cylinder enclosure around the given bodies."
+    },
+    {
+     "name": "create_sphere_enclosure",
+     "signature": "(bodies: list['Body'], radial_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating, enclosure_options: ansys.geometry.core.tools.prepare_tools.EnclosureOptions) -> list['Body']",
+     "summary": "Create sphere enclosure around the given bodies."
+    },
+    {
+     "name": "detect_helixes",
+     "signature": "(bodies: list['Body'], min_radius: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, max_radius: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 100.0, fit_radius_error: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.01) -> dict['TrimmedCurve', list['Edge']]",
+     "summary": "Detect helixes in the given bodies."
+    },
+    {
+     "name": "detect_leaks",
+     "signature": "(inside_faces: list['Face']) -> list['Body']",
+     "summary": "Detect and cap leaks in the geometry based on the provided inside faces."
+    },
+    {
+     "name": "detect_sweepable_bodies",
+     "signature": "(bodies: list['Body'], get_source_target_faces: bool = False) -> list[tuple[bool, list['Face']]]",
+     "summary": "Check if bodies are sweepable."
+    },
+    {
+     "name": "enhanced_share_topology",
+     "signature": "(bodies: list['Body'], tol: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, preserve_instances: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Share topology between the chosen bodies."
+    },
+    {
+     "name": "extract_volume_from_edge_loops",
+     "signature": "(sealing_edges: list['Edge'], inside_faces: list['Face'] | None = None, options: ansys.geometry.core.misc.options.VolumeExtractOptions | None = None) -> list['Body']",
+     "summary": "Extract a volume from input edge loops."
+    },
+    {
+     "name": "extract_volume_from_faces",
+     "signature": "(sealing_faces: list['Face'], inside_faces: list['Face'], options: ansys.geometry.core.misc.options.VolumeExtractOptions | None = None) -> list['Body']",
+     "summary": "Extract a volume from input faces."
+    },
+    {
+     "name": "find_and_remove_logos",
+     "signature": "(bodies: list['Body'] | None = None, min_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, max_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> bool",
+     "summary": "Detect and remove logos in geometry."
+    },
+    {
+     "name": "find_logos",
+     "signature": "(bodies: list['Body'] | None = None, min_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, max_height: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> ansys.geometry.core.tools.problem_areas.LogoProblemArea | None",
+     "summary": "Detect logos in geometry."
+    },
+    {
+     "name": "find_mappable_faces",
+     "signature": "(faces: list['Face']) -> list[tuple['Face', bool]]",
+     "summary": "Find which faces are mappable."
+    },
+    {
+     "name": "remove_rounds",
+     "signature": "(faces: list['Face'], auto_shrink: bool = False) -> bool",
+     "summary": "Remove rounds from geometry."
+    },
+    {
+     "name": "share_topology",
+     "signature": "(bodies: list['Body'], tol: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, preserve_instances: bool = False) -> bool",
+     "summary": "Share topology between the chosen bodies."
+    }
+   ]
+  },
+  "repair_tools": {
+   "type": "ansys.geometry.core.tools.repair_tools.RepairTools",
+   "methods": [
+    {
+     "name": "find_and_fix_extra_edges",
+     "signature": "(bodies: list['Body'], comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Find and fix the extra edge problem areas."
+    },
+    {
+     "name": "find_and_fix_short_edges",
+     "signature": "(bodies: list['Body'], length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Find and fix the short edge problem areas."
+    },
+    {
+     "name": "find_and_fix_simplify",
+     "signature": "(bodies: list['Body'], comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Find and simplify the provided geometry."
+    },
+    {
+     "name": "find_and_fix_split_edges",
+     "signature": "(bodies: list['Body'], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0, comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Find and fix the split edge problem areas."
+    },
+    {
+     "name": "find_and_fix_stitch_faces",
+     "signature": "(bodies: list['Body'], max_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, allow_multiple_bodies: bool = False, maintain_components: bool = True, check_for_coincidence: bool = False, comprehensive_result: bool = False) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Find and fix the stitch face problem areas."
+    },
+    {
+     "name": "find_bad_faces",
+     "signature": "(bodies: list['Body']) -> list['Face']",
+     "summary": "Find bad faces in the given list of bodies."
+    },
+    {
+     "name": "find_duplicate_faces",
+     "signature": "(bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.DuplicateFaceProblemAreas]",
+     "summary": "Find the duplicate face problem areas."
+    },
+    {
+     "name": "find_extra_edges",
+     "signature": "(bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.ExtraEdgeProblemAreas]",
+     "summary": "Find the extra edges in the given list of bodies."
+    },
+    {
+     "name": "find_inexact_edges",
+     "signature": "(bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.InexactEdgeProblemAreas]",
+     "summary": "Find inexact edges in the given list of bodies."
+    },
+    {
+     "name": "find_interferences",
+     "signature": "(bodies: list['Body'], cut_smaller_body: bool = False) -> list[ansys.geometry.core.tools.problem_areas.InterferenceProblemAreas]",
+     "summary": "Find the interference problem areas."
+    },
+    {
+     "name": "find_missing_faces",
+     "signature": "(bodies: list['Body'], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list[ansys.geometry.core.tools.problem_areas.MissingFaceProblemAreas]",
+     "summary": "Find the missing faces."
+    },
+    {
+     "name": "find_short_edges",
+     "signature": "(bodies: list['Body'], length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = 0.0) -> list[ansys.geometry.core.tools.problem_areas.ShortEdgeProblemAreas]",
+     "summary": "Find the short edge problem areas."
+    },
+    {
+     "name": "find_simplify",
+     "signature": "(bodies: list['Body']) -> list[ansys.geometry.core.tools.problem_areas.UnsimplifiedFaceProblemAreas]",
+     "summary": "Detect faces in a body that can be simplified."
+    },
+    {
+     "name": "find_small_faces",
+     "signature": "(bodies: list['Body'], area: ansys.geometry.core.misc.measurements.Area | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None, width: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list[ansys.geometry.core.tools.problem_areas.SmallFaceProblemAreas]",
+     "summary": "Find the small face problem areas."
+    },
+    {
+     "name": "find_split_edges",
+     "signature": "(bodies: list['Body'], angle: ansys.geometry.core.misc.measurements.Angle | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = None, length: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating = None) -> list[ansys.geometry.core.tools.problem_areas.SplitEdgeProblemAreas]",
+     "summary": "Find split edges in the given list of bodies."
+    },
+    {
+     "name": "find_stitch_faces",
+     "signature": "(bodies: list['Body'], max_distance: ansys.geometry.core.misc.measurements.Distance | pint.registry.Quantity | int | float | numpy.integer | numpy.floating | None = None) -> list[ansys.geometry.core.tools.problem_areas.StitchFaceProblemAreas]",
+     "summary": "Return the list of stitch face problem areas."
+    },
+    {
+     "name": "inspect_geometry",
+     "signature": "(bodies: list['Body'] = None) -> list[ansys.geometry.core.tools.check_geometry.InspectResult]",
+     "summary": "Return a list of geometry issues organized by body."
+    },
+    {
+     "name": "repair_geometry",
+     "signature": "(bodies: list['Body'] = None) -> ansys.geometry.core.tools.repair_tool_message.RepairToolMessage",
+     "summary": "Attempt to repair the geometry for the given bodies."
+    }
+   ]
+  },
+  "unsupported": {
+   "type": "ansys.geometry.core.tools.unsupported.UnsupportedCommands",
+   "methods": [
+    {
+     "name": "convert_to_heavyweight",
+     "signature": "(bodies: list['Body']) -> bool",
+     "summary": "Convert lightweight bodies to heavyweight."
+    },
+    {
+     "name": "get_body_occurrences_from_import_id",
+     "signature": "(import_id: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType) -> list['Body']",
+     "summary": "Get all body occurrences whose master has the given import id."
+    },
+    {
+     "name": "get_edge_occurrences_from_import_id",
+     "signature": "(import_id: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType) -> list['Edge']",
+     "summary": "Get all edge occurrences whose master has the given import id."
+    },
+    {
+     "name": "get_face_occurrences_from_import_id",
+     "signature": "(import_id: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType) -> list['Face']",
+     "summary": "Get all face occurrences whose master has the given import id."
+    },
+    {
+     "name": "load_addin",
+     "signature": "(manifest_path: pathlib._local.Path | str) -> None",
+     "summary": "Load an add-in to the current design."
+    },
+    {
+     "name": "run_addin_method",
+     "signature": "(addin_name: str, method_name: str, arguments: list | None = None) -> dict",
+     "summary": "Run a method on a previously loaded add-in."
+    },
+    {
+     "name": "set_export_id",
+     "signature": "(moniker: str, id_type: ansys.geometry.core.tools.unsupported.PersistentIdType, value: str) -> None",
+     "summary": "Set the persistent id for the moniker."
+    },
+    {
+     "name": "set_multiple_export_ids",
+     "signature": "(export_data: list[ansys.geometry.core.tools.unsupported.ExportIdData]) -> None",
+     "summary": "Set multiple persistent ids for the monikers."
+    },
+    {
+     "name": "start_tracking",
+     "signature": "() -> None",
+     "summary": "Start a tracking segment for the current design."
+    },
+    {
+     "name": "stop_tracking",
+     "signature": "() -> dict",
+     "summary": "Stop the current tracking segment for the current design and return the tracked changes."
+    }
+   ]
+  }
+ }
+}

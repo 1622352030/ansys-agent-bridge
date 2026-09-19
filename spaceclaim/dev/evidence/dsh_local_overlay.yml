@@ -1,0 +1,22 @@
+# Overlay used only by the local verification run: it replaces the bundle's MCP
+# row with a command that launches the server from this checkout, so the plugin
+# layer can be proved to boot without the repository being published first.
+# Applied AFTER the bundle layer, and a patch replaces the row's whole `config`.
+- id: mcp-ansys
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: ansys
+    transport: stdio
+    command: 'C:/Users/16223/.local/bin/uv.exe'
+    args:
+      - 'tool'
+      - 'run'
+      - '--quiet'
+      - '--from'
+      - 'C:/english_path/github_fork/ansys-agent-bridge/python'
+      - 'ansys-bridge-mcp'
+    env:
+      PYTHONIOENCODING: 'utf-8'
+      ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'
+    toolCallTimeoutMs: 900000
+    failOnStartupError: false

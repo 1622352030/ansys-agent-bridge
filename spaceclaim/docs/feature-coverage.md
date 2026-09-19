@@ -4,7 +4,7 @@
 
 对照基准有两个来源。一是 Ansys 官方 Python 客户端 `ansys-geometry-core` 0.17.2 的公开 API，二是本机 SpaceClaim 2024 R2（`backend_version` 24.2.0）的实际可用性。
 
-数据口径：官方客户端的公开方法中，286 个带 `@min_backend_version` 版本门槛，已用 AST 逐项解析源码得到门槛值，其中在 24R2 可用的为 15 个；无版本门槛的方法即全版本可用，已对 `RepairTools` 全部 18 个逐项确认。解析脚本与产物见 `geom_test/api_versions.py`、`api_versions.json`，完整清单与不可用方法及所需版本见配套 Mnemon 文档 `b03e162c`。
+数据口径：官方客户端的公开方法中，286 个带 `@min_backend_version` 版本门槛，已用 AST 逐项解析源码得到门槛值，其中在 24R2 可用的为 15 个；无版本门槛的方法即全版本可用，已对 `RepairTools` 全部 18 个逐项确认。解析脚本见 `spaceclaim/dev/tests/api_versions.py`，产物见 `spaceclaim/dev/evidence/api_versions.json`，完整清单与不可用方法及所需版本见配套 Mnemon 文档 `b03e162c`。
 
 状态分三种。已实现指当前有对应工具；未实现指当前版本可用但尚未做成工具；不可用指当前版本调不通，不属缺漏。
 

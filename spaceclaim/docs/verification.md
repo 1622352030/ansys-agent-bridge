@@ -195,6 +195,7 @@ measurements above trustworthy rather than an artifact of one API path.
 - `.scdocx`, STEP, IGES, Parasolid text/binary and `.pmdb` exports are all
   implemented through the official methods; only STEP was verified end to end.
 - `scdm_run_script` was exercised; the IronPython traps in
-  `skills/ansys-spaceclaim/SKILL.md` come from the raw path.
+  `spaceclaim/skills/ansys-spaceclaim/SKILL.md` come from the raw path.
 - The Fluent side of the tool list is not implemented yet — `ansys-fluent-core`
   is a dependency so the client is importable, but no Fluent tools are exposed.
+  See `fluent/docs/mcp-audit.md` for what the recommended alternative covers.

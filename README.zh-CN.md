@@ -47,7 +47,7 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 
 完整的实测记录——包括原生 IronPython 的那些坑（`Body[](n)` 是**解析期**错误、会让
 脚本静默死掉；`Document.Load` 会让之后每一次 `SaveAs` 报错）——见
-[`skills/ansys-spaceclaim/SKILL.md`](skills/ansys-spaceclaim/SKILL.md)。
+[`spaceclaim/skills/ansys-spaceclaim/SKILL.md`](spaceclaim/skills/ansys-spaceclaim/SKILL.md)。
 
 ## 安装
 
@@ -96,13 +96,13 @@ patch 里**没有 `!!js`，也没有绝对路径**，这是刻意的：实测 ha
 
 ### 随包附带的 skill
 
-同样因为 `!!js` 的这个限制，`skills/ansys-spaceclaim/` **没有**由 patch 自动挂载：
+同样因为 `!!js` 的这个限制，`spaceclaim/skills/ansys-spaceclaim/` **没有**由 patch 自动挂载：
 挂载它需要在加载期解析出一个路径，就必然要用上面那两种写法之一。改成手动装，
 它属于宿主的默认 skill 根 `$DSH_HOME/skills`：
 
 ```sh
 mkdir -p "$DSH_HOME/skills"                      # Windows 上是 %APPDATA%\dsh-desktop\harness\skills
-cp -r <repo>/skills/ansys-spaceclaim "$DSH_HOME/skills/"
+cp -r <repo>/spaceclaim/skills/ansys-spaceclaim "$DSH_HOME/skills/"
 ```
 
 不装也不影响 MCP 工具能用，少的是那份实测操作要点与陷阱清单。
@@ -112,7 +112,7 @@ cp -r <repo>/skills/ansys-spaceclaim "$DSH_HOME/skills/"
 服务器本身就是一个普通的 stdio MCP 服务器，并不绑定 DSH。直接生成对应客户端的配置块：
 
 ```sh
-uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python" \
+uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python" \
     ansys-bridge-doctor --config claude    # 也可用 cursor、vscode、dsh
 ```
 
@@ -129,7 +129,7 @@ uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=py
       "command": "uv",
       "args": [
         "tool", "run", "--quiet",
-        "--from", "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python",
+        "--from", "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python",
         "ansys-bridge-mcp"
       ]
     }
@@ -144,7 +144,7 @@ uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=py
 ## 先体检
 
 ```sh
-uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python" \
+uvx --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python" \
     ansys-bridge-doctor
 ```
 
@@ -217,19 +217,34 @@ _handle_message (mcp\server\lowlevel\server.py)
 
 ## 目录结构
 
+仓库按产品域严格二分：SpaceClaim 的东西和 Fluent 的东西不共用一个目录，连测试脚本都分开。
+
 ```
 package.json            DSH bundle 清单（`dsh.bundle.patch`）+ npm 入口
 cordis.patch.yml        bundle 的 patch 层
-skills/ansys-spaceclaim/SKILL.md   实测操作要点与陷阱
-docs/feature-coverage.md           实现功能与官方手册的逐项对照表
-docs/verification.md               验证记录，以及这一轮抓出的 bug
+screenshots.json
 tools/verify-patch.mjs             离线校验 cordis.patch.yml
-python/                 MCP 服务器（uv/pip 可装，src 布局）
+
+spaceclaim/
+  python/               MCP 服务器（uv/pip 可装，src 布局）
+  skills/ansys-spaceclaim/SKILL.md 实测操作要点与陷阱
+  docs/feature-coverage.md         实现功能与官方 API 的逐项对照表
+  docs/verification.md             验证记录，以及抓出的 bug
+  dev/tests|logs|evidence|models|scratch
+
+fluent/
+  docs/mcp-audit.md                官方 ansys-fluent-mcp 的审计
+  dev/tests|logs|evidence|scratch
+  （暂无代码——Fluent 侧目前直接用官方包）
 ```
+
+`dev/` 放开发期材料，**刻意留在仓库内**，这样任何东西都不会写进你的模型目录。transcript、导出产物、复制的测试模型已被 gitignore；测试脚本与 API 盘点结果保留。
+
+根目录只留必须在根的东西：npm 只从根读 `package.json`，`dsh.bundle.patch` 的 `./cordis.patch.yml` 也是相对根解析。
 
 ## 实现了什么、没实现什么
 
-[`docs/feature-coverage.md`](docs/feature-coverage.md) 是与官方 API 的逐项对照表：每个能力域、是否实现、以及未实现的原因。它不是"服务器能做什么"的清单，而是读者用来找"它没做什么"的清单。
+[`spaceclaim/docs/feature-coverage.md`](spaceclaim/docs/feature-coverage.md) 是与官方 API 的逐项对照表：每个能力域、是否实现、以及未实现的原因。它不是"服务器能做什么"的清单，而是读者用来找"它没做什么"的清单。
 
 最要紧的一条结论是：**官方客户端声明的方法远多于这个版本能跑的**。286 个带 `@min_backend_version` 门槛的公开方法里，**只有 15 个能在 24R2 上调用**，另外 271 个需要 25.1 到 27.1，其中包括 `GeometryCommands` 全部 44 个建模方法。所以对照表先按版本过滤——这一步才分得清"真缺漏"和"调了只会抛 `GeometryRuntimeError` 的方法"。
 

@@ -1,0 +1,9585 @@
+[
+ {
+  "class": "BackendType",
+  "module": "connection/backend.py",
+  "method": "is_core_service",
+  "min_version": null,
+  "line": 42
+ },
+ {
+  "class": "BackendType",
+  "module": "connection/backend.py",
+  "method": "is_headless_service",
+  "min_version": null,
+  "line": 62
+ },
+ {
+  "class": "BackendType",
+  "module": "connection/backend.py",
+  "method": "is_linux_service",
+  "min_version": null,
+  "line": 83
+ },
+ {
+  "class": "BackendType",
+  "module": "connection/backend.py",
+  "method": "is_windows_service",
+  "min_version": null,
+  "line": 102
+ },
+ {
+  "class": "ApiVersions",
+  "module": "connection/backend.py",
+  "method": "parse_input",
+  "min_version": null,
+  "line": 136
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "backend_type",
+  "min_version": null,
+  "line": 365
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "backend_version",
+  "min_version": null,
+  "line": 379
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "host",
+  "min_version": null,
+  "line": 390
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "port",
+  "min_version": null,
+  "line": 395
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "channel",
+  "min_version": null,
+  "line": 400
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "services",
+  "min_version": null,
+  "line": 405
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "log",
+  "min_version": null,
+  "line": 410
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "is_closed",
+  "min_version": null,
+  "line": 415
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "healthy",
+  "min_version": null,
+  "line": 420
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "backend_info",
+  "min_version": null,
+  "line": 429
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "close",
+  "min_version": null,
+  "line": 470
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "target",
+  "min_version": null,
+  "line": 504
+ },
+ {
+  "class": "GrpcClient",
+  "module": "connection/client.py",
+  "method": "get_name",
+  "min_version": null,
+  "line": 510
+ },
+ {
+  "class": "LocalDockerInstance",
+  "module": "connection/docker_instance.py",
+  "method": "docker_client",
+  "min_version": null,
+  "line": 143
+ },
+ {
+  "class": "LocalDockerInstance",
+  "module": "connection/docker_instance.py",
+  "method": "is_docker_installed",
+  "min_version": null,
+  "line": 163
+ },
+ {
+  "class": "LocalDockerInstance",
+  "module": "connection/docker_instance.py",
+  "method": "container",
+  "min_version": null,
+  "line": 466
+ },
+ {
+  "class": "LocalDockerInstance",
+  "module": "connection/docker_instance.py",
+  "method": "existed_previously",
+  "min_version": null,
+  "line": 471
+ },
+ {
+  "class": "LocalDockerInstance",
+  "module": "connection/docker_instance.py",
+  "method": "transport_mode",
+  "min_version": null,
+  "line": 480
+ },
+ {
+  "class": "ProductInstance",
+  "module": "connection/product_instance.py",
+  "method": "close",
+  "min_version": null,
+  "line": 176
+ },
+ {
+  "class": "BeamProfile",
+  "module": "designer/beam.py",
+  "method": "id",
+  "min_version": null,
+  "line": 88
+ },
+ {
+  "class": "BeamProfile",
+  "module": "designer/beam.py",
+  "method": "name",
+  "min_version": null,
+  "line": 93
+ },
+ {
+  "class": "BeamCircularProfile",
+  "module": "designer/beam.py",
+  "method": "radius",
+  "min_version": null,
+  "line": 144
+ },
+ {
+  "class": "BeamCircularProfile",
+  "module": "designer/beam.py",
+  "method": "center",
+  "min_version": null,
+  "line": 149
+ },
+ {
+  "class": "BeamCircularProfile",
+  "module": "designer/beam.py",
+  "method": "direction_x",
+  "min_version": null,
+  "line": 154
+ },
+ {
+  "class": "BeamCircularProfile",
+  "module": "designer/beam.py",
+  "method": "direction_y",
+  "min_version": null,
+  "line": 159
+ },
+ {
+  "class": "BeamCrossSectionInfo",
+  "module": "designer/beam.py",
+  "method": "section_anchor",
+  "min_version": null,
+  "line": 207
+ },
+ {
+  "class": "BeamCrossSectionInfo",
+  "module": "designer/beam.py",
+  "method": "section_angle",
+  "min_version": null,
+  "line": 212
+ },
+ {
+  "class": "BeamCrossSectionInfo",
+  "module": "designer/beam.py",
+  "method": "section_frame",
+  "min_version": null,
+  "line": 217
+ },
+ {
+  "class": "BeamCrossSectionInfo",
+  "module": "designer/beam.py",
+  "method": "section_profile",
+  "min_version": null,
+  "line": 222
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "area",
+  "min_version": null,
+  "line": 292
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "centroid",
+  "min_version": null,
+  "line": 297
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "warping_constant",
+  "min_version": null,
+  "line": 302
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "ixx",
+  "min_version": null,
+  "line": 307
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "ixy",
+  "min_version": null,
+  "line": 312
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "iyy",
+  "min_version": null,
+  "line": 317
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "shear_center",
+  "min_version": null,
+  "line": 322
+ },
+ {
+  "class": "BeamProperties",
+  "module": "designer/beam.py",
+  "method": "torsion_constant",
+  "min_version": null,
+  "line": 327
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "id",
+  "min_version": null,
+  "line": 397
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "start",
+  "min_version": null,
+  "line": 402
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "end",
+  "min_version": null,
+  "line": 407
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "profile",
+  "min_version": null,
+  "line": 412
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 417
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 422
+ },
+ {
+  "class": "Beam",
+  "module": "designer/beam.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 426
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "id",
+  "min_version": null,
+  "line": 124
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "name",
+  "min_version": null,
+  "line": 129
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "set_name",
+  "min_version": null,
+  "line": 134
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "fill_style",
+  "min_version": null,
+  "line": 144
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "set_fill_style",
+  "min_version": null,
+  "line": 149
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "is_suppressed",
+  "min_version": null,
+  "line": 159
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "set_suppressed",
+  "min_version": null,
+  "line": 169
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "color",
+  "min_version": null,
+  "line": 179
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 184
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "set_color",
+  "min_version": null,
+  "line": 189
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 207
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 217
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "vertices",
+  "min_version": null,
+  "line": 227
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 237
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "is_surface",
+  "min_version": null,
+  "line": 242
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "is_lightweight",
+  "min_version": null,
+  "line": 247
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "surface_thickness",
+  "min_version": null,
+  "line": 252
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "surface_offset",
+  "min_version": null,
+  "line": 262
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 272
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "material",
+  "min_version": null,
+  "line": 282
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "bounding_box",
+  "min_version": null,
+  "line": 293
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "centroid",
+  "min_version": null,
+  "line": 308
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "get_bounding_box",
+  "min_version": null,
+  "line": 323
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "assign_material",
+  "min_version": null,
+  "line": 343
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "get_assigned_material",
+  "min_version": null,
+  "line": 354
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "remove_assigned_material",
+  "min_version": null,
+  "line": 365
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "add_midsurface_thickness",
+  "min_version": null,
+  "line": 370
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "add_midsurface_offset",
+  "min_version": null,
+  "line": 385
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "imprint_curves",
+  "min_version": null,
+  "line": 400
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "project_curves",
+  "min_version": null,
+  "line": 418
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "imprint_projected_curves",
+  "min_version": null,
+  "line": 453
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "translate",
+  "min_version": null,
+  "line": 493
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "rotate",
+  "min_version": null,
+  "line": 506
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "scale",
+  "min_version": null,
+  "line": 530
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "map",
+  "min_version": null,
+  "line": 548
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "mirror",
+  "min_version": null,
+  "line": 566
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "get_collision",
+  "min_version": null,
+  "line": 584
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "copy",
+  "min_version": null,
+  "line": 604
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 622
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "get_raw_tessellation",
+  "min_version": null,
+  "line": 633
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "tessellate",
+  "min_version": null,
+  "line": 664
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "get_vtk_tessellation",
+  "min_version": null,
+  "line": 735
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "shell_body",
+  "min_version": null,
+  "line": 774
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "remove_faces",
+  "min_version": null,
+  "line": 794
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 818
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "intersect",
+  "min_version": null,
+  "line": 874
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "subtract",
+  "min_version": null,
+  "line": 898
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "unite",
+  "min_version": null,
+  "line": 922
+ },
+ {
+  "class": "IBody",
+  "module": "designer/body.py",
+  "method": "combine_merge",
+  "min_version": null,
+  "line": 941
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "reset_tessellation_cache",
+  "min_version": null,
+  "line": 1034
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "id",
+  "min_version": null,
+  "line": 1057
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "name",
+  "min_version": null,
+  "line": 1061
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "name",
+  "min_version": null,
+  "line": 1065
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "fill_style",
+  "min_version": null,
+  "line": 1069
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "fill_style",
+  "min_version": null,
+  "line": 1073
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "is_suppressed",
+  "min_version": "25.2.0",
+  "line": 1078
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "is_suppressed",
+  "min_version": null,
+  "line": 1083
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "color",
+  "min_version": null,
+  "line": 1087
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 1107
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "color",
+  "min_version": null,
+  "line": 1112
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 1116
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "is_surface",
+  "min_version": null,
+  "line": 1120
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "is_lightweight",
+  "min_version": null,
+  "line": 1124
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "is_lightweight",
+  "min_version": null,
+  "line": 1128
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "surface_thickness",
+  "min_version": null,
+  "line": 1132
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "surface_offset",
+  "min_version": null,
+  "line": 1136
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 1140
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 1159
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "vertices",
+  "min_version": "26.1.0",
+  "line": 1179
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 1197
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 1201
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "material",
+  "min_version": null,
+  "line": 1211
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "material",
+  "min_version": null,
+  "line": 1215
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "bounding_box",
+  "min_version": "25.2.0",
+  "line": 1220
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "centroid",
+  "min_version": "27.1.0",
+  "line": 1231
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "get_bounding_box",
+  "min_version": "27.1.0",
+  "line": 1240
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "assign_material",
+  "min_version": null,
+  "line": 1251
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "get_assigned_material",
+  "min_version": null,
+  "line": 1255
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "remove_assigned_material",
+  "min_version": "26.1.0",
+  "line": 1261
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "add_midsurface_thickness",
+  "min_version": null,
+  "line": 1266
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "add_midsurface_offset",
+  "min_version": null,
+  "line": 1280
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "imprint_curves",
+  "min_version": null,
+  "line": 1292
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "project_curves",
+  "min_version": null,
+  "line": 1303
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "imprint_projected_curves",
+  "min_version": null,
+  "line": 1318
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "translate",
+  "min_version": null,
+  "line": 1334
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "set_name",
+  "min_version": "25.1.0",
+  "line": 1345
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "set_fill_style",
+  "min_version": "25.1.0",
+  "line": 1354
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "set_suppressed",
+  "min_version": "25.2.0",
+  "line": 1363
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "set_color",
+  "min_version": "25.1.0",
+  "line": 1371
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "set_opacity",
+  "min_version": "25.2.0",
+  "line": 1384
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "rotate",
+  "min_version": "24.2.0",
+  "line": 1399
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "scale",
+  "min_version": "24.2.0",
+  "line": 1414
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "map",
+  "min_version": "24.2.0",
+  "line": 1421
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "mirror",
+  "min_version": "24.2.0",
+  "line": 1428
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "get_collision",
+  "min_version": "24.2.0",
+  "line": 1433
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "copy",
+  "min_version": null,
+  "line": 1438
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 1443
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "get_raw_tessellation",
+  "min_version": "26.1.0",
+  "line": 1452
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "tessellate",
+  "min_version": null,
+  "line": 1479
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "get_vtk_tessellation",
+  "min_version": null,
+  "line": 1546
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "shell_body",
+  "min_version": "25.2.0",
+  "line": 1683
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "remove_faces",
+  "min_version": "25.2.0",
+  "line": 1700
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "combine_merge",
+  "min_version": "25.2.0",
+  "line": 1726
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 1757
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "intersect",
+  "min_version": null,
+  "line": 1769
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "subtract",
+  "min_version": null,
+  "line": 1774
+ },
+ {
+  "class": "MasterBody",
+  "module": "designer/body.py",
+  "method": "unite",
+  "min_version": null,
+  "line": 1779
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "reset_tessellation_cache",
+  "min_version": null,
+  "line": 1822
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "id",
+  "min_version": null,
+  "line": 1862
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "name",
+  "min_version": null,
+  "line": 1866
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "name",
+  "min_version": null,
+  "line": 1870
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "fill_style",
+  "min_version": null,
+  "line": 1874
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "fill_style",
+  "min_version": null,
+  "line": 1878
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "is_suppressed",
+  "min_version": null,
+  "line": 1882
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "is_suppressed",
+  "min_version": null,
+  "line": 1886
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "color",
+  "min_version": null,
+  "line": 1890
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 1894
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "color",
+  "min_version": null,
+  "line": 1898
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 1902
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 1906
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 1911
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 1916
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "vertices",
+  "min_version": null,
+  "line": 1921
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 1933
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "is_surface",
+  "min_version": null,
+  "line": 1937
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "is_lightweight",
+  "min_version": null,
+  "line": 1941
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "is_lightweight",
+  "min_version": null,
+  "line": 1945
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "surface_thickness",
+  "min_version": null,
+  "line": 1957
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "surface_offset",
+  "min_version": null,
+  "line": 1969
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 1974
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "material",
+  "min_version": null,
+  "line": 1979
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "material",
+  "min_version": null,
+  "line": 1983
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "bounding_box",
+  "min_version": null,
+  "line": 1987
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "centroid",
+  "min_version": "27.1.0",
+  "line": 2000
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "get_bounding_box",
+  "min_version": "27.1.0",
+  "line": 2006
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "assign_material",
+  "min_version": null,
+  "line": 2017
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "get_assigned_material",
+  "min_version": null,
+  "line": 2021
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "remove_assigned_material",
+  "min_version": null,
+  "line": 2025
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "add_midsurface_thickness",
+  "min_version": null,
+  "line": 2029
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "add_midsurface_offset",
+  "min_version": null,
+  "line": 2033
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "imprint_curves",
+  "min_version": null,
+  "line": 2039
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "project_curves",
+  "min_version": null,
+  "line": 2094
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "imprint_projected_curves",
+  "min_version": null,
+  "line": 2127
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "set_name",
+  "min_version": null,
+  "line": 2159
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "set_fill_style",
+  "min_version": null,
+  "line": 2163
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "set_suppressed",
+  "min_version": null,
+  "line": 2167
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "set_color",
+  "min_version": null,
+  "line": 2171
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "translate",
+  "min_version": null,
+  "line": 2180
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "rotate",
+  "min_version": null,
+  "line": 2186
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "scale",
+  "min_version": null,
+  "line": 2195
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "map",
+  "min_version": null,
+  "line": 2199
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "mirror",
+  "min_version": null,
+  "line": 2203
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "get_collision",
+  "min_version": null,
+  "line": 2207
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "copy",
+  "min_version": null,
+  "line": 2211
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 2237
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "get_raw_tessellation",
+  "min_version": null,
+  "line": 2246
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "tessellate",
+  "min_version": null,
+  "line": 2276
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "get_vtk_tessellation",
+  "min_version": null,
+  "line": 2294
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "shell_body",
+  "min_version": null,
+  "line": 2319
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "remove_faces",
+  "min_version": null,
+  "line": 2323
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 2331
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "intersect",
+  "min_version": null,
+  "line": 2371
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "subtract",
+  "min_version": null,
+  "line": 2379
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "unite",
+  "min_version": null,
+  "line": 2387
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "combine_merge",
+  "min_version": null,
+  "line": 2393
+ },
+ {
+  "class": "Body",
+  "module": "designer/body.py",
+  "method": "detach_faces",
+  "min_version": "27.1.0",
+  "line": 2397
+ },
+ {
+  "class": "ExtrusionDirection",
+  "module": "designer/component.py",
+  "method": "from_string",
+  "min_version": null,
+  "line": 99
+ },
+ {
+  "class": "ExtrusionDirection",
+  "module": "designer/component.py",
+  "method": "get_multiplier",
+  "min_version": null,
+  "line": 114
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "id",
+  "min_version": null,
+  "line": 299
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "name",
+  "min_version": null,
+  "line": 304
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "name",
+  "min_version": null,
+  "line": 309
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "set_name",
+  "min_version": "25.2.0",
+  "line": 320
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "instance_name",
+  "min_version": "25.1.0",
+  "line": 333
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "components",
+  "min_version": null,
+  "line": 343
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 348
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "beams",
+  "min_version": null,
+  "line": 358
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "design_points",
+  "min_version": null,
+  "line": 363
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "design_curves",
+  "min_version": null,
+  "line": 368
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "datum_planes",
+  "min_version": null,
+  "line": 373
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "datum_points",
+  "min_version": null,
+  "line": 378
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "datum_lines",
+  "min_version": null,
+  "line": 383
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "coordinate_systems",
+  "min_version": null,
+  "line": 388
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 393
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 398
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "shared_topology",
+  "min_version": null,
+  "line": 403
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "get_all_bodies",
+  "min_version": null,
+  "line": 426
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "get_world_transform",
+  "min_version": null,
+  "line": 440
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "modify_placement",
+  "min_version": null,
+  "line": 453
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "reset_placement",
+  "min_version": null,
+  "line": 489
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "add_component",
+  "min_version": null,
+  "line": 498
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "set_shared_topology",
+  "min_version": null,
+  "line": 541
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "extrude_sketch",
+  "min_version": null,
+  "line": 591
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "sweep_sketch",
+  "min_version": "24.2.0",
+  "line": 670
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "sweep_chain",
+  "min_version": "24.2.0",
+  "line": 714
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "sweep_with_guide",
+  "min_version": "26.1.0",
+  "line": 757
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "revolve_sketch",
+  "min_version": "24.2.0",
+  "line": 782
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "extrude_face",
+  "min_version": null,
+  "line": 842
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_sphere",
+  "min_version": "25.1.0",
+  "line": 896
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_block",
+  "min_version": "27.1.0",
+  "line": 926
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_body_from_loft_profile",
+  "min_version": "24.2.0",
+  "line": 956
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_body_from_loft_profiles_with_guides",
+  "min_version": "26.1.0",
+  "line": 1025
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_surface",
+  "min_version": null,
+  "line": 1063
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_surface_from_face",
+  "min_version": null,
+  "line": 1100
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_body_from_surface",
+  "min_version": "25.1.0",
+  "line": 1132
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_surface_from_trimmed_curves",
+  "min_version": "25.2.0",
+  "line": 1168
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_coordinate_system",
+  "min_version": null,
+  "line": 1204
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "translate_bodies",
+  "min_version": null,
+  "line": 1226
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_beams",
+  "min_version": null,
+  "line": 1269
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_beam",
+  "min_version": null,
+  "line": 1423
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_component",
+  "min_version": null,
+  "line": 1442
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_body",
+  "min_version": null,
+  "line": 1476
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "add_design_point",
+  "min_version": null,
+  "line": 1509
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "add_design_points",
+  "min_version": null,
+  "line": 1527
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_datum_plane",
+  "min_version": "27.1.0",
+  "line": 1574
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_datum_plane",
+  "min_version": "27.1.0",
+  "line": 1607
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_coordinate_system",
+  "min_version": "27.1.0",
+  "line": 1646
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_datum_point",
+  "min_version": "27.1.0",
+  "line": 1685
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_datum_point",
+  "min_version": "27.1.0",
+  "line": 1714
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "create_datum_line",
+  "min_version": "27.1.0",
+  "line": 1749
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_datum_line",
+  "min_version": "27.1.0",
+  "line": 1782
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_beam",
+  "min_version": null,
+  "line": 1816
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "delete_design_curve",
+  "min_version": null,
+  "line": 1855
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_component",
+  "min_version": null,
+  "line": 1896
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_component_by_name",
+  "min_version": null,
+  "line": 1924
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_body",
+  "min_version": null,
+  "line": 1951
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_beam",
+  "min_version": null,
+  "line": 1985
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_plane",
+  "min_version": null,
+  "line": 2019
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_design_curve",
+  "min_version": null,
+  "line": 2053
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_coordinate_system",
+  "min_version": null,
+  "line": 2087
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_datum_point",
+  "min_version": null,
+  "line": 2121
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "search_datum_line",
+  "min_version": null,
+  "line": 2155
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "copy_faces",
+  "min_version": "27.1.0",
+  "line": 2190
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "move_bodies_to_component",
+  "min_version": "27.1.0",
+  "line": 2220
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "tessellate",
+  "min_version": null,
+  "line": 2274
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 2318
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "tree_print",
+  "min_version": null,
+  "line": 2462
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "import_named_selections",
+  "min_version": "26.1.0",
+  "line": 2602
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "make_independent",
+  "min_version": "26.1.0",
+  "line": 2628
+ },
+ {
+  "class": "Component",
+  "module": "designer/component.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 2650
+ },
+ {
+  "class": "CoordinateSystem",
+  "module": "designer/coordinate_system.py",
+  "method": "id",
+  "min_version": null,
+  "line": 84
+ },
+ {
+  "class": "CoordinateSystem",
+  "module": "designer/coordinate_system.py",
+  "method": "name",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "CoordinateSystem",
+  "module": "designer/coordinate_system.py",
+  "method": "frame",
+  "min_version": null,
+  "line": 94
+ },
+ {
+  "class": "CoordinateSystem",
+  "module": "designer/coordinate_system.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 99
+ },
+ {
+  "class": "CoordinateSystem",
+  "module": "designer/coordinate_system.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 104
+ },
+ {
+  "class": "DatumLine",
+  "module": "designer/datumline.py",
+  "method": "id",
+  "min_version": null,
+  "line": 57
+ },
+ {
+  "class": "DatumLine",
+  "module": "designer/datumline.py",
+  "method": "name",
+  "min_version": null,
+  "line": 62
+ },
+ {
+  "class": "DatumLine",
+  "module": "designer/datumline.py",
+  "method": "line",
+  "min_version": null,
+  "line": 67
+ },
+ {
+  "class": "DatumLine",
+  "module": "designer/datumline.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 72
+ },
+ {
+  "class": "DatumLine",
+  "module": "designer/datumline.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "DatumPlane",
+  "module": "designer/datumplane.py",
+  "method": "id",
+  "min_version": null,
+  "line": 59
+ },
+ {
+  "class": "DatumPlane",
+  "module": "designer/datumplane.py",
+  "method": "name",
+  "min_version": null,
+  "line": 64
+ },
+ {
+  "class": "DatumPlane",
+  "module": "designer/datumplane.py",
+  "method": "value",
+  "min_version": "27.1.0",
+  "line": 70
+ },
+ {
+  "class": "DatumPlane",
+  "module": "designer/datumplane.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 75
+ },
+ {
+  "class": "DatumPlane",
+  "module": "designer/datumplane.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "DatumPlane",
+  "module": "designer/datumplane.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "DatumPoint",
+  "module": "designer/datumpoint.py",
+  "method": "id",
+  "min_version": null,
+  "line": 63
+ },
+ {
+  "class": "DatumPoint",
+  "module": "designer/datumpoint.py",
+  "method": "name",
+  "min_version": null,
+  "line": 68
+ },
+ {
+  "class": "DatumPoint",
+  "module": "designer/datumpoint.py",
+  "method": "value",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "DatumPoint",
+  "module": "designer/datumpoint.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 78
+ },
+ {
+  "class": "DatumPoint",
+  "module": "designer/datumpoint.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 83
+ },
+ {
+  "class": "DatumPoint",
+  "module": "designer/datumpoint.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 87
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "design_id",
+  "min_version": null,
+  "line": 179
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "materials",
+  "min_version": null,
+  "line": 184
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "named_selections",
+  "min_version": null,
+  "line": 189
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "beam_profiles",
+  "min_version": null,
+  "line": 194
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "parameters",
+  "min_version": null,
+  "line": 199
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "is_active",
+  "min_version": null,
+  "line": 204
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "is_closed",
+  "min_version": null,
+  "line": 209
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "close",
+  "min_version": null,
+  "line": 213
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "add_material",
+  "min_version": null,
+  "line": 242
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "remove_material",
+  "min_version": "26.1.0",
+  "line": 257
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "save",
+  "min_version": null,
+  "line": 280
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "download",
+  "min_version": null,
+  "line": 304
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_scdocx",
+  "min_version": null,
+  "line": 539
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_disco",
+  "min_version": null,
+  "line": 566
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_stride",
+  "min_version": null,
+  "line": 593
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_parasolid_text",
+  "min_version": null,
+  "line": 616
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_parasolid_bin",
+  "min_version": null,
+  "line": 647
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_fmd",
+  "min_version": null,
+  "line": 678
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_step",
+  "min_version": null,
+  "line": 720
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_iges",
+  "min_version": null,
+  "line": 743
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_pmdb",
+  "min_version": null,
+  "line": 766
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_usd",
+  "min_version": null,
+  "line": 795
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "export_to_html",
+  "min_version": null,
+  "line": 853
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "create_named_selection",
+  "min_version": null,
+  "line": 923
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "delete_named_selection",
+  "min_version": null,
+  "line": 1026
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "delete_component",
+  "min_version": null,
+  "line": 1057
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "set_shared_topology",
+  "min_version": null,
+  "line": 1081
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "add_beam_circular_profile",
+  "min_version": null,
+  "line": 1098
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "get_all_parameters",
+  "min_version": "25.1.0",
+  "line": 1150
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "set_parameter",
+  "min_version": "25.1.0",
+  "line": 1167
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "add_midsurface_thickness",
+  "min_version": null,
+  "line": 1196
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "add_midsurface_offset",
+  "min_version": null,
+  "line": 1234
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "delete_beam_profile",
+  "min_version": null,
+  "line": 1271
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "insert_file",
+  "min_version": "24.2.0",
+  "line": 1296
+ },
+ {
+  "class": "Design",
+  "module": "designer/design.py",
+  "method": "get_raw_tessellation",
+  "min_version": "26.1.0",
+  "line": 1365
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "id",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "name",
+  "min_version": null,
+  "line": 90
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "is_alive",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "shape",
+  "min_version": "27.1.0",
+  "line": 107
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "length",
+  "min_version": null,
+  "line": 130
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "start",
+  "min_version": "27.1.0",
+  "line": 137
+ },
+ {
+  "class": "DesignCurve",
+  "module": "designer/designcurve.py",
+  "method": "end",
+  "min_version": "27.1.0",
+  "line": 144
+ },
+ {
+  "class": "DesignPoint",
+  "module": "designer/designpoint.py",
+  "method": "id",
+  "min_version": null,
+  "line": 62
+ },
+ {
+  "class": "DesignPoint",
+  "module": "designer/designpoint.py",
+  "method": "name",
+  "min_version": null,
+  "line": 67
+ },
+ {
+  "class": "DesignPoint",
+  "module": "designer/designpoint.py",
+  "method": "value",
+  "min_version": null,
+  "line": 72
+ },
+ {
+  "class": "DesignPoint",
+  "module": "designer/designpoint.py",
+  "method": "parent_component",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "DesignPoint",
+  "module": "designer/designpoint.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 81
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "id",
+  "min_version": null,
+  "line": 106
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "body",
+  "min_version": null,
+  "line": 111
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "is_reversed",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "shape",
+  "min_version": "24.2.0",
+  "line": 123
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "length",
+  "min_version": null,
+  "line": 156
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "curve_type",
+  "min_version": null,
+  "line": 166
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 172
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "vertices",
+  "min_version": "26.1.0",
+  "line": 192
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "start",
+  "min_version": null,
+  "line": 210
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "end",
+  "min_version": null,
+  "line": 223
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "bounding_box",
+  "min_version": "25.2.0",
+  "line": 235
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "centroid",
+  "min_version": "27.1.0",
+  "line": 251
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "get_bounding_box",
+  "min_version": "27.1.0",
+  "line": 263
+ },
+ {
+  "class": "Edge",
+  "module": "designer/edge.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 276
+ },
+ {
+  "class": "FaceLoop",
+  "module": "designer/face.py",
+  "method": "type",
+  "min_version": null,
+  "line": 130
+ },
+ {
+  "class": "FaceLoop",
+  "module": "designer/face.py",
+  "method": "length",
+  "min_version": null,
+  "line": 135
+ },
+ {
+  "class": "FaceLoop",
+  "module": "designer/face.py",
+  "method": "min_bbox",
+  "min_version": null,
+  "line": 140
+ },
+ {
+  "class": "FaceLoop",
+  "module": "designer/face.py",
+  "method": "max_bbox",
+  "min_version": null,
+  "line": 145
+ },
+ {
+  "class": "FaceLoop",
+  "module": "designer/face.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 150
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "id",
+  "min_version": null,
+  "line": 200
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "is_reversed",
+  "min_version": null,
+  "line": 205
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "body",
+  "min_version": null,
+  "line": 210
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "shape",
+  "min_version": "24.2.0",
+  "line": 217
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "surface_type",
+  "min_version": null,
+  "line": 245
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "area",
+  "min_version": null,
+  "line": 251
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 258
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "vertices",
+  "min_version": "26.1.0",
+  "line": 278
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "loops",
+  "min_version": null,
+  "line": 294
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "color",
+  "min_version": "25.2.0",
+  "line": 326
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 349
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "color",
+  "min_version": null,
+  "line": 355
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "opacity",
+  "min_version": null,
+  "line": 359
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "bounding_box",
+  "min_version": "25.2.0",
+  "line": 364
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "centroid",
+  "min_version": "27.1.0",
+  "line": 379
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "get_bounding_box",
+  "min_version": "27.1.0",
+  "line": 391
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "set_color",
+  "min_version": "25.2.0",
+  "line": 406
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "set_opacity",
+  "min_version": "25.2.0",
+  "line": 428
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 442
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "point",
+  "min_version": null,
+  "line": 475
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "create_isoparametric_curves",
+  "min_version": null,
+  "line": 506
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "setup_offset_relationship",
+  "min_version": "25.2.0",
+  "line": 551
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 583
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "tessellate",
+  "min_version": null,
+  "line": 599
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 633
+ },
+ {
+  "class": "Face",
+  "module": "designer/face.py",
+  "method": "detach",
+  "min_version": "27.1.0",
+  "line": 679
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "chamfer",
+  "min_version": "25.2.0",
+  "line": 182
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "fillet",
+  "min_version": "25.2.0",
+  "line": 226
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "full_fillet",
+  "min_version": "25.2.0",
+  "line": 270
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "extrude_faces",
+  "min_version": "25.2.0",
+  "line": 301
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "extrude_faces_up_to",
+  "min_version": "25.2.0",
+  "line": 377
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "extrude_edges",
+  "min_version": "25.2.0",
+  "line": 454
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "extrude_edges_up_to",
+  "min_version": "25.2.0",
+  "line": 539
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "fill_edge_loops",
+  "min_version": "27.1.0",
+  "line": 600
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "rename_object",
+  "min_version": "25.2.0",
+  "line": 651
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "create_linear_pattern",
+  "min_version": "25.2.0",
+  "line": 680
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "modify_linear_pattern",
+  "min_version": "25.2.0",
+  "line": 759
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "create_circular_pattern",
+  "min_version": "25.2.0",
+  "line": 823
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "modify_circular_pattern",
+  "min_version": "25.2.0",
+  "line": 923
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "create_fill_pattern",
+  "min_version": "25.2.0",
+  "line": 980
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "update_fill_pattern",
+  "min_version": "25.2.0",
+  "line": 1069
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "revolve_faces",
+  "min_version": "25.2.0",
+  "line": 1108
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "revolve_faces_up_to",
+  "min_version": "25.2.0",
+  "line": 1173
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "revolve_faces_by_helix",
+  "min_version": "25.2.0",
+  "line": 1234
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "replace_face",
+  "min_version": "25.2.0",
+  "line": 1315
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "split_body",
+  "min_version": "25.2.0",
+  "line": 1355
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "get_round_info",
+  "min_version": "25.2.0",
+  "line": 1429
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "move_translate",
+  "min_version": "25.2.0",
+  "line": 1453
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "move_rotate",
+  "min_version": "25.2.0",
+  "line": 1520
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "offset_faces_set_radius",
+  "min_version": "25.2.0",
+  "line": 1559
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "create_align_condition",
+  "min_version": "26.1.0",
+  "line": 1612
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "create_tangent_condition",
+  "min_version": "26.1.0",
+  "line": 1669
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "create_orient_condition",
+  "min_version": "26.1.0",
+  "line": 1726
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "move_imprint_edges",
+  "min_version": "26.1.0",
+  "line": 1783
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "offset_edges",
+  "min_version": "26.1.0",
+  "line": 1813
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "sweep_edges",
+  "min_version": "27.1.0",
+  "line": 1838
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "sweep_faces",
+  "min_version": "27.1.0",
+  "line": 1898
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "draft_faces",
+  "min_version": "26.1.0",
+  "line": 1959
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "thicken_faces",
+  "min_version": "26.1.0",
+  "line": 2002
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "offset_faces",
+  "min_version": "26.1.0",
+  "line": 2056
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "revolve_edges",
+  "min_version": "25.2.0",
+  "line": 2090
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "intersect_curve_and_surface",
+  "min_version": "26.1.0",
+  "line": 2135
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "detach_faces",
+  "min_version": "27.1.0",
+  "line": 2166
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "revolve_points",
+  "min_version": "25.2.0",
+  "line": 2228
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "revolve_points_by_helix",
+  "min_version": "25.2.0",
+  "line": 2304
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "sweep_points",
+  "min_version": "25.2.0",
+  "line": 2392
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "split_edge",
+  "min_version": "25.2.0",
+  "line": 2502
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "split_face",
+  "min_version": "25.2.0",
+  "line": 2572
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "project_to_solid",
+  "min_version": "27.1.0",
+  "line": 2646
+ },
+ {
+  "class": "GeometryCommands",
+  "module": "designer/geometry_commands.py",
+  "method": "fill",
+  "min_version": "25.2.0",
+  "line": 2690
+ },
+ {
+  "class": "Part",
+  "module": "designer/part.py",
+  "method": "id",
+  "min_version": null,
+  "line": 63
+ },
+ {
+  "class": "Part",
+  "module": "designer/part.py",
+  "method": "name",
+  "min_version": null,
+  "line": 68
+ },
+ {
+  "class": "Part",
+  "module": "designer/part.py",
+  "method": "components",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "Part",
+  "module": "designer/part.py",
+  "method": "components",
+  "min_version": null,
+  "line": 78
+ },
+ {
+  "class": "Part",
+  "module": "designer/part.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 82
+ },
+ {
+  "class": "Part",
+  "module": "designer/part.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 90
+ },
+ {
+  "class": "MasterComponent",
+  "module": "designer/part.py",
+  "method": "id",
+  "min_version": null,
+  "line": 135
+ },
+ {
+  "class": "MasterComponent",
+  "module": "designer/part.py",
+  "method": "name",
+  "min_version": null,
+  "line": 140
+ },
+ {
+  "class": "MasterComponent",
+  "module": "designer/part.py",
+  "method": "occurrences",
+  "min_version": null,
+  "line": 145
+ },
+ {
+  "class": "MasterComponent",
+  "module": "designer/part.py",
+  "method": "part",
+  "min_version": null,
+  "line": 150
+ },
+ {
+  "class": "MasterComponent",
+  "module": "designer/part.py",
+  "method": "transform",
+  "min_version": null,
+  "line": 155
+ },
+ {
+  "class": "MasterComponent",
+  "module": "designer/part.py",
+  "method": "transform",
+  "min_version": null,
+  "line": 160
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "id",
+  "min_version": null,
+  "line": 192
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "name",
+  "min_version": null,
+  "line": 197
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "name",
+  "min_version": "26.1.0",
+  "line": 203
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 211
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 223
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 237
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "beams",
+  "min_version": null,
+  "line": 249
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "design_points",
+  "min_version": null,
+  "line": 261
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "components",
+  "min_version": null,
+  "line": 276
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "vertices",
+  "min_version": null,
+  "line": 294
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "design_curves",
+  "min_version": null,
+  "line": 312
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "datum_planes",
+  "min_version": null,
+  "line": 330
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "coordinate_systems",
+  "min_version": null,
+  "line": 348
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "datum_points",
+  "min_version": null,
+  "line": 366
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "add_members",
+  "min_version": null,
+  "line": 383
+ },
+ {
+  "class": "NamedSelection",
+  "module": "designer/selection.py",
+  "method": "remove_members",
+  "min_version": null,
+  "line": 481
+ },
+ {
+  "class": "Vertex",
+  "module": "designer/vertex.py",
+  "method": "id",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "Vertex",
+  "module": "designer/vertex.py",
+  "method": "body",
+  "min_version": null,
+  "line": 82
+ },
+ {
+  "class": "Vertex",
+  "module": "designer/vertex.py",
+  "method": "get_named_selections",
+  "min_version": null,
+  "line": 86
+ },
+ {
+  "class": "PyGeometryCustomAdapter",
+  "module": "logger.py",
+  "method": "process",
+  "min_version": null,
+  "line": 210
+ },
+ {
+  "class": "PyGeometryCustomAdapter",
+  "module": "logger.py",
+  "method": "log_to_file",
+  "min_version": null,
+  "line": 218
+ },
+ {
+  "class": "PyGeometryCustomAdapter",
+  "module": "logger.py",
+  "method": "log_to_stdout",
+  "min_version": null,
+  "line": 234
+ },
+ {
+  "class": "PyGeometryCustomAdapter",
+  "module": "logger.py",
+  "method": "setLevel",
+  "min_version": null,
+  "line": 249
+ },
+ {
+  "class": "InstanceFilter",
+  "module": "logger.py",
+  "method": "filter",
+  "min_version": null,
+  "line": 313
+ },
+ {
+  "class": "Logger",
+  "module": "logger.py",
+  "method": "log_to_file",
+  "min_version": null,
+  "line": 402
+ },
+ {
+  "class": "Logger",
+  "module": "logger.py",
+  "method": "log_to_stdout",
+  "min_version": null,
+  "line": 424
+ },
+ {
+  "class": "Logger",
+  "module": "logger.py",
+  "method": "setLevel",
+  "min_version": null,
+  "line": 435
+ },
+ {
+  "class": "Logger",
+  "module": "logger.py",
+  "method": "add_child_logger",
+  "min_version": null,
+  "line": 486
+ },
+ {
+  "class": "Logger",
+  "module": "logger.py",
+  "method": "add_instance_logger",
+  "min_version": null,
+  "line": 511
+ },
+ {
+  "class": "Logger",
+  "module": "logger.py",
+  "method": "add_handling_uncaught_expections",
+  "min_version": null,
+  "line": 561
+ },
+ {
+  "class": "Material",
+  "module": "materials/material.py",
+  "method": "properties",
+  "min_version": null,
+  "line": 66
+ },
+ {
+  "class": "Material",
+  "module": "materials/material.py",
+  "method": "name",
+  "min_version": null,
+  "line": 71
+ },
+ {
+  "class": "Material",
+  "module": "materials/material.py",
+  "method": "add_property",
+  "min_version": null,
+  "line": 76
+ },
+ {
+  "class": "MaterialPropertyType",
+  "module": "materials/property.py",
+  "method": "from_id",
+  "min_version": null,
+  "line": 46
+ },
+ {
+  "class": "MaterialProperty",
+  "module": "materials/property.py",
+  "method": "type",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "MaterialProperty",
+  "module": "materials/property.py",
+  "method": "name",
+  "min_version": null,
+  "line": 108
+ },
+ {
+  "class": "MaterialProperty",
+  "module": "materials/property.py",
+  "method": "quantity",
+  "min_version": null,
+  "line": 113
+ },
+ {
+  "class": "BoundingBox",
+  "module": "math/bbox.py",
+  "method": "min_corner",
+  "min_version": null,
+  "line": 63
+ },
+ {
+  "class": "BoundingBox",
+  "module": "math/bbox.py",
+  "method": "max_corner",
+  "min_version": null,
+  "line": 68
+ },
+ {
+  "class": "BoundingBox",
+  "module": "math/bbox.py",
+  "method": "center",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "BoundingBox",
+  "module": "math/bbox.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 78
+ },
+ {
+  "class": "BoundingBox",
+  "module": "math/bbox.py",
+  "method": "contains_point_components",
+  "min_version": null,
+  "line": 98
+ },
+ {
+  "class": "BoundingBox",
+  "module": "math/bbox.py",
+  "method": "intersect_bboxes",
+  "min_version": null,
+  "line": 142
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 108
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "direction_x",
+  "min_version": null,
+  "line": 113
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "direction_y",
+  "min_version": null,
+  "line": 118
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "direction_z",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "global_to_local_rotation",
+  "min_version": null,
+  "line": 128
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "local_to_global_rotation",
+  "min_version": null,
+  "line": 140
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "transformation_matrix",
+  "min_version": null,
+  "line": 152
+ },
+ {
+  "class": "Frame",
+  "module": "math/frame.py",
+  "method": "transform_point2d_local_to_global",
+  "min_version": null,
+  "line": 164
+ },
+ {
+  "class": "Matrix",
+  "module": "math/matrix.py",
+  "method": "determinant",
+  "min_version": null,
+  "line": 68
+ },
+ {
+  "class": "Matrix",
+  "module": "math/matrix.py",
+  "method": "inverse",
+  "min_version": null,
+  "line": 74
+ },
+ {
+  "class": "Matrix44",
+  "module": "math/matrix.py",
+  "method": "create_translation",
+  "min_version": null,
+  "line": 142
+ },
+ {
+  "class": "Matrix44",
+  "module": "math/matrix.py",
+  "method": "is_translation",
+  "min_version": null,
+  "line": 181
+ },
+ {
+  "class": "Matrix44",
+  "module": "math/matrix.py",
+  "method": "create_rotation",
+  "min_version": null,
+  "line": 250
+ },
+ {
+  "class": "Matrix44",
+  "module": "math/matrix.py",
+  "method": "create_matrix_from_rotation_about_axis",
+  "min_version": null,
+  "line": 318
+ },
+ {
+  "class": "Matrix44",
+  "module": "math/matrix.py",
+  "method": "create_matrix_from_mapping",
+  "min_version": null,
+  "line": 353
+ },
+ {
+  "class": "Plane",
+  "module": "math/plane.py",
+  "method": "is_point_contained",
+  "min_version": null,
+  "line": 59
+ },
+ {
+  "class": "Plane",
+  "module": "math/plane.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 83
+ },
+ {
+  "class": "Point2D",
+  "module": "math/point.py",
+  "method": "x",
+  "min_version": null,
+  "line": 138
+ },
+ {
+  "class": "Point2D",
+  "module": "math/point.py",
+  "method": "x",
+  "min_version": null,
+  "line": 145
+ },
+ {
+  "class": "Point2D",
+  "module": "math/point.py",
+  "method": "y",
+  "min_version": null,
+  "line": 150
+ },
+ {
+  "class": "Point2D",
+  "module": "math/point.py",
+  "method": "y",
+  "min_version": null,
+  "line": 157
+ },
+ {
+  "class": "Point2D",
+  "module": "math/point.py",
+  "method": "unit",
+  "min_version": null,
+  "line": 162
+ },
+ {
+  "class": "Point2D",
+  "module": "math/point.py",
+  "method": "base_unit",
+  "min_version": null,
+  "line": 171
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "x",
+  "min_version": null,
+  "line": 265
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "x",
+  "min_version": null,
+  "line": 272
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "y",
+  "min_version": null,
+  "line": 277
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "y",
+  "min_version": null,
+  "line": 284
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "z",
+  "min_version": null,
+  "line": 289
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "z",
+  "min_version": null,
+  "line": 296
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "position",
+  "min_version": null,
+  "line": 301
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "unit",
+  "min_version": null,
+  "line": 306
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "base_unit",
+  "min_version": null,
+  "line": 315
+ },
+ {
+  "class": "Point3D",
+  "module": "math/point.py",
+  "method": "transform",
+  "min_version": null,
+  "line": 323
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "x",
+  "min_version": null,
+  "line": 67
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "x",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "y",
+  "min_version": null,
+  "line": 78
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "y",
+  "min_version": null,
+  "line": 84
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "z",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "z",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "norm",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "magnitude",
+  "min_version": null,
+  "line": 105
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "is_zero",
+  "min_version": null,
+  "line": 110
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "is_perpendicular_to",
+  "min_version": null,
+  "line": 115
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "is_parallel_to",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "is_opposite",
+  "min_version": null,
+  "line": 131
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "normalize",
+  "min_version": null,
+  "line": 135
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "transform",
+  "min_version": null,
+  "line": 143
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "rotate_vector",
+  "min_version": null,
+  "line": 169
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "get_angle_between",
+  "min_version": null,
+  "line": 185
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "cross",
+  "min_version": null,
+  "line": 213
+ },
+ {
+  "class": "Vector3D",
+  "module": "math/vector.py",
+  "method": "from_points",
+  "min_version": null,
+  "line": 258
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "x",
+  "min_version": null,
+  "line": 314
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "x",
+  "min_version": null,
+  "line": 320
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "y",
+  "min_version": null,
+  "line": 325
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "y",
+  "min_version": null,
+  "line": 331
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "norm",
+  "min_version": null,
+  "line": 336
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "magnitude",
+  "min_version": null,
+  "line": 341
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "is_zero",
+  "min_version": null,
+  "line": 346
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "cross",
+  "min_version": null,
+  "line": 351
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "is_perpendicular_to",
+  "min_version": null,
+  "line": 363
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "is_parallel_to",
+  "min_version": null,
+  "line": 371
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "is_opposite",
+  "min_version": null,
+  "line": 379
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "normalize",
+  "min_version": null,
+  "line": 383
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "get_angle_between",
+  "min_version": null,
+  "line": 392
+ },
+ {
+  "class": "Vector2D",
+  "module": "math/vector.py",
+  "method": "from_points",
+  "min_version": null,
+  "line": 456
+ },
+ {
+  "class": "UnitVector3D",
+  "module": "math/vector.py",
+  "method": "x",
+  "min_version": null,
+  "line": 507
+ },
+ {
+  "class": "UnitVector3D",
+  "module": "math/vector.py",
+  "method": "y",
+  "min_version": null,
+  "line": 511
+ },
+ {
+  "class": "UnitVector3D",
+  "module": "math/vector.py",
+  "method": "z",
+  "min_version": null,
+  "line": 515
+ },
+ {
+  "class": "UnitVector3D",
+  "module": "math/vector.py",
+  "method": "from_points",
+  "min_version": null,
+  "line": 519
+ },
+ {
+  "class": "UnitVector2D",
+  "module": "math/vector.py",
+  "method": "x",
+  "min_version": null,
+  "line": 561
+ },
+ {
+  "class": "UnitVector2D",
+  "module": "math/vector.py",
+  "method": "y",
+  "min_version": null,
+  "line": 565
+ },
+ {
+  "class": "UnitVector2D",
+  "module": "math/vector.py",
+  "method": "from_points",
+  "min_version": null,
+  "line": 569
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_accuracy",
+  "min_version": null,
+  "line": 43
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "angle_accuracy",
+  "min_version": null,
+  "line": 48
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "double_accuracy",
+  "min_version": null,
+  "line": 53
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_is_equal",
+  "min_version": null,
+  "line": 58
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "equal_doubles",
+  "min_version": null,
+  "line": 76
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "compare_with_tolerance",
+  "min_version": null,
+  "line": 81
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_is_greater_than_or_equal",
+  "min_version": null,
+  "line": 93
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_is_less_than_or_equal",
+  "min_version": null,
+  "line": 112
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_is_zero",
+  "min_version": null,
+  "line": 131
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_is_negative",
+  "min_version": null,
+  "line": 143
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "length_is_positive",
+  "min_version": null,
+  "line": 155
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "angle_is_zero",
+  "min_version": null,
+  "line": 167
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "angle_is_negative",
+  "min_version": null,
+  "line": 179
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "angle_is_positive",
+  "min_version": null,
+  "line": 191
+ },
+ {
+  "class": "Accuracy",
+  "module": "misc/accuracy.py",
+  "method": "is_within_tolerance",
+  "min_version": null,
+  "line": 203
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "LENGTH",
+  "min_version": null,
+  "line": 84
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "LENGTH",
+  "min_version": null,
+  "line": 90
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "ANGLE",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "ANGLE",
+  "min_version": null,
+  "line": 101
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "AREA",
+  "min_version": null,
+  "line": 106
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "VOLUME",
+  "min_version": null,
+  "line": 111
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "SERVER_LENGTH",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "SERVER_AREA",
+  "min_version": null,
+  "line": 126
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "SERVER_VOLUME",
+  "min_version": null,
+  "line": 136
+ },
+ {
+  "class": "DefaultUnitsClass",
+  "module": "misc/measurements.py",
+  "method": "SERVER_ANGLE",
+  "min_version": null,
+  "line": 146
+ },
+ {
+  "class": "Measurement",
+  "module": "misc/measurements.py",
+  "method": "value",
+  "min_version": null,
+  "line": 196
+ },
+ {
+  "class": "Measurement",
+  "module": "misc/measurements.py",
+  "method": "value",
+  "min_version": null,
+  "line": 201
+ },
+ {
+  "class": "ImportOptions",
+  "module": "misc/options.py",
+  "method": "to_dict",
+  "min_version": null,
+  "line": 81
+ },
+ {
+  "class": "ImportOptionsDefinitions",
+  "module": "misc/options.py",
+  "method": "to_dict",
+  "min_version": null,
+  "line": 98
+ },
+ {
+  "class": "TessellationOptions",
+  "module": "misc/options.py",
+  "method": "surface_deviation",
+  "min_version": null,
+  "line": 148
+ },
+ {
+  "class": "TessellationOptions",
+  "module": "misc/options.py",
+  "method": "angle_deviation",
+  "min_version": null,
+  "line": 156
+ },
+ {
+  "class": "TessellationOptions",
+  "module": "misc/options.py",
+  "method": "max_aspect_ratio",
+  "min_version": null,
+  "line": 164
+ },
+ {
+  "class": "TessellationOptions",
+  "module": "misc/options.py",
+  "method": "max_edge_length",
+  "min_version": null,
+  "line": 172
+ },
+ {
+  "class": "TessellationOptions",
+  "module": "misc/options.py",
+  "method": "watertight",
+  "min_version": null,
+  "line": 180
+ },
+ {
+  "class": "FMDExportOptions",
+  "module": "misc/options.py",
+  "method": "deviation",
+  "min_version": null,
+  "line": 235
+ },
+ {
+  "class": "FMDExportOptions",
+  "module": "misc/options.py",
+  "method": "angle",
+  "min_version": null,
+  "line": 243
+ },
+ {
+  "class": "FMDExportOptions",
+  "module": "misc/options.py",
+  "method": "aspect_ratio",
+  "min_version": null,
+  "line": 251
+ },
+ {
+  "class": "FMDExportOptions",
+  "module": "misc/options.py",
+  "method": "max_edge_length",
+  "min_version": null,
+  "line": 259
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "create_shared_topology",
+  "min_version": null,
+  "line": 503
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "imprint_capping_edges",
+  "min_version": null,
+  "line": 511
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "merge_created_volume",
+  "min_version": null,
+  "line": 519
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "seed_point",
+  "min_version": null,
+  "line": 527
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "tolerance",
+  "min_version": null,
+  "line": 535
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "create_capping_surfaces",
+  "min_version": null,
+  "line": 543
+ },
+ {
+  "class": "VolumeExtractOptions",
+  "module": "misc/options.py",
+  "method": "detect_leaks",
+  "min_version": null,
+  "line": 551
+ },
+ {
+  "class": "PhysicalQuantity",
+  "module": "misc/units.py",
+  "method": "unit",
+  "min_version": null,
+  "line": 58
+ },
+ {
+  "class": "PhysicalQuantity",
+  "module": "misc/units.py",
+  "method": "unit",
+  "min_version": null,
+  "line": 64
+ },
+ {
+  "class": "PhysicalQuantity",
+  "module": "misc/units.py",
+  "method": "base_unit",
+  "min_version": null,
+  "line": 70
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "client",
+  "min_version": null,
+  "line": 158
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "design",
+  "min_version": null,
+  "line": 163
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "create_design",
+  "min_version": null,
+  "line": 167
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "get_active_design",
+  "min_version": null,
+  "line": 198
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "read_existing_design",
+  "min_version": null,
+  "line": 223
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "close",
+  "min_version": null,
+  "line": 243
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "exit",
+  "min_version": null,
+  "line": 258
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "open_file",
+  "min_version": null,
+  "line": 375
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "run_script_file",
+  "min_version": null,
+  "line": 519
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "run_discovery_script_file",
+  "min_version": null,
+  "line": 644
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "repair_tools",
+  "min_version": null,
+  "line": 663
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "prepare_tools",
+  "min_version": null,
+  "line": 668
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "measurement_tools",
+  "min_version": "24.2.0",
+  "line": 674
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "geometry_commands",
+  "min_version": null,
+  "line": 684
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "unsupported",
+  "min_version": null,
+  "line": 689
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "get_service_logs",
+  "min_version": "25.1.0",
+  "line": 694
+ },
+ {
+  "class": "Modeler",
+  "module": "modeler.py",
+  "method": "create_selection_builder",
+  "min_version": "27.1.0",
+  "line": 739
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "name",
+  "min_version": null,
+  "line": 124
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "name",
+  "min_version": null,
+  "line": 129
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "dimension_value",
+  "min_version": null,
+  "line": 134
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "dimension_value",
+  "min_version": null,
+  "line": 139
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "dimension_type",
+  "min_version": null,
+  "line": 151
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "dimension_type",
+  "min_version": null,
+  "line": 156
+ },
+ {
+  "class": "Parameter",
+  "module": "parameters/parameter.py",
+  "method": "convert_quantity_to_server_units",
+  "min_version": null,
+  "line": 161
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "use_service_colors",
+  "min_version": null,
+  "line": 119
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_frame",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_plane",
+  "min_version": null,
+  "line": 152
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_sketch",
+  "min_version": null,
+  "line": 187
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_surface",
+  "min_version": null,
+  "line": 225
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_curve",
+  "min_version": null,
+  "line": 238
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_body_edges",
+  "min_version": null,
+  "line": 251
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_body",
+  "min_version": null,
+  "line": 276
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_face",
+  "min_version": null,
+  "line": 355
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_component",
+  "min_version": null,
+  "line": 384
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_component_by_body",
+  "min_version": null,
+  "line": 431
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_sketch_polydata",
+  "min_version": null,
+  "line": 471
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_design_point",
+  "min_version": null,
+  "line": 497
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "add_design_curve",
+  "min_version": null,
+  "line": 510
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "plot_iter",
+  "min_version": null,
+  "line": 527
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 552
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "show",
+  "min_version": null,
+  "line": 665
+ },
+ {
+  "class": "GeometryPlotter",
+  "module": "plotting/plotter.py",
+  "method": "export_glb",
+  "min_version": null,
+  "line": 700
+ },
+ {
+  "class": "ShowDesignPoints",
+  "module": "plotting/widgets/show_design_point.py",
+  "method": "callback",
+  "min_version": null,
+  "line": 65
+ },
+ {
+  "class": "ShowDesignPoints",
+  "module": "plotting/widgets/show_design_point.py",
+  "method": "update",
+  "min_version": null,
+  "line": 83
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_all_visible_bodies",
+  "min_version": "27.1.0",
+  "line": 94
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_all_bodies",
+  "min_version": "27.1.0",
+  "line": 107
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_all_surface_bodies",
+  "min_version": "27.1.0",
+  "line": 120
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_all_solid_bodies",
+  "min_version": "27.1.0",
+  "line": 133
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_from_named_selection",
+  "min_version": "27.1.0",
+  "line": 146
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_name",
+  "min_version": "27.1.0",
+  "line": 169
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_volume",
+  "min_version": "27.1.0",
+  "line": 200
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_surface_area",
+  "min_version": "27.1.0",
+  "line": 229
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_x_location",
+  "min_version": "27.1.0",
+  "line": 258
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_y_location",
+  "min_version": "27.1.0",
+  "line": 291
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_z_location",
+  "min_version": "27.1.0",
+  "line": 324
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "get_bodies_with_color",
+  "min_version": "27.1.0",
+  "line": 357
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "invert_body_selection",
+  "min_version": "27.1.0",
+  "line": 380
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_volume",
+  "min_version": "27.1.0",
+  "line": 404
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_volume",
+  "min_version": "27.1.0",
+  "line": 434
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_volume",
+  "min_version": "27.1.0",
+  "line": 449
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_surface_area",
+  "min_version": "27.1.0",
+  "line": 464
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_surface_area",
+  "min_version": "27.1.0",
+  "line": 494
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_surface_area",
+  "min_version": "27.1.0",
+  "line": 509
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_face_count",
+  "min_version": "27.1.0",
+  "line": 524
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_face_count",
+  "min_version": "27.1.0",
+  "line": 552
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_face_count",
+  "min_version": "27.1.0",
+  "line": 567
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_edge_count",
+  "min_version": "27.1.0",
+  "line": 582
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_edge_count",
+  "min_version": "27.1.0",
+  "line": 610
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_edge_count",
+  "min_version": "27.1.0",
+  "line": 625
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_loop_count",
+  "min_version": "27.1.0",
+  "line": 640
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_loop_count",
+  "min_version": "27.1.0",
+  "line": 668
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_loop_count",
+  "min_version": "27.1.0",
+  "line": 683
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_number_surfaces",
+  "min_version": "27.1.0",
+  "line": 698
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_number_curves",
+  "min_version": "27.1.0",
+  "line": 730
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_number_surfaces",
+  "min_version": "27.1.0",
+  "line": 762
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_max_number_curves",
+  "min_version": "27.1.0",
+  "line": 786
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_number_surfaces",
+  "min_version": "27.1.0",
+  "line": 810
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_min_number_curves",
+  "min_version": "27.1.0",
+  "line": 834
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_number_surfaces_percentile",
+  "min_version": "27.1.0",
+  "line": 858
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_number_curves_percentile",
+  "min_version": "27.1.0",
+  "line": 891
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_color",
+  "min_version": "27.1.0",
+  "line": 924
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_by_name",
+  "min_version": "27.1.0",
+  "line": 948
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_containing_surface_types",
+  "min_version": "27.1.0",
+  "line": 980
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_containing_curve_types",
+  "min_version": "27.1.0",
+  "line": 1008
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_volume_percentile",
+  "min_version": "27.1.0",
+  "line": 1036
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_surface_area_percentile",
+  "min_version": "27.1.0",
+  "line": 1064
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_face_count_percentile",
+  "min_version": "27.1.0",
+  "line": 1092
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_edge_count_percentile",
+  "min_version": "27.1.0",
+  "line": 1120
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_bodies_loop_count_percentile",
+  "min_version": "27.1.0",
+  "line": 1148
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_surface_bodies",
+  "min_version": "27.1.0",
+  "line": 1176
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "filter_solid_bodies",
+  "min_version": "27.1.0",
+  "line": 1191
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_to_same_volume",
+  "min_version": "27.1.0",
+  "line": 1206
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_to_same_surface_area",
+  "min_version": "27.1.0",
+  "line": 1230
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_to_same_number_of_faces",
+  "min_version": "27.1.0",
+  "line": 1254
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_to_same_number_of_edges",
+  "min_version": "27.1.0",
+  "line": 1278
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_to_same_color",
+  "min_version": "27.1.0",
+  "line": 1302
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_to_same_name",
+  "min_version": "27.1.0",
+  "line": 1326
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "extend_nearby_bodies",
+  "min_version": "27.1.0",
+  "line": 1350
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_volume",
+  "min_version": "27.1.0",
+  "line": 1387
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_surface_area",
+  "min_version": "27.1.0",
+  "line": 1402
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_face_count",
+  "min_version": "27.1.0",
+  "line": 1417
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_edge_count",
+  "min_version": "27.1.0",
+  "line": 1432
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_loop_count",
+  "min_version": "27.1.0",
+  "line": 1447
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_number_of_surfaces",
+  "min_version": "27.1.0",
+  "line": 1462
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "order_bodies_by_number_of_curves",
+  "min_version": "27.1.0",
+  "line": 1477
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_volume",
+  "min_version": "27.1.0",
+  "line": 1492
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_surface_area",
+  "min_version": "27.1.0",
+  "line": 1509
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_face_count",
+  "min_version": "27.1.0",
+  "line": 1526
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_edge_count",
+  "min_version": "27.1.0",
+  "line": 1543
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_loop_count",
+  "min_version": "27.1.0",
+  "line": 1560
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_color",
+  "min_version": "27.1.0",
+  "line": 1577
+ },
+ {
+  "class": "BodySelection",
+  "module": "selection_builder/body_selection.py",
+  "method": "group_bodies_by_name",
+  "min_version": "27.1.0",
+  "line": 1594
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_all_visible_edges",
+  "min_version": "27.1.0",
+  "line": 91
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_all_edges",
+  "min_version": "27.1.0",
+  "line": 104
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_edges_from_named_selection",
+  "min_version": "27.1.0",
+  "line": 117
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_edges_with_length",
+  "min_version": "27.1.0",
+  "line": 137
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_edges_with_x_location",
+  "min_version": "27.1.0",
+  "line": 168
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_edges_with_y_location",
+  "min_version": "27.1.0",
+  "line": 205
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "get_edges_with_z_location",
+  "min_version": "27.1.0",
+  "line": 242
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "invert_edge_selection",
+  "min_version": "27.1.0",
+  "line": 279
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "filter_edges_by_length",
+  "min_version": "27.1.0",
+  "line": 303
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "filter_edges_max_length",
+  "min_version": "27.1.0",
+  "line": 335
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "filter_edges_min_length",
+  "min_version": "27.1.0",
+  "line": 350
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "filter_edges_by_curve_type",
+  "min_version": "27.1.0",
+  "line": 365
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "filter_edges_length_percentile",
+  "min_version": "27.1.0",
+  "line": 386
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "extend_nearby_edges",
+  "min_version": "27.1.0",
+  "line": 414
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "extend_to_connected",
+  "min_version": "27.1.0",
+  "line": 443
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "extend_to_tangent_chain",
+  "min_version": "27.1.0",
+  "line": 466
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "extend_to_coaxial_edges",
+  "min_version": "27.1.0",
+  "line": 489
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "order_edges_by_length",
+  "min_version": "27.1.0",
+  "line": 512
+ },
+ {
+  "class": "EdgeSelection",
+  "module": "selection_builder/edge_selection.py",
+  "method": "group_edges_by_curve_type",
+  "min_version": "27.1.0",
+  "line": 527
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_all_visible_faces",
+  "min_version": "27.1.0",
+  "line": 94
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_all_faces",
+  "min_version": "27.1.0",
+  "line": 107
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_faces_from_named_selection",
+  "min_version": "27.1.0",
+  "line": 120
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_faces_with_area",
+  "min_version": "27.1.0",
+  "line": 140
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_faces_with_x_location",
+  "min_version": "27.1.0",
+  "line": 169
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_faces_with_y_location",
+  "min_version": "27.1.0",
+  "line": 202
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_faces_with_z_location",
+  "min_version": "27.1.0",
+  "line": 235
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "get_faces_with_color",
+  "min_version": "27.1.0",
+  "line": 268
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "invert_face_selection",
+  "min_version": "27.1.0",
+  "line": 291
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_area",
+  "min_version": "27.1.0",
+  "line": 315
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_max_area",
+  "min_version": "27.1.0",
+  "line": 345
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_min_area",
+  "min_version": "27.1.0",
+  "line": 360
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_perimeter",
+  "min_version": "27.1.0",
+  "line": 375
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_max_perimeter",
+  "min_version": "27.1.0",
+  "line": 405
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_min_perimeter",
+  "min_version": "27.1.0",
+  "line": 420
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_edge_count",
+  "min_version": "27.1.0",
+  "line": 435
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_max_edge_count",
+  "min_version": "27.1.0",
+  "line": 463
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_min_edge_count",
+  "min_version": "27.1.0",
+  "line": 478
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_loop_count",
+  "min_version": "27.1.0",
+  "line": 493
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_max_loop_count",
+  "min_version": "27.1.0",
+  "line": 521
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_min_loop_count",
+  "min_version": "27.1.0",
+  "line": 536
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_number_curves",
+  "min_version": "27.1.0",
+  "line": 551
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_max_number_curves",
+  "min_version": "27.1.0",
+  "line": 583
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_min_number_curves",
+  "min_version": "27.1.0",
+  "line": 604
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_containing_curve_types",
+  "min_version": "27.1.0",
+  "line": 625
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_color",
+  "min_version": "27.1.0",
+  "line": 653
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_area_percentile",
+  "min_version": "27.1.0",
+  "line": 677
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_perimeter_percentile",
+  "min_version": "27.1.0",
+  "line": 705
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_edge_count_percentile",
+  "min_version": "27.1.0",
+  "line": 733
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_loop_count_percentile",
+  "min_version": "27.1.0",
+  "line": 761
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "filter_faces_by_number_curves_percentile",
+  "min_version": "27.1.0",
+  "line": 789
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "extend_to_same_area",
+  "min_version": "27.1.0",
+  "line": 822
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "extend_to_same_number_of_edges",
+  "min_version": "27.1.0",
+  "line": 846
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "extend_to_same_number_of_loops",
+  "min_version": "27.1.0",
+  "line": 870
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "extend_to_same_color",
+  "min_version": "27.1.0",
+  "line": 894
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "extend_to_coincident",
+  "min_version": "27.1.0",
+  "line": 918
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "extend_to_coaxial_faces",
+  "min_version": "27.1.0",
+  "line": 942
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "order_faces_by_area",
+  "min_version": "27.1.0",
+  "line": 966
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "order_faces_by_perimeter",
+  "min_version": "27.1.0",
+  "line": 981
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "order_faces_by_edge_count",
+  "min_version": "27.1.0",
+  "line": 996
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "order_faces_by_loop_count",
+  "min_version": "27.1.0",
+  "line": 1011
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "order_faces_by_number_curves",
+  "min_version": "27.1.0",
+  "line": 1026
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_area",
+  "min_version": "27.1.0",
+  "line": 1047
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_perimeter",
+  "min_version": "27.1.0",
+  "line": 1066
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_body",
+  "min_version": "27.1.0",
+  "line": 1085
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_edge_count",
+  "min_version": "27.1.0",
+  "line": 1104
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_loop_count",
+  "min_version": "27.1.0",
+  "line": 1123
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_color",
+  "min_version": "27.1.0",
+  "line": 1142
+ },
+ {
+  "class": "FaceSelection",
+  "module": "selection_builder/face_selection.py",
+  "method": "group_faces_by_coincident",
+  "min_version": "27.1.0",
+  "line": 1161
+ },
+ {
+  "class": "SelectionBuilder",
+  "module": "selection_builder/selection_builder.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 114
+ },
+ {
+  "class": "SelectionBuilder",
+  "module": "selection_builder/selection_builder.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 119
+ },
+ {
+  "class": "SelectionBuilder",
+  "module": "selection_builder/selection_builder.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 124
+ },
+ {
+  "class": "TypedSelection",
+  "module": "selection_builder/typed_selection.py",
+  "method": "items",
+  "min_version": null,
+  "line": 35
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "interval_u",
+  "min_version": null,
+  "line": 56
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "interval_v",
+  "min_version": null,
+  "line": 61
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "is_empty",
+  "min_version": null,
+  "line": 81
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "proportion",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "get_center",
+  "min_version": null,
+  "line": 91
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "is_negative",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "contains",
+  "min_version": null,
+  "line": 99
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "inflate",
+  "min_version": null,
+  "line": 103
+ },
+ {
+  "class": "BoxUV",
+  "module": "shapes/box_uv.py",
+  "method": "get_corner",
+  "min_version": null,
+  "line": 107
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 91
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "radius",
+  "min_version": null,
+  "line": 96
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "diameter",
+  "min_version": null,
+  "line": 101
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 106
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "area",
+  "min_version": null,
+  "line": 111
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 121
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 126
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 140
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 155
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "mirrored_copy",
+  "min_version": null,
+  "line": 179
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 189
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "is_coincident_circle",
+  "min_version": null,
+  "line": 212
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 231
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 245
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 248
+ },
+ {
+  "class": "Circle",
+  "module": "shapes/curves/circle.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 253
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "circle",
+  "min_version": null,
+  "line": 294
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 299
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "position",
+  "min_version": null,
+  "line": 304
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "tangent",
+  "min_version": null,
+  "line": 319
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 332
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "first_derivative",
+  "min_version": null,
+  "line": 345
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "second_derivative",
+  "min_version": null,
+  "line": 362
+ },
+ {
+  "class": "CircleEvaluation",
+  "module": "shapes/curves/circle.py",
+  "method": "curvature",
+  "min_version": null,
+  "line": 375
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 44
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 49
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 54
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 62
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 72
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "Curve",
+  "module": "shapes/curves/curve.py",
+  "method": "trim",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "CurveEvaluation",
+  "module": "shapes/curves/curve_evaluation.py",
+  "method": "is_set",
+  "min_version": null,
+  "line": 39
+ },
+ {
+  "class": "CurveEvaluation",
+  "module": "shapes/curves/curve_evaluation.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 44
+ },
+ {
+  "class": "CurveEvaluation",
+  "module": "shapes/curves/curve_evaluation.py",
+  "method": "position",
+  "min_version": null,
+  "line": 49
+ },
+ {
+  "class": "CurveEvaluation",
+  "module": "shapes/curves/curve_evaluation.py",
+  "method": "first_derivative",
+  "min_version": null,
+  "line": 54
+ },
+ {
+  "class": "CurveEvaluation",
+  "module": "shapes/curves/curve_evaluation.py",
+  "method": "second_derivative",
+  "min_version": null,
+  "line": 59
+ },
+ {
+  "class": "CurveEvaluation",
+  "module": "shapes/curves/curve_evaluation.py",
+  "method": "curvature",
+  "min_version": null,
+  "line": 64
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 113
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "major_radius",
+  "min_version": null,
+  "line": 118
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "minor_radius",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 128
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 133
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 138
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "mirrored_copy",
+  "min_version": null,
+  "line": 153
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 165
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 180
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "is_coincident_ellipse",
+  "min_version": null,
+  "line": 206
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "eccentricity",
+  "min_version": null,
+  "line": 227
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "linear_eccentricity",
+  "min_version": null,
+  "line": 237
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "semi_latus_rectum",
+  "min_version": null,
+  "line": 247
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 252
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "area",
+  "min_version": null,
+  "line": 262
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 266
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 290
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 303
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 306
+ },
+ {
+  "class": "Ellipse",
+  "module": "shapes/curves/ellipse.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 311
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "ellipse",
+  "min_version": null,
+  "line": 348
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 353
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "position",
+  "min_version": null,
+  "line": 358
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "tangent",
+  "min_version": null,
+  "line": 373
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 387
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "first_derivative",
+  "min_version": null,
+  "line": 398
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "second_derivative",
+  "min_version": null,
+  "line": 414
+ },
+ {
+  "class": "EllipseEvaluation",
+  "module": "shapes/curves/ellipse.py",
+  "method": "curvature",
+  "min_version": null,
+  "line": 428
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 74
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "direction",
+  "min_version": null,
+  "line": 79
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 104
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "is_coincident_line",
+  "min_version": null,
+  "line": 140
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "is_opposite_line",
+  "min_version": null,
+  "line": 164
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 181
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 194
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 197
+ },
+ {
+  "class": "Line",
+  "module": "shapes/curves/line.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 202
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "line",
+  "min_version": null,
+  "line": 231
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 236
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "position",
+  "min_version": null,
+  "line": 241
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "tangent",
+  "min_version": null,
+  "line": 252
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "first_derivative",
+  "min_version": null,
+  "line": 267
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "second_derivative",
+  "min_version": null,
+  "line": 280
+ },
+ {
+  "class": "LineEvaluation",
+  "module": "shapes/curves/line.py",
+  "method": "curvature",
+  "min_version": null,
+  "line": 293
+ },
+ {
+  "class": "NURBSCurveModel",
+  "module": "shapes/curves/nurbs.py",
+  "method": "effective_weights",
+  "min_version": null,
+  "line": 87
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "geomdl_nurbs_curve",
+  "min_version": null,
+  "line": 145
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "control_points",
+  "min_version": null,
+  "line": 156
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "degree",
+  "min_version": null,
+  "line": 161
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "knots",
+  "min_version": null,
+  "line": 166
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "weights",
+  "min_version": null,
+  "line": 171
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "length",
+  "min_version": null,
+  "line": 175
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "from_control_points",
+  "min_version": null,
+  "line": 209
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "fit_curve_from_points",
+  "min_version": null,
+  "line": 252
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "from_json_file",
+  "min_version": null,
+  "line": 307
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "to_json_file",
+  "min_version": null,
+  "line": 353
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 404
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 421
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 447
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 462
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 465
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 470
+ },
+ {
+  "class": "NURBSCurve",
+  "module": "shapes/curves/nurbs.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 494
+ },
+ {
+  "class": "NURBSCurveEvaluation",
+  "module": "shapes/curves/nurbs.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 570
+ },
+ {
+  "class": "NURBSCurveEvaluation",
+  "module": "shapes/curves/nurbs.py",
+  "method": "position",
+  "min_version": null,
+  "line": 575
+ },
+ {
+  "class": "NURBSCurveEvaluation",
+  "module": "shapes/curves/nurbs.py",
+  "method": "first_derivative",
+  "min_version": null,
+  "line": 580
+ },
+ {
+  "class": "NURBSCurveEvaluation",
+  "module": "shapes/curves/nurbs.py",
+  "method": "second_derivative",
+  "min_version": null,
+  "line": 585
+ },
+ {
+  "class": "NURBSCurveEvaluation",
+  "module": "shapes/curves/nurbs.py",
+  "method": "curvature",
+  "min_version": null,
+  "line": 590
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "geometry",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "start",
+  "min_version": null,
+  "line": 82
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "end",
+  "min_version": null,
+  "line": 87
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "length",
+  "min_version": null,
+  "line": 92
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "interval",
+  "min_version": null,
+  "line": 97
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "evaluate_proportion",
+  "min_version": null,
+  "line": 101
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "intersect_curve",
+  "min_version": null,
+  "line": 120
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 145
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "translate",
+  "min_version": null,
+  "line": 170
+ },
+ {
+  "class": "TrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "rotate",
+  "min_version": null,
+  "line": 192
+ },
+ {
+  "class": "ReversedTrimmedCurve",
+  "module": "shapes/curves/trimmed_curve.py",
+  "method": "evaluate_proportion",
+  "min_version": null,
+  "line": 279
+ },
+ {
+  "class": "ParamUV",
+  "module": "shapes/parameterization.py",
+  "method": "u",
+  "min_version": null,
+  "line": 58
+ },
+ {
+  "class": "ParamUV",
+  "module": "shapes/parameterization.py",
+  "method": "v",
+  "min_version": null,
+  "line": 63
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "start",
+  "min_version": null,
+  "line": 162
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "end",
+  "min_version": null,
+  "line": 167
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "is_open",
+  "min_version": null,
+  "line": 180
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "is_closed",
+  "min_version": null,
+  "line": 190
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "is_empty",
+  "min_version": null,
+  "line": 200
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "get_span",
+  "min_version": null,
+  "line": 210
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "get_relative_val",
+  "min_version": null,
+  "line": 225
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "is_negative",
+  "min_version": null,
+  "line": 240
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "unite",
+  "min_version": null,
+  "line": 256
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "self_unite",
+  "min_version": null,
+  "line": 273
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "intersect",
+  "min_version": null,
+  "line": 284
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "self_intersect",
+  "min_version": null,
+  "line": 304
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "contains_value",
+  "min_version": null,
+  "line": 316
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "contains",
+  "min_version": null,
+  "line": 344
+ },
+ {
+  "class": "Interval",
+  "module": "shapes/parameterization.py",
+  "method": "inflate",
+  "min_version": null,
+  "line": 359
+ },
+ {
+  "class": "Parameterization",
+  "module": "shapes/parameterization.py",
+  "method": "form",
+  "min_version": null,
+  "line": 408
+ },
+ {
+  "class": "Parameterization",
+  "module": "shapes/parameterization.py",
+  "method": "type",
+  "min_version": null,
+  "line": 413
+ },
+ {
+  "class": "Parameterization",
+  "module": "shapes/parameterization.py",
+  "method": "interval",
+  "min_version": null,
+  "line": 418
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "radius",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "half_angle",
+  "min_version": null,
+  "line": 105
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 110
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 115
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 120
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "height",
+  "min_version": null,
+  "line": 125
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "surface_area",
+  "min_version": null,
+  "line": 130
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 135
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 139
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "mirrored_copy",
+  "min_version": null,
+  "line": 163
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "apex",
+  "min_version": null,
+  "line": 174
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "apex_param",
+  "min_version": null,
+  "line": 179
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 194
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 209
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 238
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 263
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 281
+ },
+ {
+  "class": "Cone",
+  "module": "shapes/surfaces/cone.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 284
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "cone",
+  "min_version": null,
+  "line": 305
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 310
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "position",
+  "min_version": null,
+  "line": 315
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 330
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 363
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 374
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 385
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 396
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 407
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 418
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 429
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 440
+ },
+ {
+  "class": "ConeEvaluation",
+  "module": "shapes/surfaces/cone.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 451
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 92
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "radius",
+  "min_version": null,
+  "line": 97
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 102
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 107
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 112
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "surface_area",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 142
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 168
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "mirrored_copy",
+  "min_version": null,
+  "line": 191
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 211
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 226
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 247
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 268
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 291
+ },
+ {
+  "class": "Cylinder",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 294
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "cylinder",
+  "min_version": null,
+  "line": 315
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 320
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "position",
+  "min_version": null,
+  "line": 325
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 340
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 373
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 384
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 395
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 406
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 417
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 428
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 439
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 450
+ },
+ {
+  "class": "CylinderEvaluation",
+  "module": "shapes/surfaces/cylinder.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 461
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "geomdl_nurbs_surface",
+  "min_version": null,
+  "line": 186
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "control_points",
+  "min_version": null,
+  "line": 197
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "degree_u",
+  "min_version": null,
+  "line": 202
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "degree_v",
+  "min_version": null,
+  "line": 207
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "knotvector_u",
+  "min_version": null,
+  "line": 212
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "knotvector_v",
+  "min_version": null,
+  "line": 217
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "weights",
+  "min_version": null,
+  "line": 222
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 227
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 232
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 237
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "from_control_points",
+  "min_version": null,
+  "line": 243
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "fit_surface_from_points",
+  "min_version": null,
+  "line": 315
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "from_json_file",
+  "min_version": null,
+  "line": 406
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "to_json_file",
+  "min_version": null,
+  "line": 447
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 503
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 532
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 535
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 552
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 642
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 645
+ },
+ {
+  "class": "NURBSSurface",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 648
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "surface",
+  "min_version": null,
+  "line": 681
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 686
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "position",
+  "min_version": null,
+  "line": 691
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 702
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 718
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 729
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 740
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 751
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 762
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 773
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 778
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 783
+ },
+ {
+  "class": "NURBSSurfaceEvaluation",
+  "module": "shapes/surfaces/nurbs.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 788
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 80
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 90
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 108
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 112
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 130
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 141
+ },
+ {
+  "class": "PlaneSurface",
+  "module": "shapes/surfaces/plane.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 147
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "plane",
+  "min_version": null,
+  "line": 177
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 182
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "position",
+  "min_version": null,
+  "line": 187
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 196
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 201
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 206
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 211
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 216
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 221
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 226
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 231
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 236
+ },
+ {
+  "class": "PlaneEvaluation",
+  "module": "shapes/surfaces/plane.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 241
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 90
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "radius",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 105
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 110
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "surface_area",
+  "min_version": null,
+  "line": 115
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 120
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 134
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "mirrored_copy",
+  "min_version": null,
+  "line": 157
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 167
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 182
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 206
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 226
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 229
+ },
+ {
+  "class": "Sphere",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 234
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "sphere",
+  "min_version": null,
+  "line": 267
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 272
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "position",
+  "min_version": null,
+  "line": 277
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 288
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 318
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 329
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 343
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 354
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 365
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 379
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 390
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 401
+ },
+ {
+  "class": "SphereEvaluation",
+  "module": "shapes/surfaces/sphere.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 412
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 44
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 49
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 54
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 62
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 72
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "Surface",
+  "module": "shapes/surfaces/surface.py",
+  "method": "trim",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 41
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "position",
+  "min_version": null,
+  "line": 46
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 51
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 56
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 61
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 66
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 71
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 76
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 81
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 86
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 93
+ },
+ {
+  "class": "SurfaceEvaluation",
+  "module": "shapes/surfaces/surface_evaluation.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 98
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 96
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "major_radius",
+  "min_version": null,
+  "line": 101
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "minor_radius",
+  "min_version": null,
+  "line": 106
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "dir_x",
+  "min_version": null,
+  "line": 111
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "dir_y",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "dir_z",
+  "min_version": null,
+  "line": 121
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "volume",
+  "min_version": null,
+  "line": 126
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "surface_area",
+  "min_version": null,
+  "line": 131
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "transformed_copy",
+  "min_version": null,
+  "line": 146
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "mirrored_copy",
+  "min_version": null,
+  "line": 170
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "evaluate",
+  "min_version": null,
+  "line": 182
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "parameterization",
+  "min_version": null,
+  "line": 197
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 222
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 257
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "contains_param",
+  "min_version": null,
+  "line": 291
+ },
+ {
+  "class": "Torus",
+  "module": "shapes/surfaces/torus.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 294
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "torus",
+  "min_version": null,
+  "line": 316
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "parameter",
+  "min_version": null,
+  "line": 321
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "position",
+  "min_version": null,
+  "line": 326
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 342
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "u_derivative",
+  "min_version": null,
+  "line": 378
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "v_derivative",
+  "min_version": null,
+  "line": 391
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "uu_derivative",
+  "min_version": null,
+  "line": 405
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "uv_derivative",
+  "min_version": null,
+  "line": 420
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "vv_derivative",
+  "min_version": null,
+  "line": 431
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "curvature",
+  "min_version": null,
+  "line": 445
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "min_curvature",
+  "min_version": null,
+  "line": 465
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "min_curvature_direction",
+  "min_version": null,
+  "line": 476
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "max_curvature",
+  "min_version": null,
+  "line": 487
+ },
+ {
+  "class": "TorusEvaluation",
+  "module": "shapes/surfaces/torus.py",
+  "method": "max_curvature_direction",
+  "min_version": null,
+  "line": 498
+ },
+ {
+  "class": "TrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "geometry",
+  "min_version": null,
+  "line": 54
+ },
+ {
+  "class": "TrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "box_uv",
+  "min_version": null,
+  "line": 59
+ },
+ {
+  "class": "TrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "get_proportional_parameters",
+  "min_version": null,
+  "line": 63
+ },
+ {
+  "class": "TrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "TrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 102
+ },
+ {
+  "class": "TrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "evaluate_proportion",
+  "min_version": null,
+  "line": 117
+ },
+ {
+  "class": "ReversedTrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "normal",
+  "min_version": null,
+  "line": 163
+ },
+ {
+  "class": "ReversedTrimmedSurface",
+  "module": "shapes/surfaces/trimmed_surface.py",
+  "method": "project_point",
+  "min_version": null,
+  "line": 166
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "start",
+  "min_version": null,
+  "line": 106
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "end",
+  "min_version": null,
+  "line": 111
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "center",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "length",
+  "min_version": null,
+  "line": 121
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "radius",
+  "min_version": null,
+  "line": 126
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "angle",
+  "min_version": null,
+  "line": 131
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "is_clockwise",
+  "min_version": null,
+  "line": 136
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "sector_area",
+  "min_version": null,
+  "line": 148
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 154
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "from_three_points",
+  "min_version": null,
+  "line": 285
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "from_start_end_and_radius",
+  "min_version": null,
+  "line": 360
+ },
+ {
+  "class": "Arc",
+  "module": "sketch/arc.py",
+  "method": "from_start_center_and_angle",
+  "min_version": null,
+  "line": 419
+ },
+ {
+  "class": "Box",
+  "module": "sketch/box.py",
+  "method": "center",
+  "min_version": null,
+  "line": 115
+ },
+ {
+  "class": "Box",
+  "module": "sketch/box.py",
+  "method": "width",
+  "min_version": null,
+  "line": 120
+ },
+ {
+  "class": "Box",
+  "module": "sketch/box.py",
+  "method": "height",
+  "min_version": null,
+  "line": 125
+ },
+ {
+  "class": "Box",
+  "module": "sketch/box.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 130
+ },
+ {
+  "class": "Box",
+  "module": "sketch/box.py",
+  "method": "area",
+  "min_version": null,
+  "line": 135
+ },
+ {
+  "class": "Box",
+  "module": "sketch/box.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 141
+ },
+ {
+  "class": "SketchCircle",
+  "module": "sketch/circle.py",
+  "method": "center",
+  "min_version": null,
+  "line": 94
+ },
+ {
+  "class": "SketchCircle",
+  "module": "sketch/circle.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 99
+ },
+ {
+  "class": "SketchCircle",
+  "module": "sketch/circle.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 111
+ },
+ {
+  "class": "SketchCircle",
+  "module": "sketch/circle.py",
+  "method": "plane_change",
+  "min_version": null,
+  "line": 137
+ },
+ {
+  "class": "SketchEdge",
+  "module": "sketch/edge.py",
+  "method": "start",
+  "min_version": null,
+  "line": 41
+ },
+ {
+  "class": "SketchEdge",
+  "module": "sketch/edge.py",
+  "method": "end",
+  "min_version": null,
+  "line": 46
+ },
+ {
+  "class": "SketchEdge",
+  "module": "sketch/edge.py",
+  "method": "length",
+  "min_version": null,
+  "line": 51
+ },
+ {
+  "class": "SketchEdge",
+  "module": "sketch/edge.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 55
+ },
+ {
+  "class": "SketchEdge",
+  "module": "sketch/edge.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 60
+ },
+ {
+  "class": "SketchEdge",
+  "module": "sketch/edge.py",
+  "method": "plane_change",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "SketchEllipse",
+  "module": "sketch/ellipse.py",
+  "method": "center",
+  "min_version": null,
+  "line": 136
+ },
+ {
+  "class": "SketchEllipse",
+  "module": "sketch/ellipse.py",
+  "method": "angle",
+  "min_version": null,
+  "line": 141
+ },
+ {
+  "class": "SketchEllipse",
+  "module": "sketch/ellipse.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 146
+ },
+ {
+  "class": "SketchEllipse",
+  "module": "sketch/ellipse.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 158
+ },
+ {
+  "class": "SketchEllipse",
+  "module": "sketch/ellipse.py",
+  "method": "plane_change",
+  "min_version": null,
+  "line": 180
+ },
+ {
+  "class": "SketchFace",
+  "module": "sketch/face.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 48
+ },
+ {
+  "class": "SketchFace",
+  "module": "sketch/face.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 53
+ },
+ {
+  "class": "SketchFace",
+  "module": "sketch/face.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 62
+ },
+ {
+  "class": "SketchFace",
+  "module": "sketch/face.py",
+  "method": "plane_change",
+  "min_version": null,
+  "line": 78
+ },
+ {
+  "class": "Gear",
+  "module": "sketch/gears.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 52
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "origin",
+  "min_version": null,
+  "line": 215
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "module",
+  "min_version": null,
+  "line": 220
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "pressure_angle",
+  "min_version": null,
+  "line": 225
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "n_teeth",
+  "min_version": null,
+  "line": 230
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "ref_diameter",
+  "min_version": null,
+  "line": 235
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "base_diameter",
+  "min_version": null,
+  "line": 240
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "addendum",
+  "min_version": null,
+  "line": 245
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "dedendum",
+  "min_version": null,
+  "line": 250
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "tip_diameter",
+  "min_version": null,
+  "line": 255
+ },
+ {
+  "class": "SpurGear",
+  "module": "sketch/gears.py",
+  "method": "root_diameter",
+  "min_version": null,
+  "line": 260
+ },
+ {
+  "class": "SketchNurbsModel",
+  "module": "sketch/nurbs.py",
+  "method": "effective_weights",
+  "min_version": null,
+  "line": 79
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "geomdl_nurbs_curve",
+  "min_version": null,
+  "line": 141
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "control_points",
+  "min_version": null,
+  "line": 152
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "degree",
+  "min_version": null,
+  "line": 157
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "knots",
+  "min_version": null,
+  "line": 162
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "weights",
+  "min_version": null,
+  "line": 167
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "start",
+  "min_version": null,
+  "line": 172
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "end",
+  "min_version": null,
+  "line": 177
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 183
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "contains_point",
+  "min_version": null,
+  "line": 211
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "fit_curve_from_points",
+  "min_version": null,
+  "line": 235
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "from_control_points",
+  "min_version": null,
+  "line": 290
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "from_json_file",
+  "min_version": null,
+  "line": 342
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "to_json_file",
+  "min_version": null,
+  "line": 385
+ },
+ {
+  "class": "SketchNurbs",
+  "module": "sketch/nurbs.py",
+  "method": "partial_ellipse",
+  "min_version": null,
+  "line": 430
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "center",
+  "min_version": null,
+  "line": 85
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "inner_radius",
+  "min_version": null,
+  "line": 90
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "n_sides",
+  "min_version": null,
+  "line": 95
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "angle",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "length",
+  "min_version": null,
+  "line": 105
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "outer_radius",
+  "min_version": null,
+  "line": 110
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 115
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "area",
+  "min_version": null,
+  "line": 120
+ },
+ {
+  "class": "Polygon",
+  "module": "sketch/polygon.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 126
+ },
+ {
+  "class": "SketchSegment",
+  "module": "sketch/segment.py",
+  "method": "start",
+  "min_version": null,
+  "line": 116
+ },
+ {
+  "class": "SketchSegment",
+  "module": "sketch/segment.py",
+  "method": "end",
+  "min_version": null,
+  "line": 121
+ },
+ {
+  "class": "SketchSegment",
+  "module": "sketch/segment.py",
+  "method": "length",
+  "min_version": null,
+  "line": 126
+ },
+ {
+  "class": "SketchSegment",
+  "module": "sketch/segment.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 134
+ },
+ {
+  "class": "SketchSegment",
+  "module": "sketch/segment.py",
+  "method": "plane_change",
+  "min_version": null,
+  "line": 176
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "plane",
+  "min_version": null,
+  "line": 84
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 89
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 100
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "plane",
+  "min_version": null,
+  "line": 106
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "translate_sketch_plane",
+  "min_version": null,
+  "line": 119
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "translate_sketch_plane_by_offset",
+  "min_version": null,
+  "line": 146
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "translate_sketch_plane_by_distance",
+  "min_version": null,
+  "line": 189
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "get",
+  "min_version": null,
+  "line": 217
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "face",
+  "min_version": null,
+  "line": 228
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "edge",
+  "min_version": null,
+  "line": 250
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "select",
+  "min_version": null,
+  "line": 272
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "segment",
+  "min_version": null,
+  "line": 281
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "segment_to_point",
+  "min_version": null,
+  "line": 301
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "segment_from_point_and_vector",
+  "min_version": null,
+  "line": 325
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "segment_from_vector",
+  "min_version": null,
+  "line": 357
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "arc",
+  "min_version": null,
+  "line": 384
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "arc_to_point",
+  "min_version": null,
+  "line": 419
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "arc_from_three_points",
+  "min_version": null,
+  "line": 456
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "arc_from_start_end_and_radius",
+  "min_version": null,
+  "line": 484
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "arc_from_start_center_and_angle",
+  "min_version": null,
+  "line": 534
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "nurbs_from_2d_points",
+  "min_version": null,
+  "line": 570
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "triangle",
+  "min_version": null,
+  "line": 592
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "trapezoid",
+  "min_version": null,
+  "line": 620
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "circle",
+  "min_version": null,
+  "line": 667
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "box",
+  "min_version": null,
+  "line": 692
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "slot",
+  "min_version": null,
+  "line": 723
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "ellipse",
+  "min_version": null,
+  "line": 754
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "partial_ellipse",
+  "min_version": null,
+  "line": 785
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "polygon",
+  "min_version": null,
+  "line": 833
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "dummy_gear",
+  "min_version": null,
+  "line": 864
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "spur_gear",
+  "min_version": null,
+  "line": 895
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "tag",
+  "min_version": null,
+  "line": 928
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "plot",
+  "min_version": null,
+  "line": 963
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "plot_selection",
+  "min_version": null,
+  "line": 1016
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "sketch_polydata",
+  "min_version": null,
+  "line": 1057
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "sketch_polydata_faces",
+  "min_version": null,
+  "line": 1070
+ },
+ {
+  "class": "Sketch",
+  "module": "sketch/sketch.py",
+  "method": "sketch_polydata_edges",
+  "min_version": null,
+  "line": 1084
+ },
+ {
+  "class": "Slot",
+  "module": "sketch/slot.py",
+  "method": "center",
+  "min_version": null,
+  "line": 138
+ },
+ {
+  "class": "Slot",
+  "module": "sketch/slot.py",
+  "method": "width",
+  "min_version": null,
+  "line": 143
+ },
+ {
+  "class": "Slot",
+  "module": "sketch/slot.py",
+  "method": "height",
+  "min_version": null,
+  "line": 148
+ },
+ {
+  "class": "Slot",
+  "module": "sketch/slot.py",
+  "method": "perimeter",
+  "min_version": null,
+  "line": 153
+ },
+ {
+  "class": "Slot",
+  "module": "sketch/slot.py",
+  "method": "area",
+  "min_version": null,
+  "line": 158
+ },
+ {
+  "class": "Slot",
+  "module": "sketch/slot.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 167
+ },
+ {
+  "class": "Trapezoid",
+  "module": "sketch/trapezoid.py",
+  "method": "center",
+  "min_version": null,
+  "line": 181
+ },
+ {
+  "class": "Trapezoid",
+  "module": "sketch/trapezoid.py",
+  "method": "base_width",
+  "min_version": null,
+  "line": 186
+ },
+ {
+  "class": "Trapezoid",
+  "module": "sketch/trapezoid.py",
+  "method": "height",
+  "min_version": null,
+  "line": 191
+ },
+ {
+  "class": "Trapezoid",
+  "module": "sketch/trapezoid.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 197
+ },
+ {
+  "class": "Triangle",
+  "module": "sketch/triangle.py",
+  "method": "point1",
+  "min_version": null,
+  "line": 66
+ },
+ {
+  "class": "Triangle",
+  "module": "sketch/triangle.py",
+  "method": "point2",
+  "min_version": null,
+  "line": 71
+ },
+ {
+  "class": "Triangle",
+  "module": "sketch/triangle.py",
+  "method": "point3",
+  "min_version": null,
+  "line": 76
+ },
+ {
+  "class": "Triangle",
+  "module": "sketch/triangle.py",
+  "method": "visualization_polydata",
+  "min_version": null,
+  "line": 82
+ },
+ {
+  "class": "GeometryIssue",
+  "module": "tools/check_geometry.py",
+  "method": "message_type",
+  "min_version": null,
+  "line": 67
+ },
+ {
+  "class": "GeometryIssue",
+  "module": "tools/check_geometry.py",
+  "method": "message_id",
+  "min_version": null,
+  "line": 72
+ },
+ {
+  "class": "GeometryIssue",
+  "module": "tools/check_geometry.py",
+  "method": "message",
+  "min_version": null,
+  "line": 77
+ },
+ {
+  "class": "GeometryIssue",
+  "module": "tools/check_geometry.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 82
+ },
+ {
+  "class": "GeometryIssue",
+  "module": "tools/check_geometry.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 87
+ },
+ {
+  "class": "InspectResult",
+  "module": "tools/check_geometry.py",
+  "method": "body",
+  "min_version": null,
+  "line": 112
+ },
+ {
+  "class": "InspectResult",
+  "module": "tools/check_geometry.py",
+  "method": "issues",
+  "min_version": null,
+  "line": 117
+ },
+ {
+  "class": "InspectResult",
+  "module": "tools/check_geometry.py",
+  "method": "repair",
+  "min_version": null,
+  "line": 121
+ },
+ {
+  "class": "Gap",
+  "module": "tools/measurement_tools.py",
+  "method": "distance",
+  "min_version": null,
+  "line": 52
+ },
+ {
+  "class": "MeasurementTools",
+  "module": "tools/measurement_tools.py",
+  "method": "min_distance_between_objects",
+  "min_version": "24.2.0",
+  "line": 90
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "extract_volume_from_faces",
+  "min_version": "25.1.0",
+  "line": 119
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "extract_volume_from_edge_loops",
+  "min_version": "25.1.0",
+  "line": 190
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "remove_rounds",
+  "min_version": "25.2.0",
+  "line": 255
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "share_topology",
+  "min_version": "24.2.0",
+  "line": 299
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "enhanced_share_topology",
+  "min_version": "25.2.0",
+  "line": 349
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "find_logos",
+  "min_version": "25.2.0",
+  "line": 409
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "find_and_remove_logos",
+  "min_version": "25.2.0",
+  "line": 473
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "detect_helixes",
+  "min_version": "26.1.0",
+  "line": 530
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "create_box_enclosure",
+  "min_version": "26.1.0",
+  "line": 613
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "create_cylinder_enclosure",
+  "min_version": "26.1.0",
+  "line": 696
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "create_sphere_enclosure",
+  "min_version": "26.1.0",
+  "line": 776
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "detect_sweepable_bodies",
+  "min_version": "26.1.0",
+  "line": 836
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "find_mappable_faces",
+  "min_version": "27.1.0",
+  "line": 879
+ },
+ {
+  "class": "PrepareTools",
+  "module": "tools/prepare_tools.py",
+  "method": "detect_leaks",
+  "min_version": "27.1.0",
+  "line": 919
+ },
+ {
+  "class": "ProblemArea",
+  "module": "tools/problem_areas.py",
+  "method": "id",
+  "min_version": null,
+  "line": 64
+ },
+ {
+  "class": "ProblemArea",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 69
+ },
+ {
+  "class": "ProblemArea",
+  "module": "tools/problem_areas.py",
+  "method": "build_repair_tool_message",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "DuplicateFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 123
+ },
+ {
+  "class": "DuplicateFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 127
+ },
+ {
+  "class": "MissingFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 177
+ },
+ {
+  "class": "MissingFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 181
+ },
+ {
+  "class": "InexactEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 231
+ },
+ {
+  "class": "InexactEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 235
+ },
+ {
+  "class": "ExtraEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 286
+ },
+ {
+  "class": "ExtraEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 290
+ },
+ {
+  "class": "ShortEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 340
+ },
+ {
+  "class": "ShortEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 344
+ },
+ {
+  "class": "SmallFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 394
+ },
+ {
+  "class": "SmallFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 398
+ },
+ {
+  "class": "SplitEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "edges",
+  "min_version": null,
+  "line": 448
+ },
+ {
+  "class": "SplitEdgeProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 452
+ },
+ {
+  "class": "StitchFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 502
+ },
+ {
+  "class": "StitchFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 506
+ },
+ {
+  "class": "UnsimplifiedFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "faces",
+  "min_version": null,
+  "line": 551
+ },
+ {
+  "class": "UnsimplifiedFaceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 555
+ },
+ {
+  "class": "InterferenceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "bodies",
+  "min_version": null,
+  "line": 600
+ },
+ {
+  "class": "InterferenceProblemAreas",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 604
+ },
+ {
+  "class": "LogoProblemArea",
+  "module": "tools/problem_areas.py",
+  "method": "face_ids",
+  "min_version": null,
+  "line": 656
+ },
+ {
+  "class": "LogoProblemArea",
+  "module": "tools/problem_areas.py",
+  "method": "fix",
+  "min_version": null,
+  "line": 660
+ },
+ {
+  "class": "RepairToolMessage",
+  "module": "tools/repair_tool_message.py",
+  "method": "success",
+  "min_version": null,
+  "line": 68
+ },
+ {
+  "class": "RepairToolMessage",
+  "module": "tools/repair_tool_message.py",
+  "method": "created_bodies",
+  "min_version": null,
+  "line": 73
+ },
+ {
+  "class": "RepairToolMessage",
+  "module": "tools/repair_tool_message.py",
+  "method": "modified_bodies",
+  "min_version": null,
+  "line": 78
+ },
+ {
+  "class": "RepairToolMessage",
+  "module": "tools/repair_tool_message.py",
+  "method": "deleted_bodies",
+  "min_version": null,
+  "line": 83
+ },
+ {
+  "class": "RepairToolMessage",
+  "module": "tools/repair_tool_message.py",
+  "method": "found",
+  "min_version": null,
+  "line": 88
+ },
+ {
+  "class": "RepairToolMessage",
+  "module": "tools/repair_tool_message.py",
+  "method": "repaired",
+  "min_version": null,
+  "line": 93
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_split_edges",
+  "min_version": null,
+  "line": 104
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_extra_edges",
+  "min_version": null,
+  "line": 159
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_inexact_edges",
+  "min_version": null,
+  "line": 192
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_short_edges",
+  "min_version": null,
+  "line": 226
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_duplicate_faces",
+  "min_version": null,
+  "line": 269
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_missing_faces",
+  "min_version": null,
+  "line": 301
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_small_faces",
+  "min_version": null,
+  "line": 356
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_bad_faces",
+  "min_version": "27.1.0",
+  "line": 411
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_stitch_faces",
+  "min_version": null,
+  "line": 433
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_simplify",
+  "min_version": "25.2.0",
+  "line": 482
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_interferences",
+  "min_version": "25.2.0",
+  "line": 517
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_and_fix_short_edges",
+  "min_version": "25.2.0",
+  "line": 567
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_and_fix_extra_edges",
+  "min_version": "25.2.0",
+  "line": 628
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_and_fix_split_edges",
+  "min_version": "25.2.0",
+  "line": 680
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_and_fix_simplify",
+  "min_version": "25.2.0",
+  "line": 749
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "find_and_fix_stitch_faces",
+  "min_version": "25.2.0",
+  "line": 802
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "inspect_geometry",
+  "min_version": "25.2.0",
+  "line": 876
+ },
+ {
+  "class": "RepairTools",
+  "module": "tools/repair_tools.py",
+  "method": "repair_geometry",
+  "min_version": "25.2.0",
+  "line": 941
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "set_export_id",
+  "min_version": "25.2.0",
+  "line": 166
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "set_multiple_export_ids",
+  "min_version": "26.1.0",
+  "line": 188
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "get_body_occurrences_from_import_id",
+  "min_version": null,
+  "line": 207
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "get_face_occurrences_from_import_id",
+  "min_version": null,
+  "line": 236
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "get_edge_occurrences_from_import_id",
+  "min_version": null,
+  "line": 266
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "start_tracking",
+  "min_version": "27.1.0",
+  "line": 297
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "stop_tracking",
+  "min_version": "27.1.0",
+  "line": 313
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "run_addin_method",
+  "min_version": "27.1.0",
+  "line": 336
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "convert_to_heavyweight",
+  "min_version": "27.1.0",
+  "line": 371
+ },
+ {
+  "class": "UnsupportedCommands",
+  "module": "tools/unsupported.py",
+  "method": "load_addin",
+  "min_version": "27.1.0",
+  "line": 399
+ }
+]

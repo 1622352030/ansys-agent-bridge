@@ -1,0 +1,401 @@
+{
+ "bodies_checked": 31,
+ "faces_checked": 738,
+ "checks": {
+  "duplicate_faces": {
+   "group_count": 2,
+   "object_count": 4,
+   "by_body": {
+    "pip": 2,
+    "stator": 2
+   },
+   "groups": [
+    {
+     "id": "0",
+     "faces": [
+      {
+       "id": "0:41504",
+       "area_m2": 0.12176813125314039,
+       "surface_type": "SurfaceType.SURFACETYPE_CYLINDER",
+       "body": "stator"
+      },
+      {
+       "id": "0:15396",
+       "area_m2": 0.12176813125314039,
+       "surface_type": "SurfaceType.SURFACETYPE_CYLINDER",
+       "body": "pip"
+      }
+     ]
+    },
+    {
+     "id": "1",
+     "faces": [
+      {
+       "id": "0:41501",
+       "area_m2": 0.09292831069318609,
+       "surface_type": "SurfaceType.SURFACETYPE_CYLINDER",
+       "body": "stator"
+      },
+      {
+       "id": "0:15387",
+       "area_m2": 0.09292831069318609,
+       "surface_type": "SurfaceType.SURFACETYPE_CYLINDER",
+       "body": "pip"
+      }
+     ]
+    }
+   ]
+  },
+  "extra_edges": {
+   "group_count": 0,
+   "object_count": 0,
+   "by_body": {},
+   "groups": []
+  },
+  "short_edges": {
+   "scan": [
+    {
+     "threshold": 0.0001,
+     "group_count": 0,
+     "object_count": 0
+    },
+    {
+     "threshold": 0.001,
+     "group_count": 0,
+     "object_count": 0
+    },
+    {
+     "threshold": 0.01,
+     "group_count": 675,
+     "object_count": 675
+    },
+    {
+     "threshold": 0.1,
+     "group_count": 1314,
+     "object_count": 1314
+    }
+   ],
+   "threshold_used": 0.01,
+   "group_count": 675,
+   "object_count": 675,
+   "by_body": {
+    "stator": 459,
+    "winding 1": 8,
+    "winding 10": 8,
+    "winding 11": 8,
+    "winding 12": 8,
+    "winding 13": 8,
+    "winding 14": 8,
+    "winding 15": 8,
+    "winding 16": 8,
+    "winding 17": 8,
+    "winding 18": 8,
+    "winding 19": 8,
+    "winding 2": 8,
+    "winding 20": 8,
+    "winding 21": 8,
+    "winding 22": 8,
+    "winding 23": 8,
+    "winding 24": 8,
+    "winding 25": 8,
+    "winding 26": 8,
+    "winding 27": 8,
+    "winding 3": 8,
+    "winding 4": 8,
+    "winding 5": 8,
+    "winding 6": 8,
+    "winding 7": 8,
+    "winding 8": 8,
+    "winding 9": 8
+   },
+   "groups": [
+    {
+     "id": "2",
+     "edges": [
+      {
+       "id": "0:41834",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_PROCEDURAL",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "3",
+     "edges": [
+      {
+       "id": "0:41843",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_PROCEDURAL",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "4",
+     "edges": [
+      {
+       "id": "0:41855",
+       "length_m": 0.0010514088667615273,
+       "curve_type": "CurveType.CURVETYPE_CIRCLE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "5",
+     "edges": [
+      {
+       "id": "0:41867",
+       "length_m": 0.0010514088667616002,
+       "curve_type": "CurveType.CURVETYPE_CIRCLE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "6",
+     "edges": [
+      {
+       "id": "0:41870",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_NURBS",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "7",
+     "edges": [
+      {
+       "id": "0:41873",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_PROCEDURAL",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "8",
+     "edges": [
+      {
+       "id": "0:41876",
+       "length_m": 0.009000000000000057,
+       "curve_type": "CurveType.CURVETYPE_LINE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "9",
+     "edges": [
+      {
+       "id": "0:41879",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_NURBS",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "10",
+     "edges": [
+      {
+       "id": "0:41882",
+       "length_m": 0.009000000000002164,
+       "curve_type": "CurveType.CURVETYPE_LINE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "11",
+     "edges": [
+      {
+       "id": "0:41885",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_PROCEDURAL",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "12",
+     "edges": [
+      {
+       "id": "0:41918",
+       "length_m": 0.008999999999999989,
+       "curve_type": "CurveType.CURVETYPE_LINE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "13",
+     "edges": [
+      {
+       "id": "0:41924",
+       "length_m": 0.0020621979022037574,
+       "curve_type": "CurveType.CURVETYPE_LINE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "14",
+     "edges": [
+      {
+       "id": "0:41933",
+       "length_m": 0.0020000093314352083,
+       "curve_type": "CurveType.CURVETYPE_CIRCLE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "15",
+     "edges": [
+      {
+       "id": "0:41948",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_NURBS",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "16",
+     "edges": [
+      {
+       "id": "0:41954",
+       "length_m": 0.002062197902203592,
+       "curve_type": "CurveType.CURVETYPE_LINE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "17",
+     "edges": [
+      {
+       "id": "0:41966",
+       "length_m": 0.0020000093314353766,
+       "curve_type": "CurveType.CURVETYPE_CIRCLE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "18",
+     "edges": [
+      {
+       "id": "0:41981",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_NURBS",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "19",
+     "edges": [
+      {
+       "id": "0:41987",
+       "length_m": 0.002062197902203627,
+       "curve_type": "CurveType.CURVETYPE_LINE",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "20",
+     "edges": [
+      {
+       "id": "0:41993",
+       "length_m_error": "read failed",
+       "curve_type": "CurveType.CURVETYPE_NURBS",
+       "body": "stator"
+      }
+     ]
+    },
+    {
+     "id": "21",
+     "edges": [
+      {
+       "id": "0:42008",
+       "length_m": 0.0020000093314353766,
+       "curve_type": "CurveType.CURVETYPE_CIRCLE",
+       "body": "stator"
+      }
+     ]
+    }
+   ],
+   "groups_omitted": 655,
+   "span": {
+    "length_min": 0.0010514088667615271,
+    "length_median": 0.00900000000000001,
+    "length_max": 0.009601811429512226,
+    "measured": 513,
+    "objects": 675,
+    "unreadable": 162
+   }
+  },
+  "small_faces": {
+   "scan": [
+    {
+     "threshold": 1e-09,
+     "group_count": 0,
+     "object_count": 0
+    },
+    {
+     "threshold": 1e-07,
+     "group_count": 0,
+     "object_count": 0
+    },
+    {
+     "threshold": 1e-05,
+     "group_count": 0,
+     "object_count": 0
+    },
+    {
+     "threshold": 0.001,
+     "group_count": 0,
+     "object_count": 0
+    }
+   ],
+   "threshold_used": null,
+   "group_count": 0,
+   "object_count": 0,
+   "by_body": {},
+   "groups": []
+  },
+  "missing_faces": {
+   "group_count": 0,
+   "object_count": 0,
+   "by_body": {},
+   "groups": []
+  },
+  "split_edges": {
+   "group_count": 0,
+   "object_count": 0,
+   "by_body": {},
+   "groups": []
+  },
+  "stitch_faces": {
+   "group_count": 0,
+   "object_count": 0,
+   "by_body": {},
+   "groups": []
+  }
+ },
+ "problems_found": {
+  "duplicate_faces": 4,
+  "extra_edges": 0,
+  "short_edges": 675,
+  "small_faces": 0,
+  "missing_faces": 0,
+  "split_edges": 0,
+  "stitch_faces": 0
+ },
+ "clean": false
+}

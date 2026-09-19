@@ -5,14 +5,14 @@ It installs and answers `ansys-bridge-doctor` on a machine that has never seen
 an Ansys installer; only the SpaceClaim tools need the runtime.
 
 ```sh
-uv tool run --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python" \
+uv tool run --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python" \
     ansys-bridge-doctor
 ```
 
 Run the server itself over stdio (this is what an MCP client does for you):
 
 ```sh
-uv tool run --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python" \
+uv tool run --from "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python" \
     ansys-bridge-mcp
 ```
 
