@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-"""smoke: 直接以 MCP stdio 方式启动 uv run --from git+ 的服务器并调用 doctor。"""
+"""smoke: 直接以 MCP stdio 方式启动 uv tool run --from git+ 的服务器并调用 doctor。
+
+这是验收脚本, 不是历史证据, 所以路径跟着仓库结构走。
+"""
 import asyncio, json, os, sys, time, traceback
 
 UV = r"C:\Users\16223\.local\bin\uv.exe"
-GIT = "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=python"
+GIT = "git+https://github.com/1622352030/ansys-agent-bridge#subdirectory=spaceclaim/python"
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
