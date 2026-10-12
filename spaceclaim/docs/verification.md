@@ -168,19 +168,23 @@ about the wrong plane** — no error, wrong geometry. The bridge derives both
 directions from the normal and the construction is unit-tested against x, y, z,
 `[1,1,0]`, `[1,1,1]` and a negative normal.
 
-### A tolerance that sat below the measurement noise
+### A tolerance that was justified by a wrong measurement
 
-The guard that catches the silent `subtract` compared volumes with a relative
-tolerance of `1e-6`. Reading the same stator volume in two sessions gave
-`0.00331450520811706` and `0.0033145600685288304` — a spread of **1.7e-5**, which
-is larger than the tolerance meant to absorb it. The guard worked in the runs
-above by luck of the draw, not by design.
+An earlier version of this section claimed the guard's `1e-6` volume tolerance
+sat below real read-to-read noise, quoting `0.00331450520811706` and
+`0.0033145600685288304` as "the same stator volume read in two sessions".
 
-Raised to `1e-4`, which is still two orders of magnitude below a real boolean
-change (`unite` moves the stator volume by 2.1e-2). Regression-checked against
-three cases: a real change passes, a no-op with identical volumes is caught, and
-a no-op carrying that 1.7e-5 service noise is now caught instead of slipping
-through.
+Those two numbers are **two different models**. `assembly31.scdoc` has 382 stator
+faces and volume `0.00331450520811706`; `zhuangpeiti_fix_9_10_1.scdoc` has 274
+stator faces and volume `0.003314560068528831`. Their volumes differ by 1.7e-5
+relative, but that is a difference between files, not noise inside one. No
+measurement of read-to-read wobble was ever taken, so the old justification was
+an invented measurement.
+
+The tolerance stays at `1e-4`. It is two orders of magnitude below a real boolean
+change (`unite` moved the stator volume by 2.1e-2), and erring wide is the safe
+direction for a guard whose whole job is to catch a no-op. What changed is the
+stated reason, not the value. The regression cases reported below still hold.
 
 ## Cross-checked against raw IronPython
 

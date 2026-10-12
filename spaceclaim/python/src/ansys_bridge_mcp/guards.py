@@ -42,13 +42,21 @@ __all__ = [
 
 # Relative tolerance for volume comparison.
 #
-# 1e-4, not 1e-6, and the number comes from measurement rather than taste. The
-# same stator volume read 0.00331450520811706 in one session and
-# 0.0033145600685288304 in another -- a relative spread of 1.7e-5 from the
-# service alone. A tolerance of 1e-6 sits *below* that noise, so the guard meant
-# to catch a silent no-op could have passed one by accident. Real boolean changes
-# are around 1e-2 relative (unite moved the stator volume by 2.1e-2), so 1e-4
-# separates signal from noise by two orders of magnitude on either side.
+# 1e-4. Real boolean changes are around 1e-2 relative -- `unite` moved the stator
+# volume by 2.1e-2 -- so any threshold well below that separates a real change
+# from no change at all. 1e-6 would also work; 1e-4 simply leaves two orders of
+# margin for read-to-read wobble in the reported volume.
+#
+# Correction, and the reason this comment is worth reading: an earlier version
+# justified 1e-4 with two stator volumes, 0.00331450520811706 and
+# 0.0033145600685288304, described as the SAME model read in two sessions, with
+# "a relative spread of 1.7e-5 from the service alone". They are not the same
+# model. They are two different files -- assembly31.scdoc (382 faces) and
+# zhuangpeiti_fix_9_10_1.scdoc (274 faces) -- whose stator volumes happen to
+# differ by 1.7e-5 relative. No read-to-read noise was ever measured, so the
+# old justification was an invented measurement. The tolerance itself is kept:
+# 1e-4 is still two orders below a real change, and erring wide is the safe
+# direction for a guard whose job is to catch a no-op.
 VOLUME_REL_TOL = 1e-4
 # Face counts are exact, but a boolean that only imprints may keep the body
 # count. Any change in topology is accepted as "something happened".

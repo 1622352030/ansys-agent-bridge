@@ -97,4 +97,6 @@
 
 表4 的能力全部受版本限制，在当前 24R2 环境下无法实现，实现它们只会得到运行时报错。其中外流场计算域一项对电机外部流场 CFD 标定有直接影响，需要改在 SpaceClaim 界面手工建域或使用 Fluent Meshing 的 enclosure 功能。
 
-三处结果可靠性需要注意。`find_inexact_edges` 返回的 3348 组不含任何边，其计数不可用。`Edge.length` 与 `Edge.start` 在部分边上会从 PyAnsys 内部抛 `ValueError: The norm of the 3D vector is not valid.`，参考模型 675 条短边里有 162 条读不出长度。体积读数在不同会话间存在约 1.7e-5 的相对差异，因此几何守卫的体积容差设为 1e-4 而非 1e-6——真实布尔运算的体积变化量在 1e-2 量级，两侧各留两个数量级余量。
+三处结果可靠性需要注意。`find_inexact_edges` 返回的 3348 组不含任何边，其计数不可用。`Edge.length` 与 `Edge.start` 在部分边上会从 PyAnsys 内部抛 `ValueError: The norm of the 3D vector is not valid.`，参考模型 675 条短边里有 162 条读不出长度。
+
+几何守卫的体积容差设为 1e-4 而非 1e-6，理由是真实布尔运算的体积变化量在 1e-2 量级，1e-4 留出两个数量级余量。此处的早期说法称"体积读数在不同会话间存在约 1.7e-5 的相对差异"，该说法有误：那两个体积值来自两个不同模型（`assembly31.scdoc` 的 stator 382 面、`zhuangpeiti_fix_9_10_1.scdoc` 的 stator 274 面），并非同一模型的读数波动，也从未测过读数波动。容差取值不变，理由是修正后的这条。
