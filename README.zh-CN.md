@@ -54,7 +54,27 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 需要 **Windows**、装了 SpaceClaim 的 Ansys（2024 R2 已实测），以及
 [`uv`](https://docs.astral.sh/uv/)。
 
-### DSH：一条命令
+### 两种安装方式
+
+DSH 上有两种装法，区别只在于 **MCP 服务器从哪里加载**：
+
+| | 方式 A：从 GitHub 安装 | 方式 B：从本地 checkout 安装 |
+| --- | --- | --- |
+| 插件包 | `github:1622352030/ansys-agent-bridge` | `link:<本地 clone 路径>` |
+| MCP 启动源 | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<本地 clone>/spaceclaim/python` |
+| 每次拉起是否联网 | **是**（先 `git fetch`） | **否** |
+| 无梯子／GitHub 不可达 | ⚠ 会失败，且可能拖垮整个桌面 | 正常 |
+| 改了本仓库代码 | 需重装才生效 | 立即生效 |
+| 自动跟随上游 | 是 | 否 |
+
+**在国内、或到 GitHub 的连通性不稳时，请直接用方式 B。** 方式 A 的 `git fetch` 一旦
+失败，包内的 `failOnStartupError: false` 会把错误藏起来，自动重连又反复重建环境、重复
+导入 `ansys.geometry.core` / `ansys.fluent.core`，占满 DSH 单线程 host 的事件循环——
+表现为所有会话历史一直「加载中」、桌面无响应；随后插件管理器会判定「启用它会写出开机
+即崩的状态」而把它**锁死为停用**，此后在界面上点开关也启用不回来。
+完整机制、诊断命令与解锁步骤见 [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)。
+
+### 方式 A：从 GitHub 安装
 
 ```sh
 dsh plugin --profile web add ansys-agent-bridge
@@ -71,27 +91,54 @@ dsh plugin --profile web remove ansys-agent-bridge
 
 MCP 那行用 `uv tool run --from <本仓库>` 启动服务器，所以目标机器**不需要 clone、
 也不需要预建虚拟环境**——但**第一次**调用要付解析并构建 `ansys-geometry-core` 的
-代价。如果你本机就有 clone、想要一个已经热好的环境，用 `--patch` 覆盖同一个
-serverName，把参数换成
-`args: [run, --directory, <clone>/python, ansys-bridge-mcp]` 即可。
+代价。如果你本机就有 clone、想要一个已经热好的环境，改用下面的**方式 B**——
+注意路径是 `<clone>/spaceclaim/python`（Python 包在 `spaceclaim/` 下），
+早期文档里写的 `<clone>/python` 已不再适用。
 
-patch 里**没有 `!!js`，也没有绝对路径**，这是刻意的：实测 harness CLI
-（0.1.1-rc.1）求值 `!!js` 的作用域里**没有 `createRequire`**，而且它的
-`interpolate` 是同步的、**不会 await 返回值**。用上这两样中的任何一个，都会在桌面
-版（0.1.5-rc.2）正常启动，却让 CLI 的 profile 直接起不来——两条路都试过，都炸了。
-`command: uv` 两个都不需要。如果你的 harness 启动时的 PATH 里没有 `uv`，用
-`--patch` 覆盖这一行：
+### 方式 B：从本地 checkout 安装
+
+两步：把插件指向本地目录，再用 `--patch` 覆盖 MCP 行的启动源。
+
+```sh
+# 1) 插件包指向本地 clone（等价于把 profile 依赖写成 link:<path>）
+dsh plugin --profile web add link:C:/path/to/ansys-agent-bridge
+```
 
 ```yaml
-# --patch 覆盖层，在 bundle 层之后应用
+# 2) 在你自己的 --patch 覆盖层里重述这一行（id 定向覆盖会替换整行 config）
+#    %APPDATA%\dsh-desktop\harness\profiles\web\cordis.patch.yml
 - id: mcp-ansys
   name: '@deepseek-ai/dsh-mcp-client'
   config:
     serverName: ansys
     transport: stdio
-    command: C:/Users/you/.local/bin/uv.exe
-    args: [tool, run, --quiet, --from, <repo>, ansys-bridge-mcp]
+    command: uv
+    args:
+      - 'tool'
+      - 'run'
+      - '--quiet'
+      - '--from'
+      - 'C:/path/to/ansys-agent-bridge/spaceclaim/python'
+      - 'ansys-bridge-mcp'
+    env:
+      PYTHONIOENCODING: 'utf-8'
+      ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'
     toolCallTimeoutMs: 900000
+    failOnStartupError: false
+```
+
+改完重启 DSH 生效。
+
+### 为什么 patch 里既没有 `!!js`、也没有绝对路径
+
+这是刻意的：实测 harness CLI（0.1.1-rc.1）求值 `!!js` 的作用域里**没有
+`createRequire`**，而且它的 `interpolate` 是同步的、**不会 await 返回值**。用上这两样
+中的任何一个，都会在桌面版（0.1.5-rc.2）正常启动，却让 CLI 的 profile 直接起不来——
+两条路都试过，都炸了。`command: uv` 两个都不需要。如果你的 harness 启动时的 PATH
+里没有 `uv`，把 `command` 换成绝对路径即可：
+
+```yaml
+    command: C:/Users/you/.local/bin/uv.exe
 ```
 
 ### 随包附带的 skill
@@ -222,6 +269,7 @@ _handle_message (mcp\server\lowlevel\server.py)
 ```
 package.json            DSH bundle 清单（`dsh.bundle.patch`）+ npm 入口
 cordis.patch.yml        bundle 的 patch 层
+TROUBLESHOOTING.md      桌面端装不上／把桌面卡死／MCP 关掉后无法启用回来的排查与解锁
 screenshots.json
 tools/verify-patch.mjs             离线校验 cordis.patch.yml
 

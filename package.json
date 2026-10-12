@@ -29,6 +29,7 @@
     "screenshots.json",
     "README.md",
     "README.zh-CN.md",
+    "TROUBLESHOOTING.md",
     "LICENSE"
   ],
   "exports": {

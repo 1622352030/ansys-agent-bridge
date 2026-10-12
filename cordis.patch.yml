@@ -4,6 +4,37 @@
 # `ansys` namespace. There is no absolute path anywhere in this file, so the same
 # patch works on any machine and in any install location.
 #
+# ── Two install modes ────────────────────────────────────────────────────────
+#
+# A. Install from GitHub (this file as shipped). The row below launches the server
+#    with `uv tool run --from git+https://…#subdirectory=spaceclaim/python`, so
+#    every launch performs a `git fetch` first. Nothing to clone locally and it
+#    tracks upstream — but it needs a working route to GitHub on EVERY launch.
+#
+# B. Install from a local checkout (recommended when the route to GitHub is
+#    unreliable). Leave this file untouched and override the row from your own
+#    --patch layer, replacing the `--from <git url>` argument with
+#    `--from <clone>/spaceclaim/python`:
+#
+#      - id: mcp-ansys
+#        name: '@deepseek-ai/dsh-mcp-client'
+#        config:
+#          serverName: ansys
+#          transport: stdio
+#          command: uv
+#          args: [tool, run, --quiet, --from, C:/path/to/ansys-agent-bridge/spaceclaim/python, ansys-bridge-mcp]
+#          env: {PYTHONIOENCODING: 'utf-8', ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'}
+#          toolCallTimeoutMs: 900000
+#          failOnStartupError: false
+#
+#    This is not cosmetic. When the fetch fails, `failOnStartupError: false` hides
+#    the error and the reconnect loop re-imports both heavy Ansys dependencies until
+#    DSH's single-threaded host event loop is saturated (the desktop appears hung);
+#    the plugin manager may then latch the plugin as disabled, after which the UI
+#    switch no longer brings it back. Full mechanics and the unlock procedure:
+#    TROUBLESHOOTING.md. Note the path is `<clone>/spaceclaim/python`, not
+#    `<clone>/python` — that older form no longer applies.
+#
 # ── Why there is no `!!js` here ──────────────────────────────────────────────
 #
 # This patch used `!!js` twice, and both were removed after they broke the

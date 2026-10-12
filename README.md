@@ -65,7 +65,31 @@ later `SaveAs`), is in [`spaceclaim/skills/ansys-spaceclaim/SKILL.md`](spaceclai
 Requires **Windows**, an Ansys installation with SpaceClaim (2024 R2 tested),
 and [`uv`](https://docs.astral.sh/uv/).
 
-### DSH (one command)
+### Two ways to install
+
+There are two supported ways to install this in DSH. They differ only in **where
+the MCP server is loaded from**:
+
+| | Option A: install from GitHub | Option B: install from a local checkout |
+| --- | --- | --- |
+| Plugin package | `github:1622352030/ansys-agent-bridge` | `link:<path to your clone>` |
+| MCP launch source | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<clone>/spaceclaim/python` |
+| Network needed per launch | **yes** (a `git fetch` first) | **no** |
+| No VPN / GitHub unreachable | ⚠ fails, and can take the whole desktop app down | fine |
+| After editing this repo | reinstall required | takes effect immediately |
+| Tracks upstream automatically | yes | no |
+
+**If you are behind an unreliable route to GitHub, use Option B.** When Option A's
+`git fetch` fails, the bundled `failOnStartupError: false` hides the error, and the
+automatic reconnect loop rebuilds the environment and re-imports
+`ansys.geometry.core` / `ansys.fluent.core` over and over, saturating DSH's
+single-threaded host event loop — every session history sits at "loading" and the
+desktop stops responding. The plugin manager then decides that enabling it "would
+persist a state that crashes at boot" and **latches it as disabled**, after which
+the UI switch will not bring it back. Mechanism, diagnostics and the unlock
+procedure: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
+
+### Option A: install from GitHub
 
 ```sh
 dsh plugin --profile web add ansys-agent-bridge
@@ -84,27 +108,56 @@ dsh plugin --profile web remove ansys-agent-bridge
 The MCP row launches the server with `uv tool run --from <this repo>`, so no
 clone and no virtualenv is needed on the target machine — but the **first**
 call pays for resolving and building `ansys-geometry-core`. If you keep a local
-checkout and want a warm environment instead, point a `--patch` overlay at the
-same server name with
-`args: [run, --directory, <clone>/python, ansys-bridge-mcp]`.
+checkout and want a warm environment instead, use **Option B** below — note the
+path is `<clone>/spaceclaim/python` (the Python package lives under `spaceclaim/`);
+the older `<clone>/python` form no longer applies.
 
-The patch contains **no `!!js` and no absolute path**, which is deliberate: the
-harness CLI (0.1.1-rc.1) evaluates `!!js` in a scope without `createRequire` and
-does not await the result, so an expression using either boots on the Desktop app
-(0.1.5-rc.2) and leaves the CLI with a profile that will not start. Both were
-tried and both broke it; `command: uv` needs neither. Override that one line if
-`uv` is not on the PATH the harness was launched with:
+### Option B: install from a local checkout
+
+Two steps: point the plugin at your local directory, then override the MCP row's
+launch source with a `--patch` overlay.
+
+```sh
+# 1) point the plugin package at your local clone
+dsh plugin --profile web add link:C:/path/to/ansys-agent-bridge
+```
 
 ```yaml
-# a --patch overlay, applied after the bundle layer
+# 2) restate this row in your own --patch layer
+#    (an id-targeted override replaces the whole `config`)
+#    %APPDATA%\dsh-desktop\harness\profiles\web\cordis.patch.yml
 - id: mcp-ansys
   name: '@deepseek-ai/dsh-mcp-client'
   config:
     serverName: ansys
     transport: stdio
-    command: C:/Users/you/.local/bin/uv.exe
-    args: [tool, run, --quiet, --from, <repo>, ansys-bridge-mcp]
+    command: uv
+    args:
+      - 'tool'
+      - 'run'
+      - '--quiet'
+      - '--from'
+      - 'C:/path/to/ansys-agent-bridge/spaceclaim/python'
+      - 'ansys-bridge-mcp'
+    env:
+      PYTHONIOENCODING: 'utf-8'
+      ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'
     toolCallTimeoutMs: 900000
+    failOnStartupError: false
+```
+
+Restart DSH for it to take effect.
+
+### Why the patch has neither `!!js` nor an absolute path
+
+That is deliberate: the harness CLI (0.1.1-rc.1) evaluates `!!js` in a scope without
+`createRequire` and does not await the result, so an expression using either boots on
+the Desktop app (0.1.5-rc.2) and leaves the CLI with a profile that will not start.
+Both were tried and both broke it; `command: uv` needs neither. Override that one
+line if `uv` is not on the PATH the harness was launched with:
+
+```yaml
+    command: C:/Users/you/.local/bin/uv.exe
 ```
 
 ### The bundled skill
@@ -248,6 +301,7 @@ Fluent material never share a directory, down to the test scripts:
 ```
 package.json            DSH bundle manifest (`dsh.bundle.patch`) + npm entry
 cordis.patch.yml        the bundle's patch layer
+TROUBLESHOOTING.md      desktop install / hang / MCP-will-not-re-enable, and how to unlock
 screenshots.json
 tools/verify-patch.mjs             offline check of cordis.patch.yml
 

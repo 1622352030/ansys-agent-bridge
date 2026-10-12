@@ -1,19 +1,26 @@
-# Overlay used only by the local verification run: it replaces the bundle's MCP
-# row with a command that launches the server from this checkout, so the plugin
-# layer can be proved to boot without the repository being published first.
-# Applied AFTER the bundle layer, and a patch replaces the row's whole `config`.
+# Overlay for the **local-install mode (Option B / 方式 B)** described in README.md
+# and README.zh-CN.md: it replaces the bundle's MCP row with a command that launches
+# the server straight out of this checkout, so the plugin boots without fetching the
+# repository from GitHub on every launch (which is what hangs the desktop when the
+# route to GitHub is unreliable — see TROUBLESHOOTING.md).
+#
+# Applied AFTER the bundle layer, and an id-targeted patch replaces the row's whole
+# `config`, so every key is restated here.
 - id: mcp-ansys
   name: '@deepseek-ai/dsh-mcp-client'
   config:
     serverName: ansys
     transport: stdio
-    command: 'C:/Users/16223/.local/bin/uv.exe'
+    # `uv` resolved through PATH; swap in an absolute path such as
+    # 'C:/Users/<you>/.local/bin/uv.exe' if your harness does not inherit it.
+    command: uv
     args:
       - 'tool'
       - 'run'
       - '--quiet'
       - '--from'
-      - 'C:/english_path/github_fork/ansys-agent-bridge/python'
+      # 注意：Python 包在 spaceclaim/ 下，不是仓库根的 python/
+      - 'C:/english_path/github_fork/ansys-agent-bridge/spaceclaim/python'
       - 'ansys-bridge-mcp'
     env:
       PYTHONIOENCODING: 'utf-8'
