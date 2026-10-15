@@ -407,15 +407,104 @@ def _import_geometry():
     return agc
 
 
+# -- design-tree traversal ------------------------------------------------
+#
+# Imported CAD does not land in the root component. A STEP or SolidWorks
+# assembly produces a root that holds *zero* bodies while its children hold every
+# solid, and those solids are usually all named "实体" -- the component name is
+# what identifies the part. Reading only ``design.bodies`` therefore reports an
+# empty design for a perfectly good import. A 131-solid STEP looked exactly like
+# a failed translation for this reason, and the flaw was here, not in the file
+# and not in the licence.
+
+
+def _iter_bodies_with_path(comp, prefix: str = ""):
+    """Yield ``(path, body)`` over the whole design tree, path unique per body.
+
+    A component can hold many solids -- an imported winding arrived with 79 --
+    so the plain component path would collide. Such a component gets an index
+    suffix on each body. A one-solid component keeps its bare path, which is
+    what a caller normally types.
+    """
+    here = f"{prefix}/{comp.name}" if prefix else comp.name
+    bodies = list(comp.bodies)
+    for i, body in enumerate(bodies, 1):
+        yield (here if len(bodies) == 1 else f"{here}#{i}"), body
+    for sub in comp.components:
+        yield from _iter_bodies_with_path(sub, here)
+
+
+def _all_bodies(comp) -> list:
+    """Every body in the tree, whichever component happens to hold it."""
+    return [body for _, body in _iter_bodies_with_path(comp)]
+
+
+def _body_index(comp) -> dict:
+    """Look a body up by component path, or by bare name while that stays unique.
+
+    Three keys are registered per body, in decreasing specificity:
+
+    * the full path, e.g. ``定转子装配/绕组``
+    * the same path without the design name, e.g. ``绕组`` -- the part name a
+      caller would actually type
+    * the bare body name, e.g. ``stator``
+
+    Imported models name every solid "实体", so a bare-name key is dropped as
+    soon as a second body claims it and callers are forced to qualify. Native
+    ``.scdoc`` bodies have unique names and keep working by bare name.
+    """
+    index: dict = {}
+    root = getattr(comp, "name", None)
+    prefix = f"{root}/" if root else None
+    ambiguous: set = set()
+    for path, body in _iter_bodies_with_path(comp):
+        index[path] = body
+        if prefix and path.startswith(prefix):
+            index.setdefault(path[len(prefix) :], body)
+        if body.name in ambiguous:
+            continue
+        if body.name in index and index[body.name] is not body:
+            index.pop(body.name, None)
+            ambiguous.add(body.name)
+        else:
+            index[body.name] = body
+    return index
+
+
 @dataclass
 class Session:
-    """One live SpaceClaim modeler, or the absence of one."""
+    """One live SpaceClaim modeler, or the absence of one.
+
+    A session has an **origin**, and it decides what this server is allowed to do
+    with the process:
+
+    ``"launch"``
+        ``scdm_session_start`` created the process. This server owns it and holds
+        its licence; ``close()`` shuts it down and releases the licence.
+    ``"attach"``
+        The user created the process and this server only connected to its gRPC
+        endpoint. It holds no licence of its own, and it is **not allowed to close
+        the window**: ``close()`` refuses and ``detach()`` disconnects the channel.
+    """
 
     modeler: Any = None
     path: str | None = None
     version: str | None = None
     # The design opened this session, pinned by `open_file`. See `_require_design`.
     design: Any = None
+    # "launch" | "attach" | None. Read by the guards, never inferred from the
+    # modeler: both origins hand back the same kind of object.
+    origin: str | None = None
+    # launch: whether the process was started with a UI (`not hidden`).
+    # attach: None, because the window belongs to the user's own start action and
+    # this server cannot observe it -- reporting a guess here would be a lie.
+    ui_visible: bool | None = None
+    # attach only: how we reached it (no credentials are ever stored here).
+    target: dict | None = None
+    # attach only: seconds `Modeler(...)` needed, and whether this client owns the
+    # backend process (the library-level reason close() cannot kill it).
+    attach_seconds: float | None = None
+    has_product_instance: bool | None = None
 
     # -- lifecycle ---------------------------------------------------------
 
@@ -521,7 +610,8 @@ class Session:
         if design is None:
             return {"design": None, "bodies": [], "named_selections": []}
         bodies = []
-        for body in design.bodies:
+        by_component: dict = {}
+        for path, body in _iter_bodies_with_path(design):
             try:
                 faces = len(body.faces)
             except Exception:
@@ -530,18 +620,40 @@ class Session:
                 volume = float(body.volume.magnitude)
             except Exception:
                 volume = None
-            bodies.append({"name": body.name, "faces": faces, "volume_m3": volume})
+            entry = {"name": body.name, "faces": faces, "volume_m3": volume}
+            # The last path segment is the component; a "#n" there only
+            # separates several solids held by one component.
+            component = path.rsplit("/", 1)[-1].split("#", 1)[0]
+            if "/" in path:
+                entry["in_component"] = component
+                roll = by_component.setdefault(
+                    component, {"bodies": 0, "faces": 0, "volume_m3": 0.0}
+                )
+                roll["bodies"] += 1
+                roll["faces"] += faces or 0
+                roll["volume_m3"] += volume or 0.0
+            bodies.append(entry)
         try:
             selections = [ns.name for ns in design.named_selections]
         except Exception:
             selections = []
-        return {
+        result = {
             "design": getattr(design, "name", None),
             "is_active": getattr(design, "is_active", None),
             "body_count": len(bodies),
             "bodies": bodies,
             "named_selections": selections,
         }
+        if by_component:
+            # Imported CAD only. One line per part, which is the view a mass or
+            # volume roll-up actually needs: an import names every solid "实体",
+            # so the component is the only thing that identifies the part.
+            for roll in by_component.values():
+                roll["volume_m3"] = round(roll["volume_m3"], 12)
+            result["by_component"] = dict(
+                sorted(by_component.items(), key=lambda kv: -kv[1]["volume_m3"])
+            )
+        return result
 
     def collisions(self, left: str | None = None, right: str | None = None, all_pairs: bool = False) -> dict:
         """Pairwise collision state using ``Body.get_collision``.
@@ -552,7 +664,7 @@ class Session:
         real overlap.
         """
         design = self._require_design()
-        by_name = {b.name: b for b in design.bodies}
+        by_name = _body_index(design)
 
         if all_pairs:
             names = sorted(by_name)
@@ -617,7 +729,7 @@ class Session:
         is reported -- the caller should not have to guess the model's scale.
         """
         design = self._require_design()
-        by_name = {b.name: b for b in design.bodies}
+        by_name = _body_index(design)
         names = bodies or sorted(by_name)
         missing = [n for n in names if n not in by_name]
         if missing:
@@ -708,7 +820,7 @@ class Session:
         this wrapper: it tells the caller the kernel declined to do the work.
         """
         design = self._require_design()
-        by_name = {b.name: b for b in design.bodies}
+        by_name = _body_index(design)
         if target not in by_name:
             raise SessionError(f"target body not found: {target}")
         missing = [t for t in tools if t not in by_name]
@@ -746,8 +858,8 @@ class Session:
         explicit failure rather than a silent no-op.
         """
         design = self._require_design()
-        by_name = {b.name: b for b in design.bodies}
-        names = bodies or [b.name for b in design.bodies]
+        by_name = _body_index(design)
+        names = bodies or [path for path, _ in _iter_bodies_with_path(design)]
         missing = [n for n in names if n not in by_name]
         if missing:
             raise SessionError(f"bodies not found: {missing}")
@@ -826,7 +938,7 @@ class Session:
         raises `AttributeError`.
         """
         design = self._require_design()
-        by_name = {b.name: b for b in design.bodies}
+        by_name = _body_index(design)
         for name in (left, right):
             if name not in by_name:
                 raise SessionError(f"body not found: {name}")
@@ -858,14 +970,14 @@ class Session:
         if not target.exists():
             raise SessionError(f"file not found: {target}")
         design = self._require_design()
-        before = len(list(design.bodies))
+        before = len(_all_bodies(design))
         component = design.insert_file(str(target))
         design = self._require_design()
         return {
             "inserted": str(target),
             "component": getattr(component, "name", None),
             "bodies_before": before,
-            "bodies_after": len(list(design.bodies)),
+            "bodies_after": len(_all_bodies(design)),
         }
 
     # -- transforms --------------------------------------------------------
@@ -897,7 +1009,7 @@ class Session:
         centred there -- pass the point you actually mean to rotate about.
         """
         design = self._require_design()
-        by_name = {b.name: b for b in design.bodies}
+        by_name = _body_index(design)
         missing = [n for n in bodies if n not in by_name]
         if missing:
             raise SessionError(f"bodies not found: {missing}")
