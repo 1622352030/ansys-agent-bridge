@@ -511,6 +511,15 @@ def scdm_inspect_geometry(
     unset and a ladder of thresholds is scanned, with every rung reported, so
     you can see where this model's problems actually start.
 
+    `short_edges` also carries an **attribution**, because a bare count misleads.
+    A pipe whose circular section was modelled as a 360-gon reported 1440 short
+    edges of 0.349-0.436 mm and `clean: false` -- and those numbers are exactly
+    `2*r*sin(pi/360)` for r = 20 mm and 25 mm, the chords of the approximation.
+    Nothing was wrong with the model. The check now reports the length statistics
+    that separate a repeated chord family (near-uniform lengths) from scattered
+    slivers, states the rule it applied, and adds an `assessment` line when the
+    only thing keeping `clean` false is tessellation.
+
     Read-only: the source file's SHA-256 was unchanged after a full run.
     """
     try:
@@ -571,39 +580,228 @@ def scdm_share_topology(bodies: list[str] | None = None, tolerance: float = 0.0)
 
 
 @mcp.tool(annotations=STATE_CHANGE)
-def scdm_run_script(script: str, args: dict[str, str] | None = None, import_design: bool = True) -> dict[str, Any]:
+def scdm_run_script(
+    script_path: str | None = None,
+    args: dict[str, str] | None = None,
+    import_design: bool = True,
+    script: str | None = None,
+) -> dict[str, Any]:
     """Run a SpaceClaim/IronPython script through the official channel.
 
-    This is the coverage escape hatch: anything the typed tools do not expose is
-    reachable here, and unlike scraping stdout from the raw `/RunScript` path,
-    this call returns the script's reported values and raises on failure.
+    The coverage escape hatch: anything the typed tools do not expose is reachable
+    here, and unlike scraping stdout from the raw `/RunScript` path, this call
+    returns the script's reported values and raises on failure.
 
-    The script receives `argsDict` on the server side and can return values by
-    populating a `result` dictionary. Two traps are worth remembering when
-    authoring one: `Body[](n)` array syntax is a parse-time error that kills the
-    whole script silently with no output, so use `List[Body]()`; and printing
-    certain objects raises UnicodeEncodeError mid-script, so write ASCII-safe
-    strings to a log file and flush after each line.
+    **Two parameters, and they mean different things.** The old signature had one
+    parameter named `script` that actually required a *file path*, so handing it
+    script text failed immediately with `script not found: <the whole script>`.
+    Now:
+
+    * `script_path` - a path to an IronPython `.py` file on this machine (the file
+      is uploaded to the service, so it has to exist locally).
+    * `script` - the script **source text**. It is written to a temporary `.py`
+      file, run from there, and the temp file is deleted afterwards.
+
+    Pass exactly one. How to read a script from a path:
+
+        read the file yourself, then pass its text as `script` -- or pass the path
+        as `script_path` and this tool will read it for you. There is no third
+        interpretation: `script_path` is never treated as source, and `script` is
+        never treated as a path.
+
+    The script receives `argsDict` on the server side and returns values by
+    populating a `result` dictionary, which comes back under `returned`. Three
+    traps worth remembering when authoring one: `Body[](n)` array syntax is a
+    parse-time error that kills the whole script silently with no output, so use
+    `List[Body]()`; printing certain objects raises UnicodeEncodeError mid-script,
+    so write ASCII-safe strings to a log file and flush after each line; and
+    `str()` on a failed service exception can itself re-raise, so log
+    `type(exc).__name__` rather than the exception.
+
+    Because this runs arbitrary code in the user's session, it is the one tool
+    here with no read-back guard. Prefer `scdm_create_pipe` / `scdm_extrude` when
+    they cover the geometry you need -- they verify what they built.
     """
     try:
-        return {"ok": True, **_session.run_script(script, args=args, import_design=import_design)}
+        return {
+            "ok": True,
+            **_session.run_script(
+                script_path=script_path, args=args, import_design=import_design, script=script
+            ),
+        }
     except Exception as exc:
         return _err(exc)
 
 
 @mcp.tool(annotations=STATE_CHANGE)
-def scdm_export(format: str, location: str) -> dict[str, Any]:
-    """Export the open design to a new file.
+def scdm_create_pipe(
+    outer_diameter_mm: float,
+    length_mm: float,
+    inner_diameter_mm: float = 0.0,
+    name: str | None = None,
+    axis: str | list[float] = "z",
+    origin: list[float] | None = None,
+    tolerance: float = 1e-3,
+    replace_existing: bool = False,
+) -> dict[str, Any]:
+    """Create a hollow pipe (or a solid rod) from a ring section and an extrude.
+
+    This is a **creation** tool: before it existed, not one of the `scdm_*` tools
+    could make geometry, so "model from scratch" meant hand-writing IronPython and
+    running it through `scdm_run_script` -- the escape hatch whose parameter
+    contract was itself the easiest thing to misread.
+
+    **No boolean is used, on purpose.** The section is a ring built directly
+    (outer loop plus inner loop in one profile) and then extruded. Building a tube
+    by subtracting a rod from a rod cannot work on 2024 R2: `Body.subtract`
+    returns normally, deletes the tool body, and leaves the target untouched.
+
+    Circles are drawn as **two semicircles**: a single `CreateArc` with
+    `start == end` raises `Invalid profile.`, while two half-circles produce a
+    section whose area matches `pi*(r_out^2 - r_in^2)` to six decimals. Line
+    segments also work but tessellate the circle into chord edges, which
+    `scdm_inspect_geometry` then reports as thousands of short edges.
+
+    **It verifies what it built.** The section area is read back against the
+    analytic annulus, and the extruded volume against `area * length`. That is
+    what catches the measured *silent* failure mode: `removeInnerRegions=False`
+    does not raise, it just drops the inner loop and hands back a plain disc
+    (1962.872 mm2 where the ring is 706.634 mm2), so an unguarded tool would report
+    a rod as a tube.
+
+    `inner_diameter_mm=0` makes a solid rod, and the result says `solid: true`.
+    `length_mm` is along `axis` from `origin` (world origin by default).
+    Re-creating a name that already exists is refused unless
+    `replace_existing=True`; nothing in the design is deleted as a side effect.
+    """
+    try:
+        return {
+            "ok": True,
+            **_session.create_pipe(
+                outer_diameter_mm=outer_diameter_mm,
+                length_mm=length_mm,
+                inner_diameter_mm=inner_diameter_mm,
+                name=name,
+                axis=axis,
+                origin=origin,
+                tolerance=tolerance,
+                replace_existing=replace_existing,
+            ),
+        }
+    except Exception as exc:
+        return _err(exc)
+
+
+@mcp.tool(annotations=STATE_CHANGE)
+def scdm_extrude(
+    body: str,
+    distance_mm: float,
+    direction: str | list[float] | None = None,
+    face_indices: list[int] | None = None,
+    name: str | None = None,
+    extrude_type: str = "ForceIndependent",
+    expected_volume_mm3: float | None = None,
+    tolerance: float = 5e-2,
+) -> dict[str, Any]:
+    """Extrude faces of a body that is already in the design.
+
+    The general-purpose companion to `scdm_create_pipe`: it starts from geometry
+    that already exists (an imported region, a planar face of a STEP import, a
+    section a script left behind) instead of building a section from parameters.
+
+    **Faces are selected by 0-based `face_indices`, and `direction` is required.
+    Both are measured limitations, not taste.** On 2024 R2 a face cannot be
+    identified or typed from the raw API: `DesignFace` has no
+    `Id`/`IsPlanar`/`SurfaceType`, `Face.Geometry` raises `AttributeError`,
+    `EvalMid`/`EvalProportion`/`GetFaceNormal` all raise `TypeError`, and
+    `GetFaceNormal` wants a `PointUV` that cannot be built from a `BoundingBox`.
+    Only `Area` and `Perimeter` read cleanly. So there is no "every planar face"
+    default -- it would need an API that does not work here, and silently pulling a
+    cylinder wall is worse than a refusal. Omit `face_indices` and the refusal
+    lists every face with its area and perimeter so you can choose from evidence.
+
+    `direction` defaults to nothing for the same reason: the face normal cannot be
+    read, and guessing an axis would extrude along the wrong one while reporting
+    success.
+
+    **Why raw IronPython:** `GeometryCommands.extrude_faces` carries a 25R2 version
+    gate and raises on this machine's 24R2 before it reaches the service. The raw
+    kernel call `ExtrudeFaces.Execute(Selection.Create(faces), direction,
+    MM(distance), ForceIndependent, None)` was measured working on 24R2 against a
+    face of a body that was already in the document: a 12 mm disc extruded 40 mm
+    gave 18095.573685 mm3 against an analytic 18095.57515 mm3.
+
+    If the kernel creates nothing, this reports `no_geometry_change` rather than an
+    empty success -- the same rule the booleans follow. When `expected_volume_mm3`
+    is given it is checked; otherwise the face area times the distance is reported
+    as a cross-check that is deliberately **not** enforced, because an arbitrary
+    face has no exact analytic extruded volume.
+
+    `extrude_type` is one of `ForceIndependent` (default; creates a new body and
+    leaves the source alone), `Add`, `ForceAdd` or `None` (all three fuse the pull
+    into the source body). `source_effect` reports the source's volume before and
+    after either way, so "did this modify my part?" is answered by a number.
+
+    **`CreatedBodies` is not evidence here.** Measured on 2024 R2 with a 5 mm pull
+    of a 235.6194 mm2 annulus: `ExtrudeFaces.Execute` returned **zero** created
+    bodies for all four extrude types, while `ForceIndependent` really did create a
+    separate body (+1178.066 mm3) and `Add` really did fuse into the source
+    (+2748.988 mm3). This tool therefore finds what was created by diffing the
+    document, not by reading that return value.
+    """
+    try:
+        return {
+            "ok": True,
+            **_session.extrude(
+                body=body,
+                distance_mm=distance_mm,
+                direction=direction,
+                face_indices=face_indices,
+                name=name,
+                extrude_type=extrude_type,
+                expected_volume_mm3=expected_volume_mm3,
+                tolerance=tolerance,
+            ),
+        }
+    except Exception as exc:
+        return _err(exc)
+
+
+@mcp.tool(annotations=STATE_CHANGE)
+def scdm_export(
+    format: str,
+    location: str | None = None,
+    output_dir: str | None = None,
+    file_stem: str | None = None,
+) -> dict[str, Any]:
+    """Export the open design, with a file name the caller controls.
 
     Formats: scdocx, step, iges, parasolid_text, parasolid_bin, pmdb.
 
-    There is no `.scdoc` export - the native output is `.scdocx`. A practical
-    loop is therefore `.scdoc` in, operate, `.scdocx` out. The return value
-    reports whether the file actually landed and how big it is, because a path
-    in an object is not a file on disk.
+    **Two ways to say where the file goes, because the one-parameter version was
+    ambiguous.** `location` is treated as a *directory*, and that is what made the
+    old behaviour surprising: handing over `...\\pipe_round.step` produced
+    `...\\pipe_round.step\\设计(D)1.stp`, so the file name was uncontrollable (it
+    followed the document's name), the extension silently became `.stp`, and the
+    returned path was the directory rather than the file.
+
+    * `output_dir` + `file_stem` - `file_stem` names the file. When the service
+      insists on its own name or extension the file is **renamed to match**, so
+      the returned `path` is the file that exists on disk.
+    * `location` - the export directory, kept for compatibility.
+
+    `path` in the result is always the **absolute path of the file on disk**, and
+    `expected_suffix` reports the extension this format really uses on this
+    release (for example `step` writes `.stp`). There is no `.scdoc` export; the
+    native output is `.scdocx`.
     """
     try:
-        return {"ok": True, **_session.export(format, location)}
+        return {
+            "ok": True,
+            **_session.export(
+                format, location=location, output_dir=output_dir, file_stem=file_stem
+            ),
+        }
     except Exception as exc:
         return _err(exc)
 

@@ -12,25 +12,55 @@ raises `no_geometry_change` instead of reporting a success it cannot see.
 
 ## What it does
 
-Fifteen MCP tools:
+Nineteen MCP tools:
 
 | Tool | Read-only | What it does |
 |---|---|---|
 | `ansys_bridge_doctor` | yes | Reports detected Ansys releases, `SpaceClaim.exe`, Fluent root, Python, and package versions. Imports nothing heavyweight. |
-| `scdm_session_start` | no | Starts a hidden SpaceClaim modeler (auto-detects the release; measured **30.6 s**). |
-| `scdm_session_status` | yes | Whether a session is live, and its backend type/version. |
-| `scdm_session_close` | no | Releases the session and its licence. |
+| `scdm_session_start` | no | Starts a SpaceClaim modeler (auto-detects the release; measured **14–31 s**). `hidden=false` by default, so you see the window. |
+| `scdm_attach` | no | Connects to a SpaceClaim the **user** started (ApiServer add-in + fixed `API_PORT`). Consumes no licence, and cannot close their window. |
+| `scdm_session_status` | yes | Whether a session is live, its mode, and whether a design is visible to it. |
+| `scdm_session_close` | no | Releases the session and its licence. Launch sessions only; refused when attached. |
+| `scdm_detach` | no | Drops the gRPC channel to a user-owned SpaceClaim. Nothing else. |
 | `scdm_open_file` | no | Opens `.scdoc`/`.scdocx`/`.dsco`/`.pmdb` and reports bodies, named selections, face counts, volumes. |
 | `scdm_list_bodies` | yes | Body names, face counts, volumes for the open design. |
 | `scdm_collisions` | yes | Pairwise collision state (`TOUCH`/`NONE`/…), all pairs or a chosen list. |
 | `scdm_min_distance` | yes | Minimum distance between two bodies in metres — the continuous counterpart to collisions. |
 | `scdm_insert_file` | no | Merge another CAD file into the open design (`open_file` opens a document; this adds to one). |
 | `scdm_transform` | no | `rotate` / `scale` / `mirror`, verified by a before/after spatial fingerprint. |
-| `scdm_inspect_geometry` | yes | The eight official geometry checks: duplicate faces, short edges, small or missing faces, split and stitch faces, extra and inexact edges. |
+| `scdm_inspect_geometry` | yes | The eight official geometry checks: duplicate faces, short edges, small or missing faces, split and stitch faces, extra and inexact edges. Attributes short edges to tessellation chords rather than reporting a bare count. |
+| `scdm_create_pipe` | no | **Creates** a hollow pipe or solid rod from a ring section and an extrude. No boolean. Verifies the annulus area and the extruded volume against the analytic values. |
+| `scdm_extrude` | no | **Creates** geometry by extruding faces of a body already in the design (`Add`/`ForceAdd`/`ForceIndependent`). |
 | `scdm_boolean` | no | `unite`/`subtract`/`intersect`, guarded by a before/after geometry check. |
 | `scdm_share_topology` | no | Share topology, guarded by the same check. |
-| `scdm_run_script` | no | Runs a headless IronPython script against the live session. |
-| `scdm_export` | no | Exports `.scdocx`, STEP, IGES, Parasolid text/binary, `.pmdb`. |
+| `scdm_run_script` | no | Runs an IronPython script: `script_path=<file>` or `script=<source text>` (written to a temp file). |
+| `scdm_export` | no | Exports `.scdocx`, STEP, IGES, Parasolid text/binary, `.pmdb` — with a file name **you** control (`output_dir` + `file_stem`). |
+
+### Creating geometry
+
+Before `scdm_create_pipe` existed, **no tool in this server could create geometry**:
+every one either read the model or operated on bodies that already existed, so
+"model from scratch" meant hand-writing IronPython. The route the creation tools use
+was measured, and it deliberately contains **no boolean**:
+
+```python
+# a ring section built from two semicircles per circle, then extruded
+Body.CreatePlanarBody(plane, profile, False, False, removeInnerRegions=True)   -> section
+ExtrudeFaces.Execute(Selection.Create(section.Faces[0]), dir, MM(L), opts, None) -> tube
+```
+
+Why not subtract a rod from a rod: on this kernel `Body.subtract` returns normally,
+deletes the tool body and leaves the target untouched. And why **read the result
+back**: `removeInnerRegions=False` does not fail — it drops the inner loop silently
+and hands back a plain outer disc (`1963.495 mm²` where the ring is `706.858 mm²`),
+so an unguarded tool builds a solid rod and reports a tube. `scdm_create_pipe`
+checks the section area and the volume against the analytic values and refuses
+anything else.
+
+Measured live, over MCP: a 50/40/200 mm pipe came back with 4 faces and
+`141367.72 mm³` against an analytic `141371.67 mm³`; a 20/10/30 mm pipe with
+`7068.394 mm³` against `7068.583 mm³`; an extrusion of a `235.6194 mm²` annulus by
+5 mm added `1178.081 mm³` against an analytic `1178.097 mm³`.
 
 ### The two silent failures, measured
 
@@ -59,6 +89,17 @@ raw IronPython result.
 Full measured record, including the raw-IronPython traps (`Body[](n)` is a
 parse-time error that kills a script silently; `Document.Load` breaks every
 later `SaveAs`), is in [`spaceclaim/skills/ansys-spaceclaim/SKILL.md`](spaceclaim/skills/ansys-spaceclaim/SKILL.md).
+
+### One trap before you build the CAD: Chinese names do not reach Fluent
+
+Measured when a SpaceClaim STEP was imported into Fluent Meshing: the import printed
+`Warning: ?????????` and **all three named collections were dropped**, leaving the
+mesh with no usable named selections. The geometry arrived; the names did not.
+
+So name layers and named selections in **ASCII** — `inlet`, `outlet`, `wall`,
+`fluid` — if the model is going to Fluent. Named selections are what every
+downstream boundary-condition assignment depends on, and they are cheap to get
+right at the CAD step and expensive to redo later.
 
 ## Install
 

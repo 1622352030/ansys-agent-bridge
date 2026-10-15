@@ -53,15 +53,87 @@ measured, it says so.
 3. `scdm_open_file` — opens `.scdoc` directly, not just the documented
    `.scdocx`/`.dsco`/`.pmdb`. **Measured: a 3.11 MB assembly opens in 0.9 s**
    and reports bodies, named selections, per-body face counts, and volumes.
-4. `scdm_inspect_geometry` — **run this before any meshing.** It is the tool
-   that turns "the mesh failed" into a named cause. See the section below.
-5. Operators — `scdm_list_bodies`, `scdm_collisions`, `scdm_min_distance`,
-   `scdm_boolean`, `scdm_share_topology`, `scdm_transform`, `scdm_insert_file`,
-   `scdm_run_script`.
-6. `scdm_export` — `.scdocx`, `step`, `iges`, `parasolid_text`,
-   `parasolid_bin`, `pmdb`. There is no native `.scdoc` export.
-7. `scdm_session_close` — launch sessions. On an attach session this is refused;
-   call `scdm_detach` there, and the user's window keeps running.
+4. `scdm_inspect_geometry` — **建网格之前先跑它。** 它把"网格失败了"变成"有个名字的原因"。
+   见下面那一节。
+5. 算子类 —— `scdm_list_bodies`、`scdm_collisions`、`scdm_min_distance`、
+   `scdm_boolean`、`scdm_share_topology`、`scdm_transform`、`scdm_insert_file`、
+   `scdm_run_script`。
+6. **创建几何** —— `scdm_create_pipe` 和 `scdm_extrude` 是仅有的两个会**新增**几何的工具；
+   其余工具都是读模型、或对已存在的体做运算。
+7. `scdm_export` —— `.scdocx`、`step`、`iges`、`parasolid_text`、
+   `parasolid_bin`、`pmdb`。没有原生的 `.scdoc` 导出。
+8. `scdm_session_close` —— launch 会话用它。attach 会话下它会被拒绝，
+   那里要调 `scdm_detach`，用户的窗口继续留着。
+
+## 从零创建几何
+
+`scdm_create_pipe(outer_diameter_mm, length_mm, inner_diameter_mm)` 用来造空心管或实心棒。
+**手上没有现成几何时先用它**——它走的是实测跑通的那条路线：
+
+```python
+Body.CreatePlanarBody(plane, profile, False, False, removeInnerRegions=True)  # 环形截面
+ExtrudeFaces.Execute(Selection.Create(section.Faces[0]), dir, MM(L), opts, None)
+```
+
+**全程不用任何布尔运算。** 不要用"实心柱减实心柱"造管子：这个内核上 `Body.subtract`
+正常返回、删掉工具体、而目标体原封不动。
+
+这条路线里编码了三个实测坑，自己写脚本一定会踩：
+
+- **`removeInnerRegions=False` 会静默丢掉内环。** 不报错，给你一个纯外圆盘
+  （环面积 `706.858 mm²` 的地方变成 `1963.495 mm²`），你要管子它给你实心棒。
+  所以拉伸之前**必须把截面面积读回来**，和 `π(r_out² − r_in²)` 比。
+- **整圆必须用两个半圆拼。** `CurveSegment.CreateArc(centre, p, p, axis)` 在
+  `start == end` 时报 `Invalid profile.`。取一对对径点，A→B 一段弧、B→A 再一段。
+- **`Plane.Create(...)` 和 `Matrix.CreateTranslation(...)` 用不了。** 两者都从
+  interop 绑定层抛裸 `TypeError`。只有三个**静态**平面
+  （`Plane.PlaneXY` / `PlaneYZ` / `PlaneZX`）构造得出来，所以截面直接在最终圆心处建，
+  而不是建好再移动。
+
+`scdm_create_pipe` 会回报期望值、实测值和相对误差；截面不等于你要的环面积时它拒绝
+报成功。看 `checks` 再信 `created`。
+
+`scdm_extrude` 用来拉伸已有面。它有两个硬限制，都是实测出来的、不是随便定的：
+
+- **`face_indices` 是 0 基的序号，且 `direction` 必填。** 这个版本上无法识别也无法
+  判定面的类型：`DesignFace` 没有 `Id`/`IsPlanar`/`SurfaceType`，`Face.Geometry` 抛异常，
+  `GetFaceNormal` 要一个无法从 `BoundingBox` 构造的 `PointUV`。因此**没有**
+  "拉伸所有平面"的默认行为——不传 `face_indices` 时，拒绝消息会把每个面的面积和周长
+  列出来，让你按证据选。
+- **`CreatedBodies` 即使拉伸成功也返回空。** 工具是靠对比文档找出来的新几何。
+  注意 `extrude_type: ForceIndependent` **有时会把拉伸量并进源体**而不是新建体——
+  实测在空心管上，对 `235.6194 mm²` 的环形面拉 5 mm，源体增了 `1178.081 mm³`
+  （`source_effect.fused_into_source: true`）。这是正常结果，不是失败；
+  读 `source_effect.volume_delta_mm3`。
+
+## attach 会话：这个客户端看得见什么、看不见什么
+
+以下都是实测，它决定了驱动用户自己的 SpaceClaim 时哪些工具能用。用户文档开着时，
+attach 会话会这样回报：
+
+| 调用 | 结果 |
+|---|---|
+| `scdm_session_status` | `body_count: null`、`design_visible: false` |
+| `scdm_list_bodies` | `body_count: 0`、`design_visible: false` |
+| 脚本里的原生 `DocumentHelper.GetRootPart()` | **能看到文档和它的实体** |
+
+所以在 attach 会话里 `body_count: null` 的意思是**"这个客户端看不见文档"**，
+不是"文档是空的"；只读类实体工具在这种情况下不可用。
+**`scdm_create_pipe` 和 `scdm_extrude` 仍然可用**，因为它们是通过服务自己的脚本通道
+去够那个打开的文档的——它们返回里的 `verification: "service"` 表示校验在 SpaceClaim
+内部跑过了、而通过本客户端的第二次读取做不到。那是"少了一次交叉验证"，不是"跳过了校验"。
+
+`scdm_export` 需要一个本客户端看得见的 design，看不见时抛
+`attach_export_needs_visible_design`。导出本身**不区分格式**——六种格式走的是同一个库调用。
+
+## 渲染到下游：中文名传不到 Fluent
+
+实测：把 SpaceClaim 的 STEP 导入 Fluent Meshing 时打印 `Warning: ?????????`，
+**三个命名集合全丢**，网格里没有可用的命名选择。几何到了，名字没到。
+
+所以模型要交给 Fluent 时，SpaceClaim 侧的图层名和命名选择**一律用 ASCII**：
+`inlet`、`outlet`、`wall`、`fluid`。下游每个边界条件的指定都依赖这些名字，
+在 CAD 阶段一次做对很便宜，事后返工很贵。
 
 ## Measuring a gap
 
@@ -244,9 +316,14 @@ better operator when you want face-level contact without fusing bodies.
 
 ## Raw IronPython escape hatch (`scdm_run_script`)
 
-For anything the curated tools do not cover, run a headless IronPython script.
-SpaceClaim embeds IronPython 2.x, and the following were all measured failures
-of the obvious spelling:
+需要跑原生 IronPython 时用它——策展过的工具覆盖不到的东西都在这里。
+
+**参数契约，因为它以前是错的。** `scdm_run_script` 接受 `script_path`（`.py` 文件路径）
+**或** `script`（脚本正文，会写进临时文件），**只能给一个**。旧签名的参数名就叫 `script`，
+但实际要的是**文件路径**，所以直接传脚本正文会失败并报
+`script not found: <整段脚本>`。
+
+SpaceClaim 内嵌 IronPython 2.x，以下是实测"最直觉的写法反而失败"的清单：
 
 - `Body[](n)` is a **parse-time error** — the script dies silently with **no
   output at all**. Use `List[Body]()`.
@@ -254,10 +331,24 @@ of the obvious spelling:
   `SystemError('序列不包含任何元素')`. Use
   `Document.Open(SRC, ImportOptions.Create())`.
 - Passing a Python `list` raises `expected ICollection[Body], got list`.
-- `print(some objects)` raises `UnicodeEncodeError` and **aborts the script**.
-  Print strings, and keep the script pure ASCII.
-- The usual launch is
-  `SpaceClaim.exe /RunScript=<file> /Headless=True /ExitAfterScript=True`.
+- **方向要传真正的 `Direction`，不能传元组。** `CurveSegment.CreateArc(centre, a, b,
+  (0,0,1))` 从 interop 绑定层抛裸 `TypeError`；
+  `Direction.Create(0.0, 0.0, 1.0)` 和 `Direction.DirZ` 都可以。
+- **`System.Double[]` 不存在。** 执行 `from SpaceClaim.Api.V242 import *` 之后，
+  `System.Double` 绑定到的是 Python 的 `float`，所以 `System.Double[3]` 抛 `TypeError`
+  ——而且它抛在"能写失败信息"之前，调用方只会看到 `Script run failed.`。
+  改用 `Direction.Create` / `Point.Create`。
+- **对捕获到的异常调 `str()` 本身会抛。** `GeometryExitedError.__str__` 会重新抛异常，
+  所以 `except Exception as e: log(str(e))` 会死在自己的处理块里。
+  记 `type(e).__name__`，原因用你自己打的标记带出来。
+- **服务会把所有脚本失败压成同一句**两词消息
+  `GeometryRuntimeError("Script run failed.")`；而脚本如果在建立 `result` 字典之前就抛了，
+  就**什么都返回不了**。所以先写 `result = {}`，自己 catch 自己的异常，
+  需要让调用方知道原因就写进那个字典里。
+- **`print` 某些对象会抛 `UnicodeEncodeError` 并让脚本中断。** 只打印字符串，脚本保持纯 ASCII。
+- 脚本的 **stdout 会被丢弃**；要二分定位失败点就把进度写进文件。
+- 常见启动方式是
+  `SpaceClaim.exe /RunScript=<file> /Headless=True /ExitAfterScript=True`。
 
 ## Handoff to Fluent
 
