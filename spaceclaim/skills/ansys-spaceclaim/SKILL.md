@@ -25,6 +25,18 @@ measured, it says so.
   package versions, without importing anything heavyweight.
 - A SpaceClaim session holds a licence. Call `scdm_session_close` when you are
   done, and never leave a session open across a long idle period.
+- **Two session modes, and they are separate tools.** `scdm_session_start` launches
+  a modeler this server owns (`mode=launch`): it holds the licence and ends with
+  `scdm_session_close`. `hidden` defaults to **false**, so the user sees the window
+  you are driving; `hidden=true` is `/Headless=True` — batch mode with **no UI at
+  all**, not a minimised window. To drive a SpaceClaim the *user* started, use
+  `scdm_attach` (`mode=attach`): it consumes no licence and `scdm_session_close` is
+  **refused** there — disconnect with `scdm_detach` instead, which closes only the
+  gRPC channel. Attaching needs the user to have launched SpaceClaim with the
+  ApiServer add-in and a fixed `API_PORT` (a plain double-click has **no** gRPC
+  endpoint); `spaceclaim/dev/launchers/start_spaceclaim_for_ai.bat` is that
+  launcher, and a failed `scdm_attach` prints the full command line to paste.
+
 - **Never open a file the user has open in a SpaceClaim GUI, and never write to
   a source model.** Open, operate, and export to a new path.
 - Only Windows is known to work. `ansys-geometry-core` supports Linux for the
@@ -33,9 +45,11 @@ measured, it says so.
 ## Workflow
 
 1. `ansys_bridge_doctor` — confirm the environment before blaming your own call.
-2. `scdm_session_start` — start a hidden modeler. **Measured: 14–31 s** to reach
+2. `scdm_session_start` — start a modeler. **Measured: 14–31 s** to reach
    `backend_type = SPACECLAIM`, `backend_version = 24.2.0`. Budget for it. Pass
-   a version only when auto-detection picks the wrong install.
+   a version only when auto-detection picks the wrong install. `hidden` defaults
+   to false: the returned `mode="launch"` and `ui_visible=true` are what the user
+   will actually see. (Or `scdm_attach` when the user already has one running.)
 3. `scdm_open_file` — opens `.scdoc` directly, not just the documented
    `.scdocx`/`.dsco`/`.pmdb`. **Measured: a 3.11 MB assembly opens in 0.9 s**
    and reports bodies, named selections, per-body face counts, and volumes.
@@ -46,7 +60,8 @@ measured, it says so.
    `scdm_run_script`.
 6. `scdm_export` — `.scdocx`, `step`, `iges`, `parasolid_text`,
    `parasolid_bin`, `pmdb`. There is no native `.scdoc` export.
-7. `scdm_session_close`.
+7. `scdm_session_close` — launch sessions. On an attach session this is refused;
+   call `scdm_detach` there, and the user's window keeps running.
 
 ## Measuring a gap
 

@@ -10,14 +10,16 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 
 ## 功能
 
-共 15 个 MCP 工具：
+共 17 个 MCP 工具：
 
 | 工具 | 只读 | 作用 |
 |---|---|---|
 | `ansys_bridge_doctor` | 是 | 报告探测到的 Ansys 版本、`SpaceClaim.exe`、Fluent 根目录、Python 与依赖包版本。不导入任何重库。 |
-| `scdm_session_start` | 否 | 启动隐藏的 SpaceClaim（自动探测版本；实测 **30.6 s**）。 |
-| `scdm_session_status` | 是 | 会话是否存活，以及后端类型/版本。 |
-| `scdm_session_close` | 否 | 关闭会话并释放许可。 |
+| `scdm_session_start` | 否 | **我控**：启动 SpaceClaim。默认 `hidden=false`，即**用户看得见**的那个窗口（实测 21.8 s 到可用）。 |
+| `scdm_attach` | 否 | **你控**：接入用户自己启动的 SpaceClaim。不新增许可占用，且**关不掉用户的窗口**。 |
+| `scdm_session_status` | 是 | 会话是否存活、处于哪种模式（`launch`／`attach`）、后端类型/版本。 |
+| `scdm_session_close` | 否 | 关闭**本服务器启动的**会话并释放许可；attach 会话下**硬拒绝**（`attach_mode_refuses_close`）。 |
+| `scdm_detach` | 否 | 断开与用户 SpaceClaim 的连接：只关 gRPC 通道，进程与许可都不动。 |
 | `scdm_open_file` | 否 | 打开 `.scdoc`/`.scdocx`/`.dsco`/`.pmdb`，报告实体、命名选择、面数、体积。 |
 | `scdm_list_bodies` | 是 | 当前设计的实体名、面数、体积。 |
 | `scdm_collisions` | 是 | 两两碰撞状态（`TOUCH`/`NONE`/…），可全部配对或指定列表。 |
@@ -48,6 +50,73 @@ agent 会一本正经地描述一个从未被修改过的几何体。这个服�
 完整的实测记录——包括原生 IronPython 的那些坑（`Body[](n)` 是**解析期**错误、会让
 脚本静默死掉；`Document.Load` 会让之后每一次 `SaveAs` 报错）——见
 [`spaceclaim/skills/ansys-spaceclaim/SKILL.md`](spaceclaim/skills/ansys-spaceclaim/SKILL.md)。
+
+## 两种 GUI 模式：我控 / 你控
+
+会话由**谁拥有进程**决定，这件事分成两个工具而不是一个开关——因为许可与所有权语义正好
+相反，选错的那一个会结束用户的会话。（与 Fluent 侧的 `ui_mode="gui"` / `fluent_attach` /
+`fluent_detach` 对齐。）每个会话都在返回值里给出机器可读的 `mode` 字段。
+
+| | `mode=launch`（我控） | `mode=attach`（你控） |
+|---|---|---|
+| 工具 | `scdm_session_start` | `scdm_attach` |
+| 谁启动的进程 | 本服务器 | 用户 |
+| 许可 | 本服务器占一份 | **不新增**，复用用户那份 |
+| `process_ownership.owner` | `ai` | `user` |
+| 怎么结束 | `scdm_session_close` | `scdm_detach`（只关通道） |
+| 另一个工具 | `scdm_detach` → **被拒** | `scdm_session_close` → **被拒** |
+
+### 我控：默认就是看得见的窗口
+
+`hidden` 默认 `false`。实测（走真实 MCP stdio 传输）：返回
+`mode="launch"`／`ui_visible=true`，**21.8 s** 到可用，主窗口
+`设计(D)1 - SpaceClaim`（1935×1047，可见、未最小化），内存工作集 **979 MB**，
+`scdm_session_close` 之后**残余进程 0 个**。
+
+两点实测提醒：
+
+- **`hidden=true` 不是"最小化"**，PyAnsys 把它映射成 `/Headless=True`，Ansys 的定义是
+  **无 UI 的批处理**；实测 40 个顶层窗口里只有 2 个 13×13 无标题小窗，没有主窗口。
+- **窗口可能落在副屏**：本机两次可见启动都在 `x = -1927`（副屏）。PyAnsys 不暴露窗口位置，
+  要锁主屏得自己往命令行里加 `/WindowLocation=`——**未实测**。
+
+### 你控：裸双击不行，必须用带参快捷方式
+
+**裸双击启动的 SpaceClaim 没有 gRPC 端点**，AI 接不上：实测它监听的三个端口
+（49013/49014/63186）对 gRPC 健康检查**全部** `UNAVAILABLE`。官方文档也是同一句话：
+"Running a SpaceClaim or Discovery normal session does not suffice… Both products need
+the ApiServer extension to be running."
+
+所以用户侧要双击的是这个快捷方式（本机已建好）：
+
+```
+桌面：SpaceClaim 2024R2 (AI可接入).lnk
+  └─> spaceclaim/dev/launchers/start_spaceclaim_for_ai.bat
+        set API_PORT=51790            ← 固定端口，AI 侧才知道去哪连
+        SpaceClaim.exe /ADDINMANIFESTFILE="...\Addins\ApiServer\Presentation.ApiServerAddIn.Manifest.xml" /transport-mode=wnua
+```
+
+环境变量写在 `.bat` 里而不是快捷方式里，因为 Windows 快捷方式**不能设环境变量**——
+Fluent 侧的 `-sifile=` 启动器踩过同一个坑。
+
+用法：
+
+1. 双击快捷方式，等窗口起来（和平时启动一样，20–30 s）；
+2. AI 侧调 `scdm_attach(port=51790)`（实测这类连接 **0.31 s** 就连上）；
+3. AI 侧结束时要调 `scdm_detach`，**不能**调 `scdm_session_close`——后者在 attach 会话下被
+   硬拒绝（`error="attach_mode_refuses_close"`、`process_untouched=true`、
+   `licence_released=false`）；
+4. 用户想让 AI 下线：直接关掉 SpaceClaim，通道随进程终止。SpaceClaim 侧**没有** Fluent 那种
+   `server/shutdown-server` 命令，未找到任何等价入口。
+
+连不上时 `scdm_attach` 会直接给出上面那条**完整可粘贴的命令行**，并说明裸双击为什么不行。
+
+**风险（务必知道）**：`/ADDINMANIFESTFILE` 与 `API_PORT` **不在 Ansys 公开命令行文档里**，
+只出现在 PyAnsys Geometry 源码（`product_instance.py:92, 113-117, 401-404`）与实测中——
+属于**半公开接口**，将来版本可能改。端口也是**约定**而不是发现机制：SpaceClaim 没有 Fluent
+`-sifile=` 那样的端口文件。attach 下的**写操作（`open_file`／几何算子／`export`）与许可
+计数器均未实测**，详见
+[`spaceclaim/docs/verification.md`](spaceclaim/docs/verification.md)。
 
 ## 安装
 
@@ -258,6 +327,9 @@ _handle_message (mcp\server\lowlevel\server.py)
 - **绝不要打开用户已经在 SpaceClaim GUI 里打开的文件，也绝不要写回源模型。**
   打开、操作、导出到新路径。
 - 会话占用一个许可，用完调 `scdm_session_close`。
+- **attach 会话不占新许可，也不许被关掉。** 那是用户自己启动的 SpaceClaim：`scdm_session_close`
+  在该模式下被硬拒绝，断开只能用 `scdm_detach`。这条护栏在**工具层**实现，不依赖库的默认
+  行为（库只在 `product_instance` 非空时才关后端，而 `force_exit()` 之类路径并不看这个字段）。
 - 包版本探测只读元数据。早先的版本在工具调用里 `import` 了
   `ansys.fluent.core` 来读版本号，而该库在导入时会打印内容，污染 stdio 的
   JSON-RPC 流并导致会话中途断开；现在 `package_version()` 只读元数据、不导入。
@@ -275,9 +347,11 @@ tools/verify-patch.mjs             离线校验 cordis.patch.yml
 
 spaceclaim/
   python/               MCP 服务器（uv/pip 可装，src 布局）
+  python/tests/         离线单测（不打 ANSYS、不占许可、不联网）
   skills/ansys-spaceclaim/SKILL.md 实测操作要点与陷阱
   docs/feature-coverage.md         实现功能与官方 API 的逐项对照表
   docs/verification.md             验证记录，以及抓出的 bug
+  dev/launchers/        start_spaceclaim_for_ai.bat（你控模式的双击入口）
   dev/tests|logs|evidence|models|scratch
 
 fluent/
@@ -307,6 +381,11 @@ fluent/
 node tools/verify-patch.mjs        # 不需要任何 profile
 uv run --directory python pytest -q
 ```
+
+`spaceclaim/python/tests/` 里的单测是**离线**的：不打 ANSYS、不占许可、不联网。它们用一个
+假的 PyAnsys 客户端记录"服务器愿意发起哪些调用"——这正是两种 GUI 模式的实质（`hidden` 默认值、
+attach 必须传 `transport_mode` 而**不能**传 `product_instance`、attach 下 `close()` 必须在碰到
+库之前就被拒、参数校验必须在联网之前完成）。当前 **70 项**。
 
 `verify-patch.mjs` 把 patch 里任何 `!!js` 表达式放在一个**只有 `ctx` 的裸作用域**里求值——这正是 CLI 的构造方式——并拒绝返回 Promise，所以"只能在较新 harness 上启动"的 patch 会在这里失败，而不是在用户机器上。它还会校验 patch 启动的 console script 确实是 `pyproject.toml` 里声明的那个。
 

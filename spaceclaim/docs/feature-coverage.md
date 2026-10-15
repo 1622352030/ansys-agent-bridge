@@ -15,7 +15,7 @@
 | 功能域 | 来源 | 24R2可用方法 | 已实现工具 | 状态 |
 |---|---|---|---|---|
 | 环境探测 | 自建 | — | `ansys_bridge_doctor` | 已实现 |
-| 会话生命周期 | `Modeler` | 15 | `scdm_session_start` `scdm_session_status` `scdm_session_close` | 已实现 |
+| 会话生命周期 | `Modeler` | 15 | `scdm_session_start` `scdm_attach` `scdm_session_status` `scdm_session_close` `scdm_detach` | 已实现；`scdm_attach`／`scdm_detach` 走公开的 `Modeler(host, port, transport_mode)` 接入路径，不占新许可 |
 | 打开设计 | `Modeler.open_file` | 1 | `scdm_open_file` | 已实现 |
 | 实体与命名选择查询 | `Design` `Body` | 多 | `scdm_list_bodies` | 已实现 |
 | 碰撞状态查询 | `Body.get_collision` | 1 | `scdm_collisions` | 已实现 |
@@ -91,7 +91,7 @@
 
 ## 结论
 
-已实现 15 个工具，覆盖环境探测、会话、文件读写、查询、测量、布尔、几何体检、变换、导出、逃生通道十个域。`PrepareTools` 十四个方法里唯一在 24R2 可用的共享拓扑已经做了，`RepairTools` 十八个里可用的八个体检方法也已全部做了，`MeasurementTools` 唯一的方法与 `MasterBody` 的三个变换方法同样已做。
+已实现 17 个工具，覆盖环境探测、会话（`launch`／`attach` 两种所有权模式）、文件读写、查询、测量、布尔、几何体检、变换、导出、逃生通道十个域。`PrepareTools` 十四个方法里唯一在 24R2 可用的共享拓扑已经做了，`RepairTools` 十八个里可用的八个体检方法也已全部做了，`MeasurementTools` 唯一的方法与 `MasterBody` 的三个变换方法同样已做。
 
 剩余缺漏集中在表3，共 7 项，全部为低优先级。
 

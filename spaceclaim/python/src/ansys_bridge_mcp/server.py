@@ -24,7 +24,15 @@ from .guards import (
     detect_fluent_root,
     package_version,
 )
-from .scdm import Session, SessionError, _stderr, preload
+from .scdm import (
+    DEFAULT_ATTACH_HOST,
+    DEFAULT_ATTACH_PORT,
+    DEFAULT_ATTACH_TRANSPORT,
+    Session,
+    SessionError,
+    _stderr,
+    preload,
+)
 
 _session = Session()
 
@@ -34,6 +42,22 @@ INSTRUCTIONS = (
     "\n"
     "Workflow: ansys_bridge_doctor -> scdm_session_start -> scdm_open_file -> operators -> "
     "scdm_export. Call scdm_session_close when finished; a SpaceClaim process holds a licence.\n"
+    "\n"
+    "TWO GUI MODES, and they are separate tools because the licence and ownership "
+    "semantics are opposite. Every session reports which one it is in a machine-readable "
+    "`mode` field:\n"
+    "  * mode=launch - scdm_session_start. This server starts SpaceClaim, owns the process "
+    "and holds the licence, and it is the only tool allowed to close it. `hidden` defaults "
+    "to false so the user SEES the window being driven; hidden=true is /Headless=True, a "
+    "batch run with no UI at all rather than a minimised window, and the visible window may "
+    "open on a secondary monitor. Finish with scdm_session_close.\n"
+    "  * mode=attach - scdm_attach. The user started SpaceClaim themselves and this server "
+    "only connects to its gRPC endpoint. It consumes NO licence of its own, and it CANNOT "
+    "close the user's window: scdm_session_close is refused in this mode, use scdm_detach. "
+    "A plain double-click start does NOT work - such an instance has no gRPC endpoint at all "
+    "- so the user must launch it with the ApiServer add-in and a fixed API_PORT (the "
+    "desktop shortcut shipped with this project does exactly that). Both switches are a "
+    "semi-public interface.\n"
     "\n"
     "Two operations on SpaceClaim 2024 R2 report success without doing anything, and this "
     "server treats that as a failure on purpose:\n"
@@ -49,6 +73,7 @@ INSTRUCTIONS = (
     "Never open a file the user has open in a SpaceClaim GUI, and never write to a source "
     "model. Open, operate, and export to a new path."
 )
+
 
 mcp = FastMCP(
     "ansys-agent-bridge",
@@ -88,7 +113,18 @@ def _err(exc: Exception) -> dict[str, Any]:
             ),
         }
     if isinstance(exc, SessionError):
-        return {"ok": False, "error": "session", "message": str(exc)}
+        # `code` is the machine-readable name; `extra` carries the facts a guard
+        # must state next to a refusal (`process_untouched`, `licence_released`,
+        # `next_step`, the session snapshot). Pre-existing raises with no code
+        # still report `error: "session"`.
+        result: dict[str, Any] = {
+            "ok": False,
+            "error": getattr(exc, "code", None) or "session",
+            "message": str(exc),
+        }
+        for key, value in (getattr(exc, "extra", None) or {}).items():
+            result.setdefault(key, value)
+        return result
     return {"ok": False, "error": type(exc).__name__, "message": str(exc)}
 
 
@@ -141,8 +177,29 @@ def ansys_bridge_doctor() -> dict[str, Any]:
 
 
 @mcp.tool(annotations=STATE_CHANGE)
-def scdm_session_start(version: str | None = None, hidden: bool = True, timeout_s: int = 180) -> dict[str, Any]:
+def scdm_session_start(version: str | None = None, hidden: bool = False, timeout_s: int = 180) -> dict[str, Any]:
     """Launch SpaceClaim and connect. Holds a licence until scdm_session_close.
+
+    This is the **launch** mode: this server creates the process, owns it, and is
+    the only party allowed to close it. To drive a SpaceClaim the *user* started,
+    call `scdm_attach` instead - that mode consumes no licence and this server is
+    forbidden from closing that window.
+
+    `hidden` defaults to **false**, mirroring the Fluent side's default
+    `ui_mode="gui"`. `hidden=false` was measured to really produce a visible main
+    window (`设计(D)1 - SpaceClaim`, 1935x1047, `IsWindowVisible=True`), 28.75 s to a
+    usable gRPC endpoint, ~971-973 MB working set.
+
+    `hidden=true` is **not** a minimised window: PyAnsys turns it into
+    `/Headless=True`, which Ansys documents as batch mode *without UI*. Measured,
+    of 40 top-level windows the only visible ones were two 13x13 untitled stubs,
+    and it is faster and lighter (23.47 s, ~885-888 MB) precisely because there is
+    no UI. Use it only when nobody needs to watch.
+
+    The visible window can land on a **secondary monitor** (measured at x=-1927 on
+    this machine, a negative-coordinate second display); PyAnsys does not expose
+    window placement, so pinning a monitor would take `/WindowLocation=` in the
+    executable arguments.
 
     Leave `version` unset and the newest installed release is used, which is what
     makes this portable between machines. Set it (for example "242") only when a
@@ -150,24 +207,130 @@ def scdm_session_start(version: str | None = None, hidden: bool = True, timeout_
     fails with the detected list attached.
     """
     try:
-        return {"ok": True, "session": _session.start(version=version, hidden=hidden, timeout=timeout_s)}
+        session = _session.start(version=version, hidden=hidden, timeout=timeout_s)
     except Exception as exc:
         return _err(exc)
+    return {
+        "ok": True,
+        # Machine-readable, and taken from the session rather than from this
+        # call: if a session was already live, `start` reports that one and a
+        # caller asking for `hidden=False` here must be told "attach" instead of
+        # being told what it wanted to hear.
+        "mode": session.get("mode") or "launch",
+        "ui_visible": session.get("ui_visible"),
+        "session": session,
+    }
+
+
+@mcp.tool(annotations=STATE_CHANGE)
+def scdm_attach(
+    host: str = DEFAULT_ATTACH_HOST,
+    port: int = DEFAULT_ATTACH_PORT,
+    transport_mode: str = DEFAULT_ATTACH_TRANSPORT,
+    timeout_s: float = 30.0,
+) -> dict[str, Any]:
+    r"""Attach to a SpaceClaim the USER started. Consumes no licence, closes no window.
+
+    This is the **attach** mode, and it is a separate tool on purpose: the licence
+    and ownership semantics are the opposite of `scdm_session_start`. Nothing here
+    creates a process, so nothing here may end one - `scdm_session_close` is
+    refused in this mode and `scdm_detach` closes only the gRPC channel.
+
+    Precondition, and the reason a plain double-click is not enough: the instance
+    must have been started with the ApiServer add-in and a fixed port. Measured on
+    this machine, a SpaceClaim started by double-click listened on 49013/49014/63186
+    and **all three** answered UNAVAILABLE to a gRPC health check - there is no
+    endpoint to attach to. The same instance started with
+    `/ADDINMANIFESTFILE=<...>\Addins\ApiServer\Presentation.ApiServerAddIn.Manifest.xml`
+    and `API_PORT=51790` accepted this connection in **0.31 s**. The desktop
+    shortcut shipped with this project starts it exactly that way, and a failed
+    attach returns that full command line so it can be pasted.
+
+    `port` is a convention rather than a discovery mechanism - SpaceClaim has no
+    equivalent of Fluent's `-sifile=`, and PyAnsys picks a random port when
+    `API_PORT` is unset - so pass whatever port the user's launcher set.
+
+    `transport_mode` is one of wnua / insecure / mtls / uds. Only `wnua` has been
+    measured working here; on Windows WNUA authenticates the local user and needs
+    no password or certificate, which is why it is the default.
+
+    Returns `mode="attach"`, the `observed` backend facts, `licence`, and
+    `process_ownership.owner="user"`.
+
+    `/ADDINMANIFESTFILE` and `API_PORT` are a **semi-public** interface: they appear
+    in the PyAnsys Geometry source and in measurement, but not in the public Ansys
+    command-line documentation, so a future release may change them.
+    """
+    try:
+        session = _session.attach(
+            host=host, port=port, transport_mode=transport_mode, timeout=timeout_s
+        )
+    except Exception as exc:
+        return _err(exc)
+    return {
+        "ok": True,
+        "mode": "attach",
+        "transport": {
+            "host": session.get("attached_to", {}).get("host", host),
+            "port": session.get("attached_to", {}).get("port", port),
+            "mode": session.get("attached_to", {}).get("transport_mode", transport_mode),
+            "encrypted": str(transport_mode).lower() == "mtls",
+            "note": (
+                "wnua is Windows Named User Authentication: the local user is the "
+                "credential, so there is no password and no certificate (unlike the Fluent "
+                "bridge, which uses a plaintext channel with a password file)"
+            ),
+        },
+        "observed": session.get("observed"),
+        "licence": session.get("licence"),
+        "process_ownership": session.get("process_ownership"),
+        "session": session,
+    }
 
 
 @mcp.tool(annotations=READ_ONLY)
 def scdm_session_status() -> dict[str, Any]:
-    """Report whether a SpaceClaim session is live, and where it came from."""
-    return {"ok": True, "session": _session.status()}
+    """Report whether a SpaceClaim session is live, and where it came from.
+
+    `mode` distinguishes `launch` (this server owns the process and its licence)
+    from `attach` (the user owns it; this server cannot close it).
+    """
+    return {"ok": True, "mode": _session.mode, "session": _session.status()}
 
 
 @mcp.tool(annotations=STATE_CHANGE)
 def scdm_session_close() -> dict[str, Any]:
-    """Close the SpaceClaim session and release the licence."""
+    """Close the SpaceClaim session and release the licence. LAUNCH sessions only.
+
+    In an **attach** session this call is refused with
+    `error="attach_mode_refuses_close"`, `process_untouched=true` and
+    `licence_released=false`. That SpaceClaim belongs to the user; this server never
+    closes it. Use `scdm_detach` to disconnect and leave the window running.
+    """
     try:
         return {"ok": True, **_session.close()}
     except Exception as exc:
         return _err(exc)
+
+
+@mcp.tool(annotations=STATE_CHANGE)
+def scdm_detach() -> dict[str, Any]:
+    """Disconnect from a user-owned SpaceClaim: closes the gRPC channel, nothing else.
+
+    The counterpart of `scdm_session_close`, for **attach** sessions. The user's
+    SpaceClaim keeps running with its own licence and its window is untouched
+    (`process_untouched=true`).
+
+    Refused on a launch session with `error="detach_requires_attach"`: that process
+    was created by this server, so dropping the channel without closing it would
+    leave a SpaceClaim holding a licence with no handle left to release it. Use
+    `scdm_session_close` there.
+    """
+    try:
+        return {"ok": True, **_session.detach()}
+    except Exception as exc:
+        return _err(exc)
+
 
 
 # ---------------------------------------------------------------------------
@@ -460,7 +623,7 @@ def main() -> None:
     mcp.run(transport=transport)
 
 
-atexit.register(_session.close)
+atexit.register(_session.shutdown)
 
 if __name__ == "__main__":
     main()

@@ -46,3 +46,9 @@ Issues = "https://github.com/1622352030/ansys-agent-bridge/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/ansys_bridge_mcp"]
+
+[tool.pytest.ini_options]
+# The suite is offline on purpose: no ANSYS install, no licence, no network, so it
+# can gate a change on this machine or any other.
+testpaths = ["tests"]
+

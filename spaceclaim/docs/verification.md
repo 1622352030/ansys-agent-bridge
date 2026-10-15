@@ -194,6 +194,182 @@ The same `.scdoc` was read and written through the wild
 does `unite` moving the stator to 390 faces. That agreement is what makes the
 measurements above trustworthy rather than an artifact of one API path.
 
+## Two GUI modes: who owns the SpaceClaim window
+
+Added 2026-10-15, aligned with the Fluent side of this bridge (`ui_mode="gui"` by
+default there, and a separate `fluent_attach` / `fluent_detach` pair). Every
+session now reports which mode it is in, as a machine-readable field:
+
+| | mode=launch | mode=attach |
+|---|---|---|
+| Tool | `scdm_session_start` | `scdm_attach` |
+| Who created the process | this server | the user |
+| Licence | one is consumed by this server | none is consumed; the user's own licence is reused |
+| `process_ownership.owner` | `ai` | `user` |
+| How a session ends | `scdm_session_close` | `scdm_detach` (channel only) |
+| The other tool in this column | `scdm_detach` → **refused** (`detach_requires_attach`) | `scdm_session_close` → **refused** (`attach_mode_refuses_close`) |
+
+The two are separate tools rather than one tool with a flag, for the same reason
+as on the Fluent side: the licence and ownership semantics are opposites, and
+getting the wrong one ends a user's session. A switch would have to mean both
+"release the licence" and "do not release the licence".
+
+### I drive: `hidden=False` by default, and it is a real window
+
+`hidden` now defaults to **false** (`scdm.py` `Session.start`, `server.py`
+`scdm_session_start`). Measured on this machine over the **real MCP stdio
+transport** (evidence: `_diag/scdm_launch_visible_verify.py` and its `.out`):
+
+| Observation | Value |
+|---|---|
+| `scdm_session_start(hidden=False)` result | `ok=true`, `mode="launch"`, `ui_visible=true` |
+| Launch to a usable gRPC endpoint | **21.8 s** |
+| Visible main window | `设计(D)1 - SpaceClaim`, rect `[-1927, 90, 1935×1047]`, `IsWindowVisible=true`, not minimised, pid 34800 |
+| Memory while running | working set **979.2 MB**, private **1499.5 MB** |
+| `scdm_session_close` | `closed=true, process_untouched=false, licence_released=true` |
+| Residual SpaceClaim processes | **0** |
+| Verdict the script computes for itself | `PASS` |
+
+Two things worth keeping in mind, both measured:
+
+- **`hidden=True` is not a minimised window.** PyAnsys maps it to `/Headless=True`
+  (`product_instance.py:396-400`), which Ansys documents as batch mode *without UI*.
+  Measured, of 40 top-level windows the only visible ones were two 13×13 untitled
+  stubs, with no main window and no splash screen; it is also quicker and lighter
+  (23.47 s, 885–888 MB) precisely because there is no UI to draw.
+- **The visible window can land on a secondary monitor.** Both visible launches on
+  this machine put it at `x = -1927`, the negative-coordinate second display,
+  because placement follows what the system last remembered. PyAnsys does not
+  expose window placement, so pinning the primary monitor would mean appending
+  `/WindowLocation=` or `/WindowMaximized` to the executable arguments by hand.
+  **Not measured** — listed below.
+
+### You drive: `scdm_attach`, and a plain double-click is not enough
+
+`scdm_attach(host="localhost", port=51790, transport_mode="wnua", timeout_s=30)`
+connects to a SpaceClaim the user started. Measured basis (report
+`_diag/spaceclaim_gui_modes.md`, whose raw logs are `attach_probe.txt`):
+
+- A SpaceClaim started by a **plain double-click has no gRPC endpoint at all**.
+  Measured: it listened on 49013/49014/63186 and **all three** answered
+  `StatusCode.UNAVAILABLE` to a gRPC health check. The official documentation says
+  the same in prose: "Running a SpaceClaim or Discovery normal session does not
+  suffice to be able to use it with PyAnsys Geometry. Both products need the
+  ApiServer extension to be running."
+- Started **with** the add-in and a fixed port, the same thing connected in
+  **0.31 s**, reporting `BackendType.SPACECLAIM` / `24.2.0` /
+  `has_product_instance=false`, and **the user's process was still alive after
+  `close()`**.
+
+`transport_mode` is always passed, never defaulted (since PyAnsys 0.14
+`wait_until_healthy` raises `ValueError` when it is `None`,
+`connection/client.py:173-182`), and `product_instance` is deliberately **not**
+passed — that field is what decides whether the library may shut the backend down
+(`connection/client.py:493-499`). Only `wnua` (Windows Named User Authentication:
+the local user *is* the credential, so no password and no certificate) has been
+measured working here; the client also accepts `insecure`, `mtls` and `uds`
+(`ansys/tools/common/cyberchannel.py:158-172`).
+
+The port is a **convention, not a discovery mechanism**: SpaceClaim has no
+equivalent of Fluent's `-sifile=`, and PyAnsys picks a random free port when
+`API_PORT` is unset (`product_instance.py:600-612`, `:775-789`). Hence the fixed
+51790 below.
+
+### The user-side launcher
+
+`spaceclaim/dev/launchers/start_spaceclaim_for_ai.bat` (ASCII, CRLF), installed on
+this machine as the desktop shortcut **`SpaceClaim 2024R2 (AI可接入).lnk`**
+(created with `WScript.Shell`, then read back and verified: target = the `.bat`,
+working directory = `spaceclaim\dev\launchers`, icon = SpaceClaim's own; the user's
+existing `SpaceClaim 2024 R2.lnk` was left untouched):
+
+```bat
+set API_PORT=51790
+set API_ADDRESS=localhost
+
+start "" "C:\Program Files\ANSYS Inc\v242\scdm\SpaceClaim.exe" /ADDINMANIFESTFILE="C:\Program Files\ANSYS Inc\v242\Addins\ApiServer\Presentation.ApiServerAddIn.Manifest.xml" /transport-mode=wnua
+```
+
+The environment variables live in the `.bat` rather than in the shortcut because a
+Windows shortcut cannot set environment variables — the same constraint the Fluent
+side hit with its `-sifile=` launcher. User-side flow:
+
+1. double-click the shortcut, wait for the window (the same ~20–30 s as any start);
+2. the AI side calls `scdm_attach(port=51790)`;
+3. the AI side ends with `scdm_detach` — never `scdm_session_close`, which is refused;
+4. to get rid of the AI, close SpaceClaim: the channel dies with it.
+
+There is **no** "kick the AI off" console command on the SpaceClaim side. Fluent
+has `server/shutdown-server`; no equivalent was found here. Closing SpaceClaim is
+the available action.
+
+### `/ADDINMANIFESTFILE` and `API_PORT` are a semi-public interface
+
+This is the main long-term risk of the attach mode and must not be buried:
+
+- They are **not** in the public Ansys command-line documentation. The 242 option
+  table lists `/Headless`, `/RunScript`, `/Splash`, `/Window*` and so on — not
+  these.
+- They appear in the **PyAnsys Geometry source**:
+  `API_PORT` at `product_instance.py:92`, and the add-in manifest at
+  `product_instance.py:113-117` and `:401-404`.
+- And in measurement: the 2026-10-15 run above.
+
+So a future release may change or remove them. When `scdm_attach` fails it says so,
+in the message, together with the exact command line to paste.
+
+### Offline tests
+
+`spaceclaim/python/tests/test_gui_modes.py` — **70 tests**, `pytest`, no ANSYS, no
+licence, no network. They use a fake PyAnsys client that records what it was asked
+to do, because the substance of this feature is *which* calls the server is willing
+to make. Covered: the `hidden` default and its truthful reporting; attach passing
+`transport_mode` while omitting `product_instance`; the licence / ownership blocks;
+port, host and transport-mode validation **before** any network call; attach
+refusal on the wrong backend with the channel handed back; the `close`/`detach`
+guards firing before the library is reached (asserted by "the fake modeler's
+`close()` was never called"); and the attach failure text carrying
+`set API_PORT=51790`, `/ADDINMANIFESTFILE=`, `/transport-mode=wnua`.
+
+Also verified over the real stdio transport and offline:
+`_diag/scdm_gui_modes_probe.py` lists **17 tools**, `ansys_bridge_doctor` `ok=true`,
+`scdm_detach` / `scdm_session_close` as safe no-ops without a session, the three
+parameter errors as structured results, and `scdm_attach` against a dead port
+returning `error="attach_unreachable"` with the full command line.
+
+The `spaceclaim/dev/tests/` scripts are **not** offline unit tests: `dev/README.md`
+calls them "31 测试脚本" and they are live runs whose model and log paths predate
+the repository split. `api_surface.py` still runs offline and was rerun (81 public
+methods on `Design`, 33 on `Body`, and so on); `api_versions.py` needed its output
+path redirected (a copy with `geom_test` → `_diag` was run for that reason).
+
+### Not measured — do not treat as verified
+
+1. **Attach was never exercised against a live user-started instance from this
+   code.** The measurement above (0.31 s, process survives `close()`) comes from the
+   2026-10-15 probe run; `scdm_attach` itself was verified only *offline* (fake
+   client) and against a dead port. The user has to be running the launcher for this
+   to be tested end to end.
+2. **No write operation over an attach session has been measured** —
+   `scdm_open_file`, the geometry operators, `scdm_export`, `scdm_run_script`. Only a
+   read of `backend_type` / `backend_version` was measured on attach.
+3. **The launcher `.bat` / shortcut itself was never run.** It was written from the
+   measured command line and read back to confirm its content, but double-clicking it
+   has not been done, so "the shortcut produces an attachable instance" is inferred,
+   not observed.
+4. **The licence counter was not measured.** There is no `lmutil.exe` under this
+   machine's `Shared Files\Licensing`, and `ansyslm_report.exe` is not real time. The
+   claim "attach consumes no new licence" is a design statement (no process is
+   started), not a counter reading.
+5. **`/WindowLocation=` / `/WindowMaximized` were not tried**, so moving the window
+   to the primary monitor is unproven.
+6. **Starting without `/transport-mode=wnua` and still being attachable** was not
+   tried; the measured command line included it.
+7. **`SPACECLAIM_MODE=2`** (set by PyAnsys at `product_instance.py:125-131`) has an
+   undocumented purpose. It was only falsified as a cause of hiding: it is set in
+   both modes and the window appears anyway.
+8. **Concurrency / two instances on two ports** was not tested.
+
 ## Documentation-only
 
 - `.scdocx`, STEP, IGES, Parasolid text/binary and `.pmdb` exports are all

@@ -32,7 +32,18 @@ from .guards import (
     spatial_fingerprint,
 )
 
-__all__ = ["Session", "SessionError", "SCDOC_SUFFIXES", "preload"]
+__all__ = [
+    "Session",
+    "SessionError",
+    "SCDOC_SUFFIXES",
+    "preload",
+    "attach_guidance",
+    "check_attach_args",
+    "DEFAULT_ATTACH_HOST",
+    "DEFAULT_ATTACH_PORT",
+    "DEFAULT_ATTACH_TRANSPORT",
+    "VALID_TRANSPORT_MODES",
+]
 
 
 SCDOC_SUFFIXES = (".scdoc", ".scdocx", ".dsco")
@@ -44,6 +55,195 @@ _EXPORT_METHODS = {
     "parasolid_bin": "export_to_parasolid_bin",
     "pmdb": "export_to_pmdb",
 }
+
+# -- attach (the "you drive" mode) ----------------------------------------
+#
+# These are CONVENTIONS, not discovery. Fluent has an official `-sifile=` that
+# makes the server write out an ``ip:port`` file, so the client can find it.
+# SpaceClaim has no equivalent: PyAnsys picks a random free port when API_PORT is
+# unset (`product_instance.py:600-612`, `:775-789`), and nothing announces it.
+# So the port is fixed by agreement -- the user's launcher sets ``API_PORT=51790``
+# and this server defaults to the same number.
+DEFAULT_ATTACH_HOST = "localhost"
+DEFAULT_ATTACH_PORT = 51790
+DEFAULT_ATTACH_TRANSPORT = "wnua"
+
+# The full set accepted by the installed client's channel factory
+# (`ansys/tools/common/cyberchannel.py:158-172`, `verify_transport_mode` :513-537).
+# Only "wnua" was measured working against a user-started SpaceClaim on this
+# machine; the other three are accepted because the library accepts them, and are
+# marked unverified in docs/verification.md rather than presented as options.
+VALID_TRANSPORT_MODES = ("wnua", "insecure", "mtls", "uds")
+
+# The two halves of the SEMI-PUBLIC user-side launch. Neither appears in the
+# public Ansys command-line documentation; both are in the PyAnsys Geometry
+# source (`product_instance.py:92` for API_PORT, `:113-117` and `:401-404` for the
+# add-in manifest) and in measurement (2026-10-15). A future release may change
+# them, which is why the guidance below states the exact strings rather than
+# "start it with the API server enabled".
+SPACECLAIM_ADDIN_ARG = "/ADDINMANIFESTFILE="
+SPACECLAIM_TRANSPORT_ARG = "/transport-mode="
+
+# The add-in path PyAnsys itself passes, spelled with the release as a variable so
+# the guidance is still correct on another machine.
+_ADDIN_MANIFEST = (
+    r"{ansys_root}\Addins\ApiServer\Presentation.ApiServerAddIn.Manifest.xml"
+)
+
+
+def _addin_manifest_for(version: str | None = None) -> str:
+    """The `Presentation.ApiServerAddIn.Manifest.xml` this machine would use.
+
+    PyAnsys builds this from the detected release
+    (``product_instance.py:401-404``). We resolve it the same way, and fall back
+    to the newest installed release, so the command line printed in an error
+    message is one the user can actually paste.
+    """
+    roots = detect_ansys_roots()
+    releases: dict = roots.get("releases") or {}
+    chosen = None
+    if version is not None:
+        key = str(version)
+        if key in releases:
+            chosen = key
+        else:
+            for release in releases:
+                if str(release).startswith(key) or key.startswith(str(release)):
+                    chosen = release
+                    break
+    if chosen is None:
+        chosen = roots.get("newest")
+    root = releases.get(chosen) if chosen else None
+    if not root:
+        root = rf"C:\Program Files\ANSYS Inc\v{chosen or '242'}"
+    return _ADDIN_MANIFEST.format(ansys_root=root)
+
+
+def _spaceclaim_exe_for(version: str | None = None) -> str:
+    """The `SpaceClaim.exe` this machine would launch, for the printed command line."""
+    roots = detect_ansys_roots()
+    exes: dict = roots.get("spaceclaim") or {}
+    if version is not None:
+        key = str(version)
+        for release, path in exes.items():
+            if str(release).startswith(key) or key.startswith(str(release)):
+                return path
+    newest = roots.get("newest")
+    if newest and exes.get(newest):
+        return exes[newest]
+    for path in exes.values():
+        return path
+    return r"C:\Program Files\ANSYS Inc\v242\scdm\SpaceClaim.exe"
+
+
+
+def attach_guidance(
+    host: str, port: int, transport_mode: str, exc: Exception | None = None
+) -> str:
+    """The actionable text for an attach that did not connect.
+
+    This is the single most useful thing this server can say about attach, so it
+    is a function rather than an f-string buried in an except block: the offline
+    tests assert that it names the real cause and carries a runnable command.
+
+    Measured basis (2026-10-15, this machine): a SpaceClaim started by a plain
+    double-click listened on 49013/49014/63186 and **all three** answered
+    ``StatusCode.UNAVAILABLE`` to a gRPC health check -- there is no endpoint to
+    attach to at all. The official documentation says the same thing in prose:
+    "Running a SpaceClaim or Discovery normal session does not suffice to be able
+    to use it with PyAnsys Geometry. Both products need the ApiServer extension to
+    be running." The same session started WITH the add-in and a fixed port
+    accepted ``Modeler(host, port, transport_mode="wnua")`` in **0.31 s**.
+    """
+    manifest = _addin_manifest_for()
+    exe = _spaceclaim_exe_for()
+
+    reason = f" ({type(exc).__name__}: {exc})" if exc is not None else ""
+    return (
+        f"could not attach to SpaceClaim at {host}:{port} "
+        f"(transport_mode={transport_mode!r}){reason}\n"
+        "\n"
+        "A SpaceClaim started by a plain double-click has NO gRPC endpoint, so there is "
+        "nothing to attach to. Measured on this machine: its three listening ports "
+        "(49013/49014/63186) all answered UNAVAILABLE to a gRPC health check. The instance "
+        "must be started with the ApiServer add-in and a fixed port:\n"
+        "\n"
+        f"    set API_PORT={port}\n"
+        f'    start "" "{exe}" ^\n'
+        f'      {SPACECLAIM_ADDIN_ARG}"{manifest}" ^\n'
+        f"      {SPACECLAIM_TRANSPORT_ARG}{transport_mode}\n"
+        "\n"
+        "Then call scdm_attach again. The launcher shipped with this project "
+        "(spaceclaim/dev/launchers/start_spaceclaim_for_ai.bat, installed as the desktop "
+        "shortcut \"SpaceClaim 2024R2 (AI可接入).lnk\") does exactly this: one double-click "
+        "and the session becomes attachable.\n"
+        "\n"
+        f"Both {SPACECLAIM_ADDIN_ARG!r} and API_PORT are a SEMI-PUBLIC interface: they are in "
+        "the PyAnsys Geometry source (product_instance.py:92, 113-117, 401-404) and in "
+        "measurement, but NOT in the public Ansys command-line documentation, so a future "
+        "release may change them.\n"
+        "\n"
+        f"Also check: the port is a convention, not a discovery mechanism -- if the user's "
+        f"launcher set a different API_PORT, pass that value here (got {port}). Only one "
+        "instance can own a given port."
+    )
+
+
+def _coerce_port(port: Any) -> int:
+    """Validate a port before any network call is made.
+
+    Validation happens here, ahead of ``Modeler(...)``, on purpose: a bad port
+    should fail as a *parameter* error, not as a connection error whose message
+    sends the user off to check whether SpaceClaim is running.
+    """
+    if isinstance(port, bool):  # bool is an int subclass; True is not port 1
+        raise SessionError(f"port must be an integer 1-65535, got {port!r}", code="invalid_port")
+    if isinstance(port, int):
+        value = port
+    elif isinstance(port, str) and port.strip().lstrip("+").isdigit():
+        value = int(port.strip())
+    else:
+        raise SessionError(f"port must be an integer 1-65535, got {port!r}", code="invalid_port")
+    if not 1 <= value <= 65535:
+        raise SessionError(
+            f"port must be between 1 and 65535, got {value}", code="invalid_port"
+        )
+    return value
+
+
+def check_attach_args(host: Any, port: Any, transport_mode: Any) -> tuple[str, int, str]:
+    """Normalise and validate the three attach parameters. No side effects."""
+    if not isinstance(host, str) or not host.strip():
+        raise SessionError(
+            f"host must be a non-empty string, got {host!r}", code="invalid_host"
+        )
+    mode = transport_mode
+    if not isinstance(mode, str) or mode.strip().lower() not in VALID_TRANSPORT_MODES:
+        raise SessionError(
+            f"transport_mode must be one of {list(VALID_TRANSPORT_MODES)}, got {transport_mode!r}. "
+            "The installed client accepts exactly these four "
+            "(ansys/tools/common/cyberchannel.py:158-172); on Windows against a "
+            "user-started SpaceClaim only 'wnua' has been measured working here.",
+            code="invalid_transport_mode",
+        )
+    return host.strip(), _coerce_port(port), mode.strip().lower()
+
+
+def _has_product_instance(client: Any) -> bool | None:
+    """Whether this client owns the backend process, or ``None`` if undecidable.
+
+    This one flag is the library-level reason attach is safe: ``GrpcClient.close()``
+    shuts the backend down only inside ``elif self._product_instance:``
+    (``connection/client.py:493-499``), so a client built by ``Modeler(host, port)``
+    -- which leaves ``product_instance=None`` -- closes the channel and nothing
+    else. Reported instead of assumed, and ``None`` means "this build does not
+    expose it", never ``False``.
+    """
+    try:
+        return getattr(client, "_product_instance", None) is not None
+    except Exception:  # noqa: BLE001 - an unreadable flag is "unknown", not "no"
+        return None
+
 
 # The eight `RepairTools.find_*` checks that carry NO version gate, so they run
 # on 24R2. The five `find_and_fix_*` repair methods and `find_bad_faces` /
@@ -250,7 +450,23 @@ def _numeric_range(items: list, attr: str) -> dict | None:
 
 
 class SessionError(RuntimeError):
-    """Raised for session lifecycle problems, with the remedy in the message."""
+    """Raised for session lifecycle problems, with the remedy in the message.
+
+    ``code`` is the **machine-readable** error name a tool result reports, so a
+    caller never has to pattern-match the prose. It mirrors the Fluent side of
+    this bridge, where a refused call answers ``error="attach_mode_refuses_exit"``.
+    ``extra`` carries the facts a guard is obliged to state next to the refusal --
+    ``process_untouched``, ``licence_released``, ``next_step`` -- because "I did
+    not do it" is only useful together with "and here is what that means".
+
+    Both are optional; every pre-existing ``raise SessionError("...")`` keeps
+    working and reports ``error="session"``.
+    """
+
+    def __init__(self, message: str, code: str | None = None, **extra: Any) -> None:
+        super().__init__(message)
+        self.code = code
+        self.extra = dict(extra)
 
 
 def _stderr(message: str) -> None:
@@ -512,14 +728,85 @@ class Session:
     def connected(self) -> bool:
         return self.modeler is not None
 
-    def start(self, version: str | int | None = None, hidden: bool = True, timeout: int = 180) -> dict:
-        """Launch a hidden SpaceClaim and return the backend facts.
+    @property
+    def mode(self) -> str | None:
+        """Machine-readable mode name for tool results: ``launch`` / ``attach``."""
+        return self.origin
+
+    def _forget(self) -> None:
+        self.modeler = None
+        self.design = None
+        self.path = None
+        self.origin = None
+        self.ui_visible = None
+        self.target = None
+        self.attach_seconds = None
+        self.has_product_instance = None
+
+    def _ownership(self) -> dict:
+        """Who owns the process, and which tool may end this session."""
+        if self.origin == "attach":
+            return {
+                "owner": "user",
+                "created_by": "the user, before scdm_attach ran",
+                "tool_will_close_it": False,
+                "disconnect_tool": "scdm_detach",
+            }
+        return {
+            "owner": "ai",
+            "created_by": "scdm_session_start",
+            "tool_will_close_it": True,
+            "close_tool": "scdm_session_close",
+        }
+
+    def _licence(self) -> dict:
+        """Whether this session occupies a licence of its own."""
+        if self.origin == "attach":
+            return {
+                "new_licence_consumed": False,
+                "note": (
+                    "reuses the licence the user's already-running SpaceClaim holds; "
+                    "scdm_detach does not release it"
+                ),
+            }
+        return {
+            "new_licence_consumed": True,
+            "note": "held by the SpaceClaim this server launched; scdm_session_close releases it",
+        }
+
+    def start(
+        self, version: str | int | None = None, hidden: bool = False, timeout: int = 180
+    ) -> dict:
+        """Launch SpaceClaim and return the backend facts.
+
+        ``hidden=False`` is the default, mirroring the Fluent side's default
+        ``ui_mode="gui"``: the user asked to see the instance the AI is driving,
+        and a bridge that hides it makes every operation unauditable.
+
+        ``hidden=True`` is **not** a minimised window. PyAnsys maps it to
+        ``/Headless=True`` (`product_instance.py:396-400`), which Ansys documents as
+        batch mode *without UI*. Measured on this machine: of 40 top-level windows,
+        the only visible ones were two 13x13 untitled stubs -- no main window and no
+        splash screen. ``hidden=False`` produced a real, visible main window
+        (`title='设计(D)1 - SpaceClaim'`, 1935x1047, `IsWindowVisible=True`) in
+        **28.75 s** at ~971-973 MB against 23.47 s / ~885-888 MB for ``hidden=True``.
+
+        The visible window can land on a **secondary monitor**: both visible
+        launches put it at ``x=-1927``, which is this machine's negative-coordinate
+        second display, because placement follows what the system last remembered.
+        PyAnsys does not expose window placement, so forcing the primary monitor
+        would mean appending ``/WindowLocation=`` or ``/WindowMaximized`` to the
+        executable arguments by hand; see docs/verification.md.
 
         ``version`` is optional on purpose. Hard-coding 242 is exactly what
         breaks when the package moves to another machine, so when it is omitted
         we take the newest installed release and let the product pick.
         """
         if self.connected:
+            # Already live. Report what is actually there rather than starting a
+            # second process: the returned status carries the real mode, so a
+            # caller that asked for `hidden=False` on an existing attach session
+            # is told "attach" instead of being told what it wanted to hear.
             return self.status()
 
         agc = _import_geometry()
@@ -543,38 +830,264 @@ class Session:
 
         backend = getattr(self.modeler.client, "backend_version", None)
         self.version = _format_version(backend)
+        self.origin = "launch"
+        self.ui_visible = not hidden
+        _stderr(f"scdm: launched mode=launch ui_visible={self.ui_visible}")
         return self.status()
 
     def status(self) -> dict:
+        """Current session facts, including which mode this session is in.
+
+        ``mode``, ``licence`` and ``process_ownership`` are always present so a
+        caller can tell "I own this" from "the user owns this" without reading the
+        prose. On an attach session the ownership block is the machine-readable
+        form of the promise this server makes: ``tool_will_close_it: False``.
+        """
         if not self.connected:
             roots = detect_ansys_roots()
             return {
                 "connected": False,
+                "mode": None,
+                "ui_visible": None,
                 "ansys_releases": roots["releases"],
                 "spaceclaim_executables": roots["spaceclaim"],
-                "hint": "call scdm_session_start to launch SpaceClaim",
+                "hint": (
+                    "call scdm_session_start to launch SpaceClaim (mode=launch), or "
+                    "scdm_attach to connect to one the user started (mode=attach)"
+                ),
             }
         client = self.modeler.client
         design = self.modeler.design
-        return {
+        result = {
             "connected": True,
+            # "launch" | "attach". This is the field to branch on.
+            "mode": self.mode,
+            # launch: the measured meaning of the `hidden` flag it was started
+            # with. attach: None -- the user's own window, which this server
+            # cannot observe; a guess would be worse than an empty answer.
+            "ui_visible": self.ui_visible,
             "backend_type": str(getattr(client, "backend_type", "")),
             "backend_version": self.version,
             "current_file": self.path,
             "design_name": getattr(design, "name", None),
-            "body_count": len(list(design.bodies)) if design is not None else 0,
+            "body_count": len(_all_bodies(design)) if design is not None else 0,
+            "licence": self._licence(),
+            "process_ownership": self._ownership(),
         }
+        if self.origin == "attach":
+            result["attached_to"] = dict(self.target or {})
+            result["observed"] = {
+                "backend_type": result["backend_type"],
+                "backend_version": self.version,
+                "has_product_instance": self.has_product_instance,
+                "connect_seconds": self.attach_seconds,
+            }
+            result["note"] = (
+                "this SpaceClaim was started by the user and is only being driven over gRPC; "
+                "scdm_session_close refuses to touch it, use scdm_detach to disconnect"
+            )
+        return result
+
+    def attach(
+        self,
+        host: str = DEFAULT_ATTACH_HOST,
+        port: int = DEFAULT_ATTACH_PORT,
+        transport_mode: str = DEFAULT_ATTACH_TRANSPORT,
+        timeout: float = 30.0,
+    ) -> dict:
+        """Connect to a SpaceClaim the USER started. Owns nothing, closes nothing.
+
+        Why this is a separate tool and not a flag on :meth:`start`: the licence
+        and ownership semantics are opposite. ``start`` creates a process (a licence)
+        that this server must close; ``attach`` borrows a process somebody else
+        created and must never close. A boolean switch would have to mean both
+        "release the licence" and "do not release the licence", and the failure mode
+        of getting it wrong is killing a user's unsaved work.
+
+        The mechanism, and what is measured about it:
+
+        * ``Modeler(host, port, transport_mode=...)`` is the official entry point
+          for an existing session. There is no ``connect_to_spaceclaim`` /
+          ``from_existing_session`` helper in PyAnsys Geometry; the documented
+          "Use an existing session" recipe is exactly this constructor call.
+        * ``transport_mode`` is passed, never defaulted: since PyAnsys 0.14
+          ``wait_until_healthy`` raises ``ValueError`` when it is ``None``
+          (``connection/client.py:173-182``).
+        * ``product_instance`` is deliberately **not** passed. That is what makes
+          ``Modeler.close()`` close only the channel
+          (``connection/client.py:493-499``).
+        * Measured against a user-started instance on this machine: connected in
+          **0.31 s**, reported ``BackendType.SPACECLAIM`` / ``24.2.0``, and the
+          SpaceClaim process was still alive after ``close()``.
+
+        The port is a convention rather than a discovery mechanism: SpaceClaim has
+        no equivalent of Fluent's ``-sifile=``, and PyAnsys picks a random port when
+        ``API_PORT`` is unset. If the user's launcher picked another port, pass it.
+
+        Raises :class:`SessionError` with ``code="attach_unreachable"`` and the full
+        command line when the instance is not reachable -- the commonest cause being
+        a SpaceClaim started by a plain double-click, which has no gRPC endpoint at
+        all.
+        """
+        if self.connected:
+            raise SessionError(
+                f"a session is already live (mode={self.mode}); detach it (scdm_detach) or "
+                "close it (scdm_session_close) before attaching. Attaching again would "
+                "overwrite the handle and leak the existing channel.",
+                code="session_already_connected",
+                next_step="scdm_detach" if self.origin == "attach" else "scdm_session_close",
+                session=self.status(),
+            )
+
+        host, port, transport_mode = check_attach_args(host, port, transport_mode)
+        agc = _import_geometry()
+
+        started = time.time()
+        _stderr(
+            f"scdm: attaching to {host}:{port} transport_mode={transport_mode} timeout={timeout}s"
+        )
+        try:
+            modeler = agc.Modeler(
+                host=host, port=port, transport_mode=transport_mode, timeout=timeout
+            )
+        except Exception as exc:
+            raise SessionError(
+                attach_guidance(host, port, transport_mode, exc), code="attach_unreachable"
+            ) from exc
+        elapsed = time.time() - started
+
+        client = getattr(modeler, "client", None)
+        backend_type = str(getattr(client, "backend_type", "")) if client is not None else ""
+        if "SPACECLAIM" not in backend_type.upper():
+            # Refuse, and hand the channel back rather than leave it dangling.
+            # `close()` here is safe by construction: this client has no
+            # product_instance, so it can only close the channel.
+            try:
+                modeler.close()
+            except Exception as exc:  # noqa: BLE001 - the refusal below matters more
+                _stderr(f"scdm: attach cleanup failed: {exc}")
+            raise SessionError(
+                f"connected to {host}:{port} but the backend reports backend_type="
+                f"{backend_type!r}, not SPACECLAIM. Refusing to use it: every operation in "
+                "this server is a SpaceClaim operation, and the geometry API of another "
+                "product is not the same one. The channel was closed again; the process was "
+                "not touched.",
+                code="wrong_backend",
+                process_untouched=True,
+            )
+
+        self.modeler = modeler
+        self.origin = "attach"
+        self.ui_visible = None
+        self.target = {"host": host, "port": port, "transport_mode": transport_mode}
+        self.attach_seconds = round(elapsed, 3)
+        self.has_product_instance = _has_product_instance(client)
+        self.version = _format_version(getattr(client, "backend_version", None))
+        _stderr(
+            f"scdm: attached in {elapsed:.2f}s backend={backend_type} "
+            f"version={self.version} has_product_instance={self.has_product_instance}"
+        )
+        return self.status()
 
     def close(self) -> dict:
+        """Close a session this server launched, and release its licence.
+
+        **Refused on an attach session.** That instance is the user's, and this
+        server is not allowed to close it. The refusal is a guard at this layer on
+        purpose: measurement says ``Modeler.close()`` would not kill the process
+        anyway, because ``_product_instance`` is ``None`` for a client built by
+        ``Modeler(host, port)`` and ``GrpcClient.close()`` only shuts the backend
+        down inside ``elif self._product_instance:`` (``client.py:493-499``). But
+        that is a *default value*, and other teardown paths in this library are not
+        so careful -- ``force_exit()`` does not consult it at all. A guarantee that
+        depends on a field somebody else might populate is not a guarantee, so the
+        check lives here.
+        """
         if not self.connected:
             return {"closed": False, "reason": "no session"}
+        if self.origin == "attach":
+            raise SessionError(
+                "refusing to close: this session ATTACHED to a SpaceClaim the user started, "
+                "and this tool is not allowed to close the user's window. Use scdm_detach to "
+                "disconnect the channel and leave the process running; the user closes their "
+                "own SpaceClaim. (Measured, Modeler.close() with product_instance=None only "
+                "closes the gRPC channel -- but that is a library default, not a contract, so "
+                "the refusal is enforced here.)",
+                code="attach_mode_refuses_close",
+                process_untouched=True,
+                licence_released=False,
+                next_step="scdm_detach",
+                session=self.status(),
+            )
         try:
             self.modeler.close()
         finally:
-            self.modeler = None
-            self.design = None
-            self.path = None
-        return {"closed": True}
+            self._forget()
+        return {
+            "closed": True,
+            "mode": "launch",
+            "process_untouched": False,
+            "licence_released": True,
+        }
+
+    def detach(self) -> dict:
+        """Disconnect from a user-owned SpaceClaim: close the channel, nothing else.
+
+        The counterpart of ``close()``, and refused on a launch session for the
+        mirror-image reason: detaching a session this server created would close the
+        channel and leave a SpaceClaim process running that nobody can close -- it
+        would still hold a licence, and there would be no handle left to release it.
+        """
+        if not self.connected:
+            return {"detached": False, "reason": "no session"}
+        if self.origin != "attach":
+            raise SessionError(
+                f"detach is for attach sessions only; this session was {self.origin or 'unknown'} "
+                "and this server owns its process. Detaching would close the channel and leave a "
+                "SpaceClaim holding a licence with no handle left to close it. Use "
+                "scdm_session_close.",
+                code="detach_requires_attach",
+                process_untouched=True,
+                licence_released=False,
+                next_step="scdm_session_close",
+                session=self.status(),
+            )
+        attached_to = dict(self.target or {})
+        try:
+            # No product_instance was passed to Modeler(...), so this closes the
+            # gRPC channel and cannot reach the process.
+            self.modeler.close()
+        finally:
+            self._forget()
+        return {
+            "detached": True,
+            "mode": "attach",
+            "attached_to": attached_to,
+            "process_untouched": True,
+            "licence_released": False,
+            "note": (
+                "only the gRPC channel was closed; the user's SpaceClaim keeps running with "
+                "its own licence, and its window is untouched"
+            ),
+        }
+
+    def shutdown(self) -> dict | None:
+        """Best-effort teardown for process exit. Never kills a user-owned window.
+
+        Registered with :mod:`atexit` by the server. It routes by origin instead of
+        calling ``close()`` unconditionally, because ``close()`` refuses on attach
+        sessions -- an exception raised while the interpreter is shutting down would
+        print a traceback on stderr for a case that is not an error at all.
+        """
+        if not self.connected:
+            return None
+        try:
+            if self.origin == "attach":
+                return self.detach()
+            return self.close()
+        except Exception as exc:  # noqa: BLE001 - teardown must not raise
+            _stderr(f"scdm: shutdown left the session as it was: {exc}")
+            return None
 
     # -- files -------------------------------------------------------------
 
