@@ -116,7 +116,7 @@ starts it from PATH, so **`uv` resolves nothing at launch**:
 | --- | --- | --- | --- |
 | Plugin package | `github:1622352030/ansys-agent-bridge` | `link:<path to your clone>` | same as A or B — C replaces only the MCP row |
 | MCP launch source | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<clone>/spaceclaim/python` | the installed console script `ansys-bridge-mcp` (no `uv`, no path) |
-| Network needed per launch | **yes** (a `git fetch` first) | **no** | **no** |
+| Network needed per launch | **yes** (a `git fetch` first) | **no** GitHub fetch; the PyPI index may be consulted when the environment is (re)materialised | **only once, at install time** |
 | Dependency resolution per launch | every launch | every launch, and any change under `<clone>/spaceclaim/python` re-materialises the environment | none — resolved once by `uv tool install` |
 | No VPN / GitHub unreachable | ⚠ fails, and can take the whole desktop app down | fine | fine |
 | After editing this repo | reinstall required | takes effect immediately | takes effect immediately, with no re-resolution and no rebuild |

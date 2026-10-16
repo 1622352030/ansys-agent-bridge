@@ -132,7 +132,7 @@ DSH 上有三种装法。A 与 B 的区别只在于 **MCP 服务器从哪里加�
 | --- | --- | --- | --- |
 | 插件包 | `github:1622352030/ansys-agent-bridge` | `link:<本地 clone 路径>` | 与 A 或 B 相同 —— C 只替换 MCP 那一行 |
 | MCP 启动源 | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<本地 clone>/spaceclaim/python` | 已装好的 console script `ansys-bridge-mcp`（不经过 `uv`，不带路径） |
-| 每次拉起是否联网 | **是**（先 `git fetch`） | **否** | **否** |
+| 每次拉起是否联网 | **是**（先 `git fetch`） | **不 fetch GitHub；环境（重）物化时可能访问 PyPI 索引** | **只有安装那一次** |
 | 每次拉起是否解析依赖 | 每次都要 | 每次都要；`<本地 clone>/spaceclaim/python` 下任何改动都会重新物化环境 | 不用 —— 依赖只在 `uv tool install` 那一次解析 |
 | 无梯子／GitHub 不可达 | ⚠ 会失败，且可能拖垮整个桌面 | 正常 | 正常 |
 | 改了本仓库代码 | 需重装才生效 | 立即生效 | 立即生效，且不重新解析依赖、不重建环境 |
