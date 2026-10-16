@@ -204,6 +204,11 @@ command:
 uv tool install --editable --from <clone>/spaceclaim/python ansys-agent-bridge
 ```
 
+> ✅ Re-verified 2026-10-17: `uv tool list` reports `ansys-agent-bridge v0.1.0` with **both**
+> console scripts (`ansys-bridge-doctor`, `ansys-bridge-mcp`), and `ansys-bridge-mcp`
+> completes a real MCP `initialize` handshake over stdin (`protocolVersion` plus the full
+> tool list on stdout) — the install is not just on paper.
+
 The positional argument is the **package name** (`[project].name` in
 `pyproject.toml`), **not** the command name. `uv` rejects the command-name form
 itself, with no room for interpretation:

@@ -211,6 +211,10 @@ dsh plugin --profile web add link:C:/path/to/ansys-agent-bridge
 uv tool install --editable --from <本地 clone>/spaceclaim/python ansys-agent-bridge
 ```
 
+> ✅ **2026-10-17 复核**：`uv tool list` 里是 `ansys-agent-bridge v0.1.0` + **两个** console
+> script（`ansys-bridge-doctor`、`ansys-bridge-mcp`），且 `ansys-bridge-mcp` 能完成真正的
+> MCP `initialize` 握手（stdout 上有 `protocolVersion` 与完整工具表）—— 不是纸上安装。
+
 ⚠️ 位置参数是**包名**（`pyproject.toml` 里的 `[project].name`），**不是**命令名。
 写成命令名会被 `uv` 自己拒绝，没有别的解释余地：
 `error: Package name (ansys-agent-bridge) provided with --from does not match install request (ansys-bridge-mcp)`。

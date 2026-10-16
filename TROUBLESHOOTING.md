@@ -150,11 +150,21 @@ $env:PYTHONIOENCODING='utf-8'
 # a) doctor：确认 uv 环境、依赖与 ANSYS 检测；它自己会退出，不会挂住
 uv tool run --from "C:/path/to/ansys-agent-bridge/spaceclaim/python" ansys-bridge-doctor
 
-# b) 真的把服务器拉起来：它在等待 stdio 输入即为正常
+# b) 把服务器拉起来，看它能不能活到"在等输入"那一步
+#    注意：这里**没有**喂 stdin，所以别把"退出了"直接读成启动失败（见紧跟其后的说明）
 $p = Start-Process uv -ArgumentList 'tool','run','--quiet','--from','C:/path/to/ansys-agent-bridge/spaceclaim/python','ansys-bridge-mcp' -PassThru -WindowStyle Hidden
 Start-Sleep -Seconds 40
-if (-not $p.HasExited) { "OK: MCP server alive, waiting on stdio"; Stop-Process -Id $p.Id -Force } else { "FAIL: exited with $($p.ExitCode)" }
+if (-not $p.HasExited) { "OK: MCP server alive, waiting on stdio"; Stop-Process -Id $p.Id -Force } else { "exited with $($p.ExitCode) - see below, this alone does not mean start-up failed" }
 ```
+
+> ⚠️ **"进程退出了"不等于"启动失败"**（2026-10-17 实测更正）。上面的 `Start-Process`
+> 没有给 stdin，服务器读到 **EOF 就正常退出** —— 这是 MCP stdio 服务器的正常收尾，不是崩溃。
+> 此前一次"启动后约 7 秒进程不在了"就是被误读成启动失败的。
+> 真正能证明"服务器活着"的判据是**握手应答**：把 `initialize` 与 `tools/list` 两行
+> JSON-RPC 从 stdin 喂进去，看 stdout 有没有 `"protocolVersion"` 与工具表。用 Python 的
+> `subprocess.run(..., input=两行JSON, capture_output=True)` 即可，**不需要** DSH，也
+> **不需要** ANSYS 在场（包在没装 ANSYS 的机器上也能 import 并应答）。
+> 反之，"进程还活着且占着 stdio"只说明它启动到了等待输入那一步 —— 是**必要不充分**。
 
 ---
 
