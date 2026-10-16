@@ -4,7 +4,7 @@
 # `ansys` namespace. There is no absolute path anywhere in this file, so the same
 # patch works on any machine and in any install location.
 #
-# ── Two install modes ────────────────────────────────────────────────────────
+# ── Three install modes ──────────────────────────────────────────────────────
 #
 # A. Install from GitHub (this file as shipped). The row below launches the server
 #    with `uv tool run --from git+https://…#subdirectory=spaceclaim/python`, so
@@ -34,6 +34,35 @@
 #    switch no longer brings it back. Full mechanics and the unlock procedure:
 #    TROUBLESHOOTING.md. Note the path is `<clone>/spaceclaim/python`, not
 #    `<clone>/python` — that older form no longer applies.
+#
+# C. Install the launcher into PATH. `uv tool install` the package once, and let the
+#    row start a bare command instead of `uv`:
+#
+#      uv tool install --editable --from <clone>/spaceclaim/python ansys-agent-bridge
+#
+#    The positional argument is the PACKAGE name (`[project].name`), NOT the command
+#    name `ansys-bridge-mcp`; uv rejects the command-name form with
+#    `Package name (…) provided with --from does not match install request (…)`.
+#    The console scripts then land on PATH — `uv tool dir --bin` prints the directory
+#    (Windows: %USERPROFILE%\.local\bin) — so the override becomes path-free and
+#    uv-free:
+#
+#      - id: mcp-ansys
+#        name: '@deepseek-ai/dsh-mcp-client'
+#        config:
+#          serverName: ansys
+#          transport: stdio
+#          command: ansys-bridge-mcp
+#          args: []
+#          env: {PYTHONIOENCODING: 'utf-8', ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'}
+#          toolCallTimeoutMs: 900000
+#          failOnStartupError: false
+#
+#    Unlike B, a launch resolves no dependencies and rebuilds nothing; B hands every
+#    start to `uv tool run`, which re-resolves each time and re-materialises the
+#    environment whenever anything under `<clone>/spaceclaim/python` changes. Editing
+#    the source stays immediate here too, because `--editable` points the installed
+#    environment at the source tree. Undo with `uv tool uninstall ansys-agent-bridge`.
 #
 # ── Why there is no `!!js` here ──────────────────────────────────────────────
 #

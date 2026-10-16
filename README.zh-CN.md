@@ -123,18 +123,21 @@ Fluent 侧的 `-sifile=` 启动器踩过同一个坑。
 需要 **Windows**、装了 SpaceClaim 的 Ansys（2024 R2 已实测），以及
 [`uv`](https://docs.astral.sh/uv/)。
 
-### 两种安装方式
+### 三种安装方式
 
-DSH 上有两种装法，区别只在于 **MCP 服务器从哪里加载**：
+DSH 上有三种装法。A 与 B 的区别只在于 **MCP 服务器从哪里加载**；C 则是**先装一次，
+之后从 PATH 直接启动**，所以 `uv` 在每次拉起时**什么都不用解析**：
 
-| | 方式 A：从 GitHub 安装 | 方式 B：从本地 checkout 安装 |
-| --- | --- | --- |
-| 插件包 | `github:1622352030/ansys-agent-bridge` | `link:<本地 clone 路径>` |
-| MCP 启动源 | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<本地 clone>/spaceclaim/python` |
-| 每次拉起是否联网 | **是**（先 `git fetch`） | **否** |
-| 无梯子／GitHub 不可达 | ⚠ 会失败，且可能拖垮整个桌面 | 正常 |
-| 改了本仓库代码 | 需重装才生效 | 立即生效 |
-| 自动跟随上游 | 是 | 否 |
+| | 方式 A：从 GitHub 安装 | 方式 B：从本地 checkout 安装 | 方式 C：把启动命令装进 PATH |
+| --- | --- | --- | --- |
+| 插件包 | `github:1622352030/ansys-agent-bridge` | `link:<本地 clone 路径>` | 与 A 或 B 相同 —— C 只替换 MCP 那一行 |
+| MCP 启动源 | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<本地 clone>/spaceclaim/python` | 已装好的 console script `ansys-bridge-mcp`（不经过 `uv`，不带路径） |
+| 每次拉起是否联网 | **是**（先 `git fetch`） | **否** | **否** |
+| 每次拉起是否解析依赖 | 每次都要 | 每次都要；`<本地 clone>/spaceclaim/python` 下任何改动都会重新物化环境 | 不用 —— 依赖只在 `uv tool install` 那一次解析 |
+| 无梯子／GitHub 不可达 | ⚠ 会失败，且可能拖垮整个桌面 | 正常 | 正常 |
+| 改了本仓库代码 | 需重装才生效 | 立即生效 | 立即生效，且不重新解析依赖、不重建环境 |
+| 自动跟随上游 | 是 | 否 | 否 |
+| 怎么卸 | `dsh plugin … remove` | `dsh plugin … remove` | `uv tool uninstall ansys-agent-bridge` |
 
 **在国内、或到 GitHub 的连通性不稳时，请直接用方式 B。** 方式 A 的 `git fetch` 一旦
 失败，包内的 `failOnStartupError: false` 会把错误藏起来，自动重连又反复重建环境、重复
@@ -197,6 +200,50 @@ dsh plugin --profile web add link:C:/path/to/ansys-agent-bridge
 ```
 
 改完重启 DSH 生效。
+
+### 方式 C：把启动命令装进 PATH
+
+方式 B 仍然把每次拉起交给 `uv tool run`：它每次都要解析依赖、重新物化那份隔离环境，
+而且只要 `<本地 clone>/spaceclaim/python` 下有**任何**改动（比如改了 `src/…`），这套活
+就从头再来一遍。改成**只装一次**，之后让 DSH 直接启动一条普通命令：
+
+```sh
+uv tool install --editable --from <本地 clone>/spaceclaim/python ansys-agent-bridge
+```
+
+⚠️ 位置参数是**包名**（`pyproject.toml` 里的 `[project].name`），**不是**命令名。
+写成命令名会被 `uv` 自己拒绝，没有别的解释余地：
+`error: Package name (ansys-agent-bridge) provided with --from does not match install request (ansys-bridge-mcp)`。
+
+装好之后会得到一个 editable 的 tool 环境，命令脚本落到 PATH 上 —— Windows 上是
+`%USERPROFILE%\.local\bin\ansys-bridge-mcp.exe`，确切目录可以用 `uv tool dir --bin` 查。
+只要那个目录在 PATH 里，DSH 侧的覆盖就可以写成**纯命令名：零路径、零 `uv`**：
+
+```yaml
+# 在你自己的 --patch 覆盖层里重述这一行
+# %APPDATA%\dsh-desktop\harness\profiles\web\cordis.patch.yml
+- id: mcp-ansys
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: ansys
+    transport: stdio
+    command: ansys-bridge-mcp
+    args: []
+    env:
+      PYTHONIOENCODING: 'utf-8'
+      ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'
+    toolCallTimeoutMs: 900000
+    failOnStartupError: false
+```
+
+改完重启 DSH 生效。改了本仓库代码也照旧立即生效：`--editable` 把装好的环境指向
+`<本地 clone>/spaceclaim/python/src`，`uv` 自己的帮助里就是这么写的 ——
+"changes in the package's source directory are reflected without reinstallation"，
+下次启动**不解析、不重建、不拉取**。卸载：
+
+```sh
+uv tool uninstall ansys-agent-bridge
+```
 
 ### 为什么 patch 里既没有 `!!js`、也没有绝对路径
 

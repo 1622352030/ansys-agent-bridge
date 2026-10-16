@@ -106,19 +106,22 @@ right at the CAD step and expensive to redo later.
 Requires **Windows**, an Ansys installation with SpaceClaim (2024 R2 tested),
 and [`uv`](https://docs.astral.sh/uv/).
 
-### Two ways to install
+### Three ways to install
 
-There are two supported ways to install this in DSH. They differ only in **where
-the MCP server is loaded from**:
+There are three supported ways to install this in DSH. A and B differ only in
+**where the MCP server is loaded from**; C installs the launcher once and then
+starts it from PATH, so **`uv` resolves nothing at launch**:
 
-| | Option A: install from GitHub | Option B: install from a local checkout |
-| --- | --- | --- |
-| Plugin package | `github:1622352030/ansys-agent-bridge` | `link:<path to your clone>` |
-| MCP launch source | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<clone>/spaceclaim/python` |
-| Network needed per launch | **yes** (a `git fetch` first) | **no** |
-| No VPN / GitHub unreachable | ⚠ fails, and can take the whole desktop app down | fine |
-| After editing this repo | reinstall required | takes effect immediately |
-| Tracks upstream automatically | yes | no |
+| | Option A: install from GitHub | Option B: install from a local checkout | Option C: install the launcher into PATH |
+| --- | --- | --- | --- |
+| Plugin package | `github:1622352030/ansys-agent-bridge` | `link:<path to your clone>` | same as A or B — C replaces only the MCP row |
+| MCP launch source | `git+https://github.com/…#subdirectory=spaceclaim/python` | `<clone>/spaceclaim/python` | the installed console script `ansys-bridge-mcp` (no `uv`, no path) |
+| Network needed per launch | **yes** (a `git fetch` first) | **no** | **no** |
+| Dependency resolution per launch | every launch | every launch, and any change under `<clone>/spaceclaim/python` re-materialises the environment | none — resolved once by `uv tool install` |
+| No VPN / GitHub unreachable | ⚠ fails, and can take the whole desktop app down | fine | fine |
+| After editing this repo | reinstall required | takes effect immediately | takes effect immediately, with no re-resolution and no rebuild |
+| Tracks upstream automatically | yes | no | no |
+| Undoing it | `dsh plugin … remove` | `dsh plugin … remove` | `uv tool uninstall ansys-agent-bridge` |
 
 **If you are behind an unreliable route to GitHub, use Option B.** When Option A's
 `git fetch` fails, the bundled `failOnStartupError: false` hides the error, and the
@@ -188,6 +191,55 @@ dsh plugin --profile web add link:C:/path/to/ansys-agent-bridge
 ```
 
 Restart DSH for it to take effect.
+
+### Option C: install the launcher into PATH
+
+Option B still hands every launch to `uv tool run`, which resolves dependencies and
+re-materialises the isolated environment each time — and redoes that work from
+scratch whenever anything under `<clone>/spaceclaim/python` changes (editing
+`src/…`, for one). Install the launcher **once** instead, and let DSH start a plain
+command:
+
+```sh
+uv tool install --editable --from <clone>/spaceclaim/python ansys-agent-bridge
+```
+
+The positional argument is the **package name** (`[project].name` in
+`pyproject.toml`), **not** the command name. `uv` rejects the command-name form
+itself, with no room for interpretation:
+`error: Package name (ansys-agent-bridge) provided with --from does not match install request (ansys-bridge-mcp)`.
+
+That installs an editable tool environment and puts the console scripts on PATH —
+on Windows `%USERPROFILE%\.local\bin\ansys-bridge-mcp.exe`, and `uv tool dir --bin`
+prints the exact directory. If that directory is on PATH, the DSH override becomes a
+**bare command name, with no path and no `uv`**:
+
+```yaml
+# restate this row in your own --patch layer
+# %APPDATA%\dsh-desktop\harness\profiles\web\cordis.patch.yml
+- id: mcp-ansys
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: ansys
+    transport: stdio
+    command: ansys-bridge-mcp
+    args: []
+    env:
+      PYTHONIOENCODING: 'utf-8'
+      ANSYS_BRIDGE_LOG_LEVEL: 'WARNING'
+    toolCallTimeoutMs: 900000
+    failOnStartupError: false
+```
+
+Restart DSH for it to take effect. Editing this repo keeps working immediately:
+`--editable` points the installed environment at `<clone>/spaceclaim/python/src`, so
+`uv`'s own help describes it as "changes in the package's source directory are
+reflected without reinstallation" — nothing is resolved, rebuilt or fetched on the
+next start. Undo the install with:
+
+```sh
+uv tool uninstall ansys-agent-bridge
+```
 
 ### Why the patch has neither `!!js` nor an absolute path
 
